@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8ff3a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Calistenia">
+<meta name="description" content="Treino de calistenia personalizado: 3x por semana, 30 minutos, sem equipamentos.">
+
+
+
+<title>Calistenia 30min</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --card: #161616;
+    --border: #222;
+    --accent: #e8ff3a;
+    --accent2: #ff5c3a;
+    --accent3: #3affd4;
+    --text: #f0f0f0;
+    --muted: #888;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* INSTALL BANNER */
+  #install-banner {
+    display: none;
+    position: fixed;
+    bottom: 16px; left: 16px; right: 16px;
+    background: var(--accent);
+    color: #0a0a0a;
+    border-radius: 12px;
+    padding: 14px 16px;
+    z-index: 9999;
+    box-shadow: 0 8px 32px rgba(232,255,58,0.3);
+    align-items: center;
+    gap: 12px;
+  }
+  #install-banner.show { display: flex; }
+  #install-banner p { flex: 1; font-size: 13px; font-weight: 600; }
+  #install-btn {
+    background: #0a0a0a;
+    color: var(--accent);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+  }
+  #install-close {
+    background: none; border: none;
+    color: #0a0a0a; font-size: 20px;
+    cursor: pointer; padding: 0 4px; line-height: 1;
+  }
+
+  /* NAV TABS */
+  .nav-tabs {
+    position: sticky; top: 0; z-index: 100;
+    display: flex;
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .nav-tab {
+    flex-shrink: 0;
+    padding: 12px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* PAGES */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    padding: 48px 24px 36px;
+    overflow: hidden;
+    background: linear-gradient(180deg, #111 0%, #0a0a0a 100%);
+    border-bottom: 1px solid var(--border);
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -60px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(232,255,58,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-block;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--accent); border: 1px solid var(--accent);
+    padding: 3px 9px; border-radius: 2px; margin-bottom: 12px;
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(44px, 12vw, 80px);
+    line-height: 0.9; letter-spacing: 0.02em; color: var(--text);
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero-sub { margin-top: 14px; color: var(--muted); font-size: 13px; max-width: 320px; }
+
+  /* STATS BAR */
+  .stats-bar {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--border); border-bottom: 1px solid var(--border);
+  }
+  .stat-item { background: var(--surface); padding: 16px 12px; text-align: center; }
+  .stat-item .val { font-family: 'Bebas Neue', sans-serif; font-size: 26px; color: var(--accent); line-height: 1; }
+  .stat-item .lbl { font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-top: 3px; }
+
+  /* IMC */
+  .imc-strip {
+    margin: 20px 16px; background: var(--card);
+    border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px;
+  }
+  .imc-strip h3 { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .imc-bar-wrap { position: relative; height: 8px; border-radius: 99px; background: linear-gradient(to right, #5bc8f5 0%, #5bf5b2 25%, #f5e25b 50%, #f5935b 75%, #f55b5b 100%); margin-bottom: 6px; }
+  .imc-marker {
+    position: absolute; top: 50%; transform: translate(-50%, -50%);
+    left: calc((26.35 - 15) / (40 - 15) * 100%);
+    width: 16px; height: 16px; border-radius: 50%;
+    background: #fff; border: 3px solid var(--accent); box-shadow: 0 0 10px var(--accent);
+  }
+  .imc-labels { display: flex; justify-content: space-between; font-size: 9px; color: var(--muted); }
+  .imc-current { margin-top: 10px; font-size: 13px; }
+  .imc-current strong { color: var(--accent2); }
+  .imc-meta { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .imc-badge {
+    font-size: 10px; padding: 3px 9px; border-radius: 4px; font-weight: 500;
+    background: rgba(255,92,58,0.12); color: var(--accent2); border: 1px solid rgba(255,92,58,0.3);
+  }
+  .imc-badge.ok { background: rgba(58,255,212,0.1); color: var(--accent3); border-color: rgba(58,255,212,0.3); }
+
+  /* SECTION */
+  .section { padding: 22px 16px 8px; }
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: 30px; letter-spacing: 0.04em; color: var(--text); margin-bottom: 4px; }
+  .section-sub { font-size: 11px; color: var(--muted); margin-bottom: 14px; }
+
+  /* DAY CARD */
+  .day-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 14px; overflow: hidden; }
+  .day-header { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--border); background: var(--surface); }
+  .day-num { font-family: 'Bebas Neue', sans-serif; font-size: 38px; color: var(--accent); line-height: 1; min-width: 36px; }
+  .day-info h3 { font-size: 15px; font-weight: 600; color: var(--text); }
+  .day-info p { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .day-focus {
+    font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--accent); border: 1px solid var(--accent); padding: 2px 7px;
+    border-radius: 2px; margin-left: auto; white-space: nowrap;
+  }
+  .warmup-block { padding: 10px 16px 0; }
+  .warmup-block strong { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+  .warmup-block p { font-size: 11px; color: var(--muted); margin-top: 3px; margin-bottom: 10px; }
+  .circuit-tag {
+    display: inline-block; background: rgba(58,255,212,0.1);
+    border: 1px solid rgba(58,255,212,0.3); color: var(--accent3);
+    font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em;
+    padding: 3px 8px; border-radius: 3px; margin: 4px 0 10px 16px;
+  }
+
+  /* EX TABLE */
+  .ex-table { width: 100%; padding: 10px 16px 14px; }
+  .ex-row {
+    display: grid; grid-template-columns: 1fr 60px 68px;
+    gap: 6px; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.05); align-items: center;
+  }
+  .ex-row:last-child { border-bottom: none; }
+  .ex-name { font-size: 13px; font-weight: 500; }
+  .ex-name small { display: block; font-size: 10px; color: var(--muted); font-weight: 400; margin-top: 1px; }
+  .ex-col-head { font-size: 8px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); text-align: center; padding-bottom: 6px; }
+  .ex-val { text-align: center; font-family: 'Bebas Neue', sans-serif; font-size: 19px; color: var(--accent); line-height: 1.1; }
+  .ex-val span { display: block; font-family: 'DM Sans', sans-serif; font-size: 8px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .rest-strip {
+    display: flex; align-items: center; gap: 6px; padding: 9px 16px;
+    background: rgba(232,255,58,0.04); border-top: 1px solid rgba(232,255,58,0.12);
+    font-size: 11px; color: var(--muted);
+  }
+  .rest-strip strong { color: var(--accent); }
+
+  /* TIPS */
+  .tips-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 8px; }
+  .tip-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 12px; }
+  .tip-icon { font-size: 20px; margin-bottom: 7px; }
+  .tip-title { font-size: 12px; font-weight: 600; margin-bottom: 5px; }
+  .tip-body { font-size: 11px; color: var(--muted); line-height: 1.5; }
+  .tip-card.accent-border { border-color: rgba(232,255,58,0.3); }
+  .tip-card.danger-border { border-color: rgba(255,92,58,0.3); }
+  .tip-card.teal-border { border-color: rgba(58,255,212,0.3); }
+
+  /* PHASES */
+  .progress-section { padding: 18px 16px; }
+  .progress-title { font-family: 'Bebas Neue', sans-serif; font-size: 26px; margin-bottom: 12px; }
+  .phase-bar { display: flex; gap: 6px; margin-bottom: 14px; }
+  .phase { flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 12px 10px; text-align: center; }
+  .phase.active { border-color: var(--accent); background: rgba(232,255,58,0.05); }
+  .phase .ph-num { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--accent); }
+  .phase .ph-name { font-size: 10px; font-weight: 600; margin: 2px 0; }
+  .phase .ph-weeks { font-size: 9px; color: var(--muted); }
+  .phase-desc { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; font-size: 12px; color: var(--muted); line-height: 1.7; }
+  .phase-desc strong { color: var(--text); }
+
+  /* MELHORIAS */
+  .improve-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 10px; }
+  .improve-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .improve-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .improve-header h4 { font-size: 13px; font-weight: 600; }
+  .improve-card p { font-size: 12px; color: var(--muted); line-height: 1.6; }
+  .improve-card ul { font-size: 12px; color: var(--muted); line-height: 1.8; padding-left: 16px; margin-top: 6px; }
+
+  /* TIMER PAGE */
+  .timer-page { padding: 28px 20px; }
+  .timer-title { font-family: 'Bebas Neue', sans-serif; font-size: 32px; margin-bottom: 4px; }
+  .timer-sub { font-size: 12px; color: var(--muted); margin-bottom: 24px; }
+  .timer-display {
+    background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+    padding: 32px; text-align: center; margin-bottom: 16px;
+  }
+  #timer-label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); margin-bottom: 8px; }
+  #timer-count {
+    font-family: 'Bebas Neue', sans-serif; font-size: 88px; color: var(--accent);
+    line-height: 1; text-shadow: 0 0 30px rgba(232,255,58,0.4);
+  }
+  #timer-phase { font-size: 12px; color: var(--muted); margin-top: 8px; }
+  .timer-controls { display: flex; gap: 10px; margin-bottom: 20px; }
+  .timer-btn {
+    flex: 1; padding: 14px; border-radius: 10px; border: none; font-size: 14px;
+    font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: opacity 0.15s;
+  }
+  .timer-btn:active { opacity: 0.75; }
+  #btn-start { background: var(--accent); color: #0a0a0a; }
+  #btn-reset { background: var(--card); color: var(--text); border: 1px solid var(--border); }
+  .preset-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 10px; }
+  .presets { display: flex; flex-wrap: wrap; gap: 8px; }
+  .preset-btn {
+    padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--card); color: var(--text); font-size: 12px; font-weight: 600;
+    cursor: pointer; font-family: 'DM Sans', sans-serif; transition: border-color 0.15s, color 0.15s;
+  }
+  .preset-btn.selected { border-color: var(--accent); color: var(--accent); }
+  .checklist-section { padding: 0 16px 24px; }
+  .check-day { background: var(--card); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
+  .check-day-header { padding: 12px 16px; background: var(--surface); font-size: 13px; font-weight: 600; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .check-day-header span { font-size: 10px; color: var(--muted); }
+  .check-item { display: flex; align-items: center; gap: 12px; padding: 11px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; }
+  .check-item:last-child { border-bottom: none; }
+  .check-item input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer; flex-shrink: 0; }
+  .check-item label { font-size: 13px; cursor: pointer; flex: 1; }
+  .check-item.done label { text-decoration: line-through; color: var(--muted); }
+  .check-progress { height: 3px; background: var(--border); }
+  .check-progress-bar { height: 100%; background: var(--accent); transition: width 0.3s; }
+
+  footer { margin: 24px 16px 80px; padding: 18px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; text-align: center; }
+  footer p { font-size: 11px; color: var(--muted); line-height: 1.6; }
+  footer strong { color: var(--accent); }
+
+  @media (max-width: 380px) {
+    .tips-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+// Manifest inline
+(function() {
+  const manifestData = {"name": "Calistenia 30min \u2014 Plano Personalizado", "short_name": "Calistenia", "description": "Treino de calistenia personalizado: 3x por semana, 30 minutos, sem equipamentos.", "start_url": ".", "display": "standalone", "background_color": "#0a0a0a", "theme_color": "#e8ff3a", "orientation": "portrait", "lang": "pt-BR", "icons": [{"src": "data:image/png;base64,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", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"}, {"src": "data:image/png;base64,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", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}]};
+  const blob = new Blob([JSON.stringify(manifestData)], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('link');
+  link.rel = 'manifest';
+  link.href = url;
+  document.head.appendChild(link);
+})();
+
+// Apple touch icon inline
+(function() {
+  const link = document.createElement('link');
+  link.rel = 'apple-touch-icon';
+  link.href = 'data:image/png;base64,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';
+  document.head.appendChild(link);
+})();
+
+// Service Worker via blob
+if ('serviceWorker' in navigator) {
+  const swCode = `const CACHE_NAME = 'calistenia-v1';
+self.addEventListener('install', e => self.skipWaiting());
+self.addEventListener('activate', e => self.clients.claim());
+self.addEventListener('fetch', e => {
+  e.respondWith(caches.match(e.request).then(c => c || fetch(e.request)));
+});`;
+  const swBlob = new Blob([swCode], {type: 'application/javascript'});
+  const swUrl = URL.createObjectURL(swBlob);
+  navigator.serviceWorker.register(swUrl).catch(console.error);
+}
+</script>
+</head>
+<body>
+
+<!-- INSTALL BANNER -->
+<div id="install-banner">
+  <p>📲 Instale o app para usar offline!</p>
+  <button id="install-btn">Instalar</button>
+  <button id="install-close">×</button>
+</div>
+
+<!-- NAV TABS -->
+<nav class="nav-tabs" role="tablist">
+  <div class="nav-tab active" data-page="home">🏠 Início</div>
+  <div class="nav-tab" data-page="treinos">💪 Treinos</div>
+  <div class="nav-tab" data-page="timer">⏱ Timer</div>
+  <div class="nav-tab" data-page="checklist">✅ Progresso</div>
+  <div class="nav-tab" data-page="dicas">📋 Dicas</div>
+</nav>
+
+<!-- PAGE: HOME -->
+<div class="page active" id="page-home">
+  <section class="hero">
+    <div class="hero-tag">Plano Personalizado</div>
+    <h1>CALIS<span>TENIA</span><br>30 MIN</h1>
+    <p class="hero-sub">3x por semana · Sem equipamentos · Corpo atlético + performance</p>
+  </section>
+
+  <div class="stats-bar">
+    <div class="stat-item"><div class="val">26.3</div><div class="lbl">IMC Atual</div></div>
+    <div class="stat-item"><div class="val">-5kg</div><div class="lbl">Meta</div></div>
+    <div class="stat-item"><div class="val">8–12</div><div class="lbl">Semanas</div></div>
+  </div>
+
+  <div class="imc-strip">
+    <h3>Seu IMC</h3>
+    <div class="imc-bar-wrap"><div class="imc-marker"></div></div>
+    <div class="imc-labels"><span>Abaixo (15)</span><span>Normal (18.5)</span><span>Sobrepeso</span><span>Obeso (30+)</span></div>
+    <p class="imc-current">IMC atual: <strong>26.35 — Sobrepeso leve</strong>. Alvo: 65kg (IMC ~24.5)</p>
+    <div class="imc-meta">
+      <span class="imc-badge">Mesomorfo</span>
+      <span class="imc-badge">Sedentário atual</span>
+      <span class="imc-badge ok">Alto potencial</span>
+    </div>
+  </div>
+
+  <div class="progress-section">
+    <div class="progress-title">FASES DO PLANO</div>
+    <div class="phase-bar">
+      <div class="phase active"><div class="ph-num">1</div><div class="ph-name">Adaptação</div><div class="ph-weeks">Sem. 1–3</div></div>
+      <div class="phase"><div class="ph-num">2</div><div class="ph-name">Hipertrofia</div><div class="ph-weeks">Sem. 4–7</div></div>
+      <div class="phase"><div class="ph-num">3</div><div class="ph-name">Potência</div><div class="ph-weeks">Sem. 8–12</div></div>
+    </div>
+    <div class="phase-desc">
+      <strong>Fase 1 (agora):</strong> Execute os movimentos corretamente. Reduza reps se necessário.<br>
+      <strong>Fase 2:</strong> Aumente volume e diminua descanso para estresse metabólico maior.<br>
+      <strong>Fase 3:</strong> Variações explosivas: flexão clapping, jump squat, planche lean.
+    </div>
+  </div>
+
+  <footer>
+    <p>Perfil: <strong>IMC 26.35 · Mesomorfo · 163cm / 70kg → 65kg</strong><br>
+    Reavalie o plano a cada 4 semanas.</p>
+  </footer>
+</div>
+
+<!-- PAGE: TREINOS -->
+<div class="page" id="page-treinos">
+  <div class="section">
+    <div class="section-title">OS TREINOS</div>
+    <div class="section-sub">Segunda · Quarta · Sexta — 30 min cada</div>
+
+    <!-- DIA A -->
+    <div class="day-card">
+      <div class="day-header">
+        <div class="day-num">A</div>
+        <div class="day-info"><h3>Peito, Ombros & Tríceps</h3><p>Empurrar · Força + definição superior</p></div>
+        <div class="day-focus">Segunda</div>
+      </div>
+      <div class="warmup-block">
+        <strong>⚡ Aquecimento (3 min)</strong>
+        <p>30s jumping jacks → 30s arm circles → 30s shoulder rolls → 30s inchworm → 30s hip circles × 3 rounds</p>
+      </div>
+      <div class="ex-table">
+        <div class="ex-row"><div></div><div class="ex-col-head">Séries</div><div class="ex-col-head">Reps / Tempo</div></div>
+        <div class="ex-row"><div class="ex-name">Flexão Tradicional<small>Peito central e tríceps</small></div><div class="ex-val">3<span>séries</span></div><div class="ex-val">10-12<span>reps</span></div></div>
+        <div class="ex-row"><div class="ex-name">Flexão com Pés Elevados<small>Peito superior + ombros</small></div><div class="ex-val">3<span>séries</span></div><div class="ex-val">8-10<span>reps</span></div></div>
+        <div class="ex-row"><div class="ex-name">Flexão Diamante<small>Tríceps e peitoral interno</small></div><div class="ex-val">3<span>séries</span></div><div class="ex-val">8<span>reps</span></div></div>
+        <div class="ex-row"><div class="ex-name">Pike Push-Up<small>Deltóide anterior e médio</small></div><div class="ex-val">3<span>séries</span></div><div class="ex-val">8-10<span>reps</span></div></div>
+        <div class="ex-row"><div class="ex-name">Prancha (isométrico)<small>Core, estabilidade, postura</small></div><div class="ex-val">3<span>séries</span></div><div class="ex-val">30s<span>tempo</span></div></div>
+      </div>
+      <div class="rest-strip">⏱ Descanso entre séries: <strong>45–60 s</strong></div>
+    </div>
+
+    <!-- DIA B -->
+    <div class="day-card">
+      <div class="day-header">
+        <div class="day-num">B</div>
+        <div class="day-info"><h3>Pernas, Glúteos & Core</h3><p>Força inferior + performance funcional</p></div>
+        <div class="day-focus">Quarta</div>
+      </div>
+      <div class="warmup-block">
+        <strong>⚡ Aquecimento (3 min)</strong>
+        <p>30s corrida estacionária → 30s agachamento livre → 30s hip flexor stretch × 3 rounds</p>
+      </div>
+      <span class="circuit-tag">🔁 Formato Circuito — mínimo descanso entre exercícios</span>
+      <div class="ex-table">
+        <div class="ex-row"><div></div><div class="ex-col-head">Séries</div><div class="ex-col-head">Reps</div></div>
+        <div class="ex-row"><div class="ex-name">Agachamento Búlgaro<small>Glúteo, quadríceps, equilíbrio</small></div><div class="ex-val">3<span>séries</span></div><div class="ex-val">10<span>cada lado</span></div></div>
+        <div class="ex-row"><div class="ex-name">Afundo Reverso<small>Glúteo e quadríceps</small></div><div class="ex-val">3<span>séries</span></div><div class="ex-val">12<span>cada lado</span></div></div>
+        <div class="ex-row"><div class="ex-name">Glute Bridge<small>Glúteo máximo + isquiotibiais</small></div><div class="ex-val">3<span>séries</span></div><div class="ex-val">15<span>reps</span></div></div>
+        <div class="ex-row"><div class="ex-name">Elevação de Panturrilha<small>Resistência muscular</small></div><div class="ex-val">3<span>séries</span></div><div class="ex-val">20<span>reps</span></div></div>
+        <div class="ex-row"><div class="ex-name">Prancha Lateral<small>Oblíquos e core lateral</small></div><div class="ex-val">2<span>séries</span></div><div class="ex-val">25s<span>cada lado</span></div></div>
+      </div>
+      <div class="rest-strip">⏱ <strong>30s</strong> entre exercícios · <strong>60s</strong> entre rodadas</div>
+    </div>
+
+    <!-- DIA C -->
+    <div class="day-card">
+      <div class="day-header">
+        <div class="day-num">C</div>
+        <div class="day-info"><h3>Costas, Bíceps & Core Profundo</h3><p>Puxar · Postura + saúde sexual</p></div>
+        <div class="day-focus">Sexta</div>
+      </div>
+      <div class="warmup-block">
+        <strong>⚡ Aquecimento (3 min)</strong>
+        <p>Cat-cow → Superman hold → Band pull-apart (sem band: braços abertos) × 3 rounds</p>
+      </div>
+      <div class="ex-table">
+        <div class="ex-row"><div></div><div class="ex-col-head">Séries</div><div class="ex-col-head">Reps</div></div>
+        <div class="ex-row"><div class="ex-name">Superman Alternado<small>Lombar, glúteo, extensores</small></div><div class="ex-val">3<span>séries</span></div><div class="ex-val">15<span>reps</span></div></div>
+        <div class="ex-row"><div class="ex-name">Flexão Ênfase Escápula<small>Serrátil anterior, romboides</small></div><div class="ex-val">3<span>séries</span></div><div class="ex-val">10<span>reps</span></div></div>
+        <div class="ex-row"><div class="ex-name">Inverted Row<small>Latíssimo, romboides, bíceps</small></div><div class="ex-val">3<span>séries</span></div><div class="ex-val">8-12<span>reps</span></div></div>
+        <div class="ex-row"><div class="ex-name">Dead Bug<small>Core profundo e estabilidade pélvica</small></div><div class="ex-val">3<span>séries</span></div><div class="ex-val">10<span>reps</span></div></div>
+        <div class="ex-row"><div class="ex-name">Glute Bridge com Extensão<small>Quadril, lombar, assoalho pélvico</small></div><div class="ex-val">3<span>séries</span></div><div class="ex-val">12<span>reps</span></div></div>
+      </div>
+      <div class="rest-strip">⏱ Descanso: <strong>45s</strong> · Dia C = base da performance sexual</div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: TIMER -->
+<div class="page" id="page-timer">
+  <div class="timer-page">
+    <div class="timer-title">TIMER DE DESCANSO</div>
+    <div class="timer-sub">Use entre as séries para controlar o tempo</div>
+
+    <div class="timer-display">
+      <div id="timer-label">PRONTO</div>
+      <div id="timer-count">00</div>
+      <div id="timer-phase">Selecione um tempo e pressione Iniciar</div>
+    </div>
+
+    <div class="timer-controls">
+      <button class="timer-btn" id="btn-start">▶ Iniciar</button>
+      <button class="timer-btn" id="btn-reset">↺ Reset</button>
+    </div>
+
+    <div class="preset-title">Tempos de descanso</div>
+    <div class="presets">
+      <button class="preset-btn selected" data-secs="30">30s</button>
+      <button class="preset-btn" data-secs="45">45s</button>
+      <button class="preset-btn" data-secs="60">60s</button>
+      <button class="preset-btn" data-secs="90">90s</button>
+      <button class="preset-btn" data-secs="120">2 min</button>
+      <button class="preset-btn" data-secs="180">3 min</button>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: CHECKLIST -->
+<div class="page" id="page-checklist">
+  <div class="section">
+    <div class="section-title">PROGRESSO SEMANAL</div>
+    <div class="section-sub">Marque os treinos concluídos — mantém você no ritmo</div>
+  </div>
+  <div class="checklist-section" id="checklist-container"></div>
+</div>
+
+<!-- PAGE: DICAS -->
+<div class="page" id="page-dicas">
+  <div class="section">
+    <div class="section-title">DICAS ESSENCIAIS</div>
+    <div class="section-sub">Para maximizar cada sessão</div>
+    <div class="tips-grid">
+      <div class="tip-card accent-border"><div class="tip-icon">💧</div><div class="tip-title">Hidratação</div><div class="tip-body">500ml antes do treino. 200ml a cada 10 min. Mínimo 2L/dia.</div></div>
+      <div class="tip-card danger-border"><div class="tip-icon">🍽️</div><div class="tip-title">Pré-Treino</div><div class="tip-body">Carboidrato leve 60 min antes: banana, tapioca ou pão integral.</div></div>
+      <div class="tip-card teal-border"><div class="tip-icon">😴</div><div class="tip-title">Sono</div><div class="tip-body">7–9h por noite. 80% da recuperação muscular ocorre no sono.</div></div>
+      <div class="tip-card"><div class="tip-icon">📈</div><div class="tip-title">Progressão</div><div class="tip-body">A cada 2 semanas, +1 série ou +2 reps em cada exercício.</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">MELHORIAS IDENTIFICADAS</div>
+    <div class="section-sub">Com base no seu perfil — além do treino</div>
+
+    <div class="improve-card">
+      <div class="improve-header"><div class="improve-dot" style="background:#e8ff3a;"></div><h4>🥗 Déficit Calórico Suave</h4></div>
+      <p>Para ir de 70kg a 65kg sem perder músculo: <strong style="color:var(--accent);">déficit de 300–400 kcal/dia</strong>. Reduza ultraprocessados, frituras e refrigerantes. Priorize proteínas: frango, ovos, atum, feijão.</p>
+    </div>
+    <div class="improve-card">
+      <div class="improve-header"><div class="improve-dot" style="background:#3affd4;"></div><h4>🚶 Caminhar nos Dias de Descanso</h4></div>
+      <p>Nos dias sem treino (ter/qui/sab), 20–30 min de caminhada acelerada. Isso pode ser responsável por <strong style="color:var(--accent3);">40% do seu resultado</strong> sem impactar recuperação.</p>
+    </div>
+    <div class="improve-card">
+      <div class="improve-header"><div class="improve-dot" style="background:#ff5c3a;"></div><h4>💪 Performance Sexual — Foco</h4></div>
+      <p>Além do Dia C, adicione Kegel masculino diário:</p>
+      <ul>
+        <li><strong style="color:var(--text);">3 séries × 10 contrações de 5s</strong> do músculo pubococcígeo</li>
+        <li>Reduza álcool — impacta vasodilatação e testosterona</li>
+        <li>Sono 8h: testosterona sobe ~15%</li>
+      </ul>
+    </div>
+    <div class="improve-card">
+      <div class="improve-header"><div class="improve-dot" style="background:#9b8fff;"></div><h4>📱 Sem mesa para Inverted Row?</h4></div>
+      <p>Substitua por <strong style="color:var(--text);">Flexão Archer</strong> (um braço quase estendido) ou <strong style="color:var(--text);">Towel Row</strong> com toalha presa em porta.</p>
+    </div>
+    <div class="improve-card">
+      <div class="improve-header"><div class="improve-dot" style="background:#ffd93a;"></div><h4>🎯 Meta Realista</h4></div>
+      <p>Com constância: <strong style="color:var(--accent);">0.3–0.5 kg/semana</strong>. Chegar a 65kg levará <strong style="color:var(--accent);">10–16 semanas</strong>. Você parecerá atlético antes mesmo de atingir o peso.</p>
+    </div>
+  </div>
+
+  <footer>
+    <p>Perfil: <strong>IMC 26.35 · Mesomorfo · Sedentário · 163cm / 70kg</strong><br>
+    Consulte profissional de Ed. Física se sentir dores persistentes.</p>
+  </footer>
+</div>
+
+<script>
+// ---- NAV TABS ----
+const tabs = document.querySelectorAll('.nav-tab');
+const pages = document.querySelectorAll('.page');
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    const target = tab.dataset.page;
+    tabs.forEach(t => t.classList.remove('active'));
+    pages.forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('page-' + target).classList.add('active');
+    window.scrollTo(0, 0);
+  });
+});
+
+// ---- TIMER ----
+let timerInterval = null;
+let timerSecs = 30;
+let timerRunning = false;
+let currentSecs = 30;
+
+const timerCount = document.getElementById('timer-count');
+const timerLabel = document.getElementById('timer-label');
+const timerPhase = document.getElementById('timer-phase');
+const btnStart = document.getElementById('btn-start');
+const btnReset = document.getElementById('btn-reset');
+
+function formatSecs(s) {
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return m > 0 ? `${m}:${sec.toString().padStart(2,'0')}` : sec.toString().padStart(2,'0');
+}
+
+function updateDisplay() {
+  timerCount.textContent = formatSecs(currentSecs);
+}
+
+document.querySelectorAll('.preset-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    timerSecs = parseInt(btn.dataset.secs);
+    currentSecs = timerSecs;
+    updateDisplay();
+    if (timerRunning) { clearInterval(timerInterval); timerRunning = false; }
+    timerLabel.textContent = 'PRONTO';
+    timerPhase.textContent = 'Pressione Iniciar para começar';
+    btnStart.textContent = '▶ Iniciar';
+    timerCount.style.color = 'var(--accent)';
+  });
+});
+
+btnStart.addEventListener('click', () => {
+  if (timerRunning) {
+    clearInterval(timerInterval);
+    timerRunning = false;
+    btnStart.textContent = '▶ Continuar';
+    timerLabel.textContent = 'PAUSADO';
+  } else {
+    if (currentSecs <= 0) { currentSecs = timerSecs; updateDisplay(); }
+    timerRunning = true;
+    btnStart.textContent = '⏸ Pausar';
+    timerLabel.textContent = 'DESCANSANDO';
+    timerPhase.textContent = 'Respire fundo...';
+    timerCount.style.color = 'var(--accent)';
+    timerInterval = setInterval(() => {
+      currentSecs--;
+      updateDisplay();
+      if (currentSecs <= 3 && currentSecs > 0) {
+        timerCount.style.color = 'var(--accent2)';
+      }
+      if (currentSecs <= 0) {
+        clearInterval(timerInterval);
+        timerRunning = false;
+        timerCount.textContent = 'GO!';
+        timerCount.style.color = 'var(--accent3)';
+        timerLabel.textContent = 'PRÓXIMA SÉRIE';
+        timerPhase.textContent = '💪 Hora de arrasar!';
+        btnStart.textContent = '▶ Iniciar';
+        if ('vibrate' in navigator) navigator.vibrate([200, 100, 200]);
+      }
+    }, 1000);
+  }
+});
+
+btnReset.addEventListener('click', () => {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  currentSecs = timerSecs;
+  updateDisplay();
+  timerCount.style.color = 'var(--accent)';
+  timerLabel.textContent = 'PRONTO';
+  timerPhase.textContent = 'Pressione Iniciar para começar';
+  btnStart.textContent = '▶ Iniciar';
+});
+
+updateDisplay();
+
+// ---- CHECKLIST ----
+const workouts = [
+  { id: 'A', name: 'Treino A — Peito, Ombros & Tríceps', day: 'Segunda', exercises: ['Flexão Tradicional', 'Flexão Pés Elevados', 'Flexão Diamante', 'Pike Push-Up', 'Prancha'] },
+  { id: 'B', name: 'Treino B — Pernas, Glúteos & Core', day: 'Quarta', exercises: ['Agach. Búlgaro', 'Afundo Reverso', 'Glute Bridge', 'Panturrilha', 'Prancha Lateral'] },
+  { id: 'C', name: 'Treino C — Costas & Core Profundo', day: 'Sexta', exercises: ['Superman', 'Flexão Escápula', 'Inverted Row', 'Dead Bug', 'Glute Bridge Ext.'] },
+];
+
+function getChecks() {
+  try { return JSON.parse(localStorage.getItem('checklist') || '{}'); } catch(e) { return {}; }
+}
+function saveChecks(obj) { try { localStorage.setItem('checklist', JSON.stringify(obj)); } catch(e) {} }
+
+function renderChecklist() {
+  const container = document.getElementById('checklist-container');
+  const checks = getChecks();
+  container.innerHTML = '';
+
+  workouts.forEach(w => {
+    const doneCount = w.exercises.filter((_, i) => checks[`${w.id}-${i}`]).length;
+    const pct = Math.round(doneCount / w.exercises.length * 100);
+
+    const card = document.createElement('div');
+    card.className = 'check-day';
+
+    const header = document.createElement('div');
+    header.className = 'check-day-header';
+    header.innerHTML = `<span>${w.day} · ${w.name.split('—')[0].trim()}</span><span>${doneCount}/${w.exercises.length} séries</span>`;
+
+    const progressBar = document.createElement('div');
+    progressBar.className = 'check-progress';
+    progressBar.innerHTML = `<div class="check-progress-bar" style="width:${pct}%"></div>`;
+
+    card.appendChild(header);
+    card.appendChild(progressBar);
+
+    w.exercises.forEach((ex, i) => {
+      const key = `${w.id}-${i}`;
+      const item = document.createElement('div');
+      item.className = 'check-item' + (checks[key] ? ' done' : '');
+      item.innerHTML = `<input type="checkbox" id="${key}" ${checks[key] ? 'checked' : ''}><label for="${key}">${ex}</label>`;
+      item.querySelector('input').addEventListener('change', (e) => {
+        const c = getChecks();
+        c[key] = e.target.checked;
+        saveChecks(c);
+        renderChecklist();
+      });
+      card.appendChild(item);
+    });
+
+    container.appendChild(card);
+  });
+
+  // Reset week button
+  const resetBtn = document.createElement('button');
+  resetBtn.style.cssText = 'width:100%;padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--muted);font-size:13px;font-family:DM Sans,sans-serif;cursor:pointer;margin-top:4px;';
+  resetBtn.textContent = '↺ Reiniciar semana';
+  resetBtn.addEventListener('click', () => { if(confirm('Limpar todo o progresso desta semana?')) { saveChecks({}); renderChecklist(); } });
+  container.appendChild(resetBtn);
+}
+
+renderChecklist();
+
+// ---- INSTALL PROMPT ----
+let deferredPrompt;
+const banner = document.getElementById('install-banner');
+const installBtn = document.getElementById('install-btn');
+const closeBtn = document.getElementById('install-close');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  setTimeout(() => banner.classList.add('show'), 2000);
+});
+
+installBtn.addEventListener('click', async () => {
+  banner.classList.remove('show');
+  if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; }
+});
+
+closeBtn.addEventListener('click', () => banner.classList.remove('show'));
+
+
+</script>
+</body>
+</html>
