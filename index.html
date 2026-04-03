@@ -8,343 +8,279 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Calistenia">
-<meta name="description" content="Treino de calistenia: 3x por semana, 20 minutos + bicicleta ter/qui.">
-<title>Calistenia 20min</title>
+<title>Calistenia Pro</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0a0a0a;
-    --surface: #111111;
-    --card: #161616;
-    --border: #222;
-    --accent: #e8ff3a;
-    --accent2: #ff5c3a;
-    --accent3: #3affd4;
-    --text: #f0f0f0;
-    --muted: #888;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    line-height: 1.6;
-    min-height: 100vh;
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-
-  /* INSTALL BANNER */
-  #install-banner {
-    display: none;
-    position: fixed;
-    bottom: 16px; left: 16px; right: 16px;
-    background: var(--accent);
-    color: #0a0a0a;
-    border-radius: 12px;
-    padding: 14px 16px;
-    z-index: 9999;
-    box-shadow: 0 8px 32px rgba(232,255,58,0.3);
-    align-items: center;
-    gap: 12px;
-  }
-  #install-banner.show { display: flex; }
-  #install-banner p { flex: 1; font-size: 13px; font-weight: 600; }
-  #install-btn {
-    background: #0a0a0a;
-    color: var(--accent);
-    border: none;
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-  }
-  #install-close {
-    background: none; border: none;
-    color: #0a0a0a; font-size: 20px;
-    cursor: pointer; padding: 0 4px; line-height: 1;
-  }
-
-  /* NAV TABS */
-  .nav-tabs {
-    position: sticky; top: 0; z-index: 100;
-    display: flex;
-    background: rgba(10,10,10,0.95);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  .nav-tabs::-webkit-scrollbar { display: none; }
-  .nav-tab {
-    flex-shrink: 0;
-    padding: 12px 16px;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    white-space: nowrap;
-    transition: color 0.2s, border-color 0.2s;
-  }
-  .nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-
-  /* PAGES */
-  .page { display: none; }
-  .page.active { display: block; }
-
-  /* HERO */
-  .hero {
-    position: relative;
-    padding: 48px 24px 36px;
-    overflow: hidden;
-    background: linear-gradient(180deg, #111 0%, #0a0a0a 100%);
-    border-bottom: 1px solid var(--border);
-  }
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: -80px; right: -60px;
-    width: 300px; height: 300px;
-    background: radial-gradient(circle, rgba(232,255,58,0.12) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .hero-tag {
-    display: inline-block;
-    font-size: 10px; font-weight: 600;
-    letter-spacing: 0.15em; text-transform: uppercase;
-    color: var(--accent); border: 1px solid var(--accent);
-    padding: 3px 9px; border-radius: 2px; margin-bottom: 12px;
-  }
-  .hero h1 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(44px, 12vw, 80px);
-    line-height: 0.9; letter-spacing: 0.02em; color: var(--text);
-  }
-  .hero h1 span { color: var(--accent); }
-  .hero-sub { margin-top: 14px; color: var(--muted); font-size: 13px; max-width: 320px; }
-
-  /* STATS BAR */
-  .stats-bar {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 1px; background: var(--border); border-bottom: 1px solid var(--border);
-  }
-  .stat-item { background: var(--surface); padding: 16px 12px; text-align: center; }
-  .stat-item .val { font-family: 'Bebas Neue', sans-serif; font-size: 26px; color: var(--accent); line-height: 1; }
-  .stat-item .lbl { font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-top: 3px; }
-
-  /* IMC */
-  .imc-strip {
-    margin: 20px 16px; background: var(--card);
-    border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px;
-  }
-  .imc-strip h3 { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
-  .imc-bar-wrap { position: relative; height: 8px; border-radius: 99px; background: linear-gradient(to right, #5bc8f5 0%, #5bf5b2 25%, #f5e25b 50%, #f5935b 75%, #f55b5b 100%); margin-bottom: 6px; }
-  .imc-marker {
-    position: absolute; top: 50%; transform: translate(-50%, -50%);
-    left: calc((26.35 - 15) / (40 - 15) * 100%);
-    width: 16px; height: 16px; border-radius: 50%;
-    background: #fff; border: 3px solid var(--accent); box-shadow: 0 0 10px var(--accent);
-  }
-  .imc-labels { display: flex; justify-content: space-between; font-size: 9px; color: var(--muted); }
-  .imc-current { margin-top: 10px; font-size: 13px; }
-  .imc-current strong { color: var(--accent2); }
-  .imc-meta { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
-  .imc-badge {
-    font-size: 10px; padding: 3px 9px; border-radius: 4px; font-weight: 500;
-    background: rgba(255,92,58,0.12); color: var(--accent2); border: 1px solid rgba(255,92,58,0.3);
-  }
-  .imc-badge.ok { background: rgba(58,255,212,0.1); color: var(--accent3); border-color: rgba(58,255,212,0.3); }
-
-  /* WEEK GRID */
-  .week-grid {
-    display: grid; grid-template-columns: repeat(5, 1fr);
-    gap: 6px; margin: 16px; 
-  }
-  .week-day-pill {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 8px; padding: 10px 4px; text-align: center;
-  }
-  .week-day-pill.treino { border-color: rgba(232,255,58,0.3); background: rgba(232,255,58,0.05); }
-  .week-day-pill.bike { border-color: rgba(58,255,212,0.3); background: rgba(58,255,212,0.05); }
-  .week-day-pill .wd-name { font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
-  .week-day-pill .wd-icon { font-size: 18px; margin: 4px 0; }
-  .week-day-pill .wd-min { font-family: 'Bebas Neue', sans-serif; font-size: 16px; color: var(--accent); line-height: 1; }
-  .week-day-pill.bike .wd-min { color: var(--accent3); }
-  .week-day-pill .wd-label { font-size: 8px; color: var(--muted); }
-
-  /* SECTION */
-  .section { padding: 22px 16px 8px; }
-  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: 30px; letter-spacing: 0.04em; color: var(--text); margin-bottom: 4px; }
-  .section-sub { font-size: 11px; color: var(--muted); margin-bottom: 14px; }
-
-  /* DAY CARD */
-  .day-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 14px; overflow: hidden; }
-  .day-header { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--border); background: var(--surface); }
-  .day-num { font-family: 'Bebas Neue', sans-serif; font-size: 38px; color: var(--accent); line-height: 1; min-width: 36px; }
-  .day-num.bike-num { color: var(--accent3); }
-  .day-info h3 { font-size: 15px; font-weight: 600; color: var(--text); }
-  .day-info p { font-size: 11px; color: var(--muted); margin-top: 2px; }
-  .day-focus {
-    font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em;
-    color: var(--accent); border: 1px solid var(--accent); padding: 2px 7px;
-    border-radius: 2px; margin-left: auto; white-space: nowrap;
-  }
-  .day-focus.bike-focus { color: var(--accent3); border-color: var(--accent3); }
-  .warmup-block { padding: 10px 16px 0; }
-  .warmup-block strong { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
-  .warmup-block p { font-size: 11px; color: var(--muted); margin-top: 3px; margin-bottom: 10px; }
-
-  /* BIKE CARD */
-  .bike-block { padding: 16px; }
-  .bike-phases { display: flex; flex-direction: column; gap: 8px; }
-  .bike-phase-row {
-    display: grid; grid-template-columns: 44px 1fr 52px;
-    align-items: center; gap: 10px;
-    padding: 10px 12px; border-radius: 8px;
-    background: rgba(58,255,212,0.05); border: 1px solid rgba(58,255,212,0.15);
-  }
-  .bike-phase-row .bp-min { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--accent3); line-height: 1; text-align: center; }
-  .bike-phase-row .bp-min span { display: block; font-family: 'DM Sans', sans-serif; font-size: 8px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
-  .bike-phase-row .bp-name { font-size: 13px; font-weight: 500; }
-  .bike-phase-row .bp-name small { display: block; font-size: 10px; color: var(--muted); margin-top: 2px; }
-  .bike-phase-row .bp-rpm { text-align: center; font-family: 'Bebas Neue', sans-serif; font-size: 19px; color: var(--accent); line-height: 1.1; }
-  .bike-phase-row .bp-rpm span { display: block; font-family: 'DM Sans', sans-serif; font-size: 8px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
-  .bike-total { margin-top: 12px; padding: 10px 12px; background: rgba(58,255,212,0.08); border: 1px solid rgba(58,255,212,0.25); border-radius: 8px; font-size: 12px; color: var(--accent3); font-weight: 600; text-align: center; }
-
-  /* EX TABLE */
-  .ex-table { width: 100%; padding: 10px 16px 14px; }
-  .ex-row {
-    display: grid; grid-template-columns: 1fr 60px 68px;
-    gap: 6px; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.05); align-items: center;
-  }
-  .ex-row:last-child { border-bottom: none; }
-  .ex-name { font-size: 13px; font-weight: 500; }
-  .ex-name small { display: block; font-size: 10px; color: var(--muted); font-weight: 400; margin-top: 1px; }
-  .ex-col-head { font-size: 8px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); text-align: center; padding-bottom: 6px; }
-  .ex-val { text-align: center; font-family: 'Bebas Neue', sans-serif; font-size: 19px; color: var(--accent); line-height: 1.1; }
-  .ex-val span { display: block; font-family: 'DM Sans', sans-serif; font-size: 8px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
-  .rest-strip {
-    display: flex; align-items: center; gap: 6px; padding: 9px 16px;
-    background: rgba(232,255,58,0.04); border-top: 1px solid rgba(232,255,58,0.12);
-    font-size: 11px; color: var(--muted);
-  }
-  .rest-strip strong { color: var(--accent); }
-
-  /* TIPS */
-  .tips-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 8px; }
-  .tip-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 12px; }
-  .tip-icon { font-size: 20px; margin-bottom: 7px; }
-  .tip-title { font-size: 12px; font-weight: 600; margin-bottom: 5px; }
-  .tip-body { font-size: 11px; color: var(--muted); line-height: 1.5; }
-  .tip-card.accent-border { border-color: rgba(232,255,58,0.3); }
-  .tip-card.danger-border { border-color: rgba(255,92,58,0.3); }
-  .tip-card.teal-border { border-color: rgba(58,255,212,0.3); }
-
-  /* IMPROVE */
-  .improve-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 10px; }
-  .improve-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-  .improve-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .improve-header h4 { font-size: 13px; font-weight: 600; }
-  .improve-card p { font-size: 12px; color: var(--muted); line-height: 1.6; }
-  .improve-card ul { font-size: 12px; color: var(--muted); line-height: 1.8; padding-left: 16px; margin-top: 6px; }
-
-  /* TIMER PAGE */
-  .timer-page { padding: 28px 20px; }
-  .timer-title { font-family: 'Bebas Neue', sans-serif; font-size: 32px; margin-bottom: 4px; }
-  .timer-sub { font-size: 12px; color: var(--muted); margin-bottom: 24px; }
-  .timer-display {
-    background: var(--card); border: 1px solid var(--border); border-radius: 16px;
-    padding: 32px; text-align: center; margin-bottom: 16px;
-  }
-  #timer-label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); margin-bottom: 8px; }
-  #timer-count {
-    font-family: 'Bebas Neue', sans-serif; font-size: 88px; color: var(--accent);
-    line-height: 1; text-shadow: 0 0 30px rgba(232,255,58,0.4);
-  }
-  #timer-phase { font-size: 12px; color: var(--muted); margin-top: 8px; }
-  .timer-controls { display: flex; gap: 10px; margin-bottom: 20px; }
-  .timer-btn {
-    flex: 1; padding: 14px; border-radius: 10px; border: none; font-size: 14px;
-    font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: opacity 0.15s;
-  }
-  .timer-btn:active { opacity: 0.75; }
-  #btn-start { background: var(--accent); color: #0a0a0a; }
-  #btn-reset { background: var(--card); color: var(--text); border: 1px solid var(--border); }
-  .preset-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 10px; }
-  .presets { display: flex; flex-wrap: wrap; gap: 8px; }
-  .preset-btn {
-    padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border);
-    background: var(--card); color: var(--text); font-size: 12px; font-weight: 600;
-    cursor: pointer; font-family: 'DM Sans', sans-serif; transition: border-color 0.15s, color 0.15s;
-  }
-  .preset-btn.selected { border-color: var(--accent); color: var(--accent); }
-
-  /* CHECKLIST */
-  .checklist-section { padding: 0 16px 24px; }
-  .check-day { background: var(--card); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
-  .check-day.bike-day { border-color: rgba(58,255,212,0.2); }
-  .check-day-header { padding: 12px 16px; background: var(--surface); font-size: 13px; font-weight: 600; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-  .check-day-header span:last-child { font-size: 10px; color: var(--muted); }
-  .check-item { display: flex; align-items: center; gap: 12px; padding: 11px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; }
-  .check-item:last-child { border-bottom: none; }
-  .check-item input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer; flex-shrink: 0; }
-  .check-item label { font-size: 13px; cursor: pointer; flex: 1; }
-  .check-item.done label { text-decoration: line-through; color: var(--muted); }
-  .check-progress { height: 3px; background: var(--border); }
-  .check-progress-bar { height: 100%; background: var(--accent); transition: width 0.3s; }
-  .check-day.bike-day .check-progress-bar { background: var(--accent3); }
-
-  /* PHASES */
-  .progress-section { padding: 18px 16px; }
-  .progress-title { font-family: 'Bebas Neue', sans-serif; font-size: 26px; margin-bottom: 12px; }
-  .phase-bar { display: flex; gap: 6px; margin-bottom: 14px; }
-  .phase { flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 12px 10px; text-align: center; }
-  .phase.active { border-color: var(--accent); background: rgba(232,255,58,0.05); }
-  .phase .ph-num { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--accent); }
-  .phase .ph-name { font-size: 10px; font-weight: 600; margin: 2px 0; }
-  .phase .ph-weeks { font-size: 9px; color: var(--muted); }
-  .phase-desc { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; font-size: 12px; color: var(--muted); line-height: 1.7; }
-  .phase-desc strong { color: var(--text); }
-
-  footer { margin: 24px 16px 80px; padding: 18px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; text-align: center; }
-  footer p { font-size: 11px; color: var(--muted); line-height: 1.6; }
-  footer strong { color: var(--accent); }
-
-  @media (max-width: 380px) {
-    .tips-grid { grid-template-columns: 1fr; }
-    .week-grid { grid-template-columns: repeat(5, 1fr); gap: 4px; }
-  }
+:root{--bg:#0a0a0a;--surface:#111;--card:#161616;--border:#222;--accent:#e8ff3a;--accent2:#ff5c3a;--accent3:#3affd4;--accent4:#b96eff;--text:#f0f0f0;--muted:#888;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;min-height:100vh;padding-bottom:calc(env(safe-area-inset-bottom)+16px);}
+#install-banner{display:none;position:fixed;bottom:16px;left:16px;right:16px;background:var(--accent);color:#0a0a0a;border-radius:12px;padding:14px 16px;z-index:9999;box-shadow:0 8px 32px rgba(232,255,58,.3);align-items:center;gap:12px;}
+#install-banner.show{display:flex;}#install-banner p{flex:1;font-size:13px;font-weight:600;}
+#install-btn{background:#0a0a0a;color:var(--accent);border:none;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;}
+#install-close{background:none;border:none;color:#0a0a0a;font-size:20px;cursor:pointer;padding:0 4px;line-height:1;}
+.nav-tabs{position:sticky;top:0;z-index:100;display:flex;background:rgba(10,10,10,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;}
+.nav-tabs::-webkit-scrollbar{display:none;}
+.nav-tab{flex-shrink:0;padding:12px 14px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:color .2s,border-color .2s;}
+.nav-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+.page{display:none;}.page.active{display:block;}
+.hero{position:relative;padding:44px 24px 32px;overflow:hidden;background:linear-gradient(180deg,#111 0%,#0a0a0a 100%);border-bottom:1px solid var(--border);}
+.hero::before{content:'';position:absolute;top:-80px;right:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(232,255,58,.12) 0%,transparent 70%);pointer-events:none;}
+.hero-tag{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);padding:3px 9px;border-radius:2px;margin-bottom:12px;}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,11vw,72px);line-height:.9;letter-spacing:.02em;}
+.hero h1 span{color:var(--accent);}
+.hero-sub{margin-top:12px;color:var(--muted);font-size:13px;}
+.xp-bar-wrap{margin:16px 16px 0;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;}
+.xp-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.xp-level{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--accent4);line-height:1;}
+.xp-name{font-size:13px;font-weight:600;}
+.xp-pts{font-size:11px;color:var(--muted);}
+.xp-label{font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;}
+.xp-track{height:6px;background:var(--border);border-radius:99px;overflow:hidden;}
+.xp-fill{height:100%;background:linear-gradient(90deg,var(--accent4),var(--accent));border-radius:99px;transition:width .6s ease;}
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-bottom:1px solid var(--border);}
+.stat-item{background:var(--surface);padding:14px 8px;text-align:center;}
+.stat-item .val{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--accent);line-height:1;}
+.stat-item .lbl{font-size:8px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-top:3px;}
+.streak-card{margin:16px 16px 0;background:var(--card);border:1px solid rgba(232,255,58,.25);border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:14px;}
+.streak-fire{font-size:36px;line-height:1;}
+.streak-num{font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--accent);line-height:1;}
+.streak-label{font-size:11px;color:var(--muted);}
+.streak-msg{font-size:12px;color:var(--text);margin-top:2px;}
+.week-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:16px;}
+.week-day-pill{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 4px;text-align:center;position:relative;}
+.week-day-pill.treino{border-color:rgba(232,255,58,.3);background:rgba(232,255,58,.05);}
+.week-day-pill.bike{border-color:rgba(58,255,212,.3);background:rgba(58,255,212,.05);}
+.week-day-pill.done-day::after{content:'✓';position:absolute;top:4px;right:5px;font-size:9px;color:var(--accent3);}
+.wd-name{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);}
+.wd-icon{font-size:18px;margin:4px 0;}
+.wd-min{font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--accent);line-height:1;}
+.week-day-pill.bike .wd-min{color:var(--accent3);}
+.wd-label{font-size:8px;color:var(--muted);}
+.section{padding:20px 16px 8px;}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.04em;margin-bottom:4px;}
+.section-sub{font-size:11px;color:var(--muted);margin-bottom:14px;}
+.day-card{background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:14px;overflow:hidden;}
+.day-header{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--surface);}
+.day-num{font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--accent);line-height:1;min-width:36px;}
+.day-num.bike-num{color:var(--accent3);}
+.day-info h3{font-size:15px;font-weight:600;}
+.day-info p{font-size:11px;color:var(--muted);margin-top:2px;}
+.day-focus{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);border:1px solid var(--accent);padding:2px 7px;border-radius:2px;margin-left:auto;white-space:nowrap;}
+.day-focus.bike-focus{color:var(--accent3);border-color:var(--accent3);}
+.warmup-block{padding:10px 16px 0;}
+.warmup-block strong{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);}
+.warmup-block p{font-size:11px;color:var(--muted);margin-top:3px;margin-bottom:10px;}
+.ex-table{width:100%;padding:8px 16px 12px;}
+.ex-row{display:grid;grid-template-columns:1fr 56px 64px;gap:6px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);align-items:center;}
+.ex-row:last-child{border-bottom:none;}
+.ex-name{font-size:13px;font-weight:500;}
+.ex-name small{display:block;font-size:10px;color:var(--muted);font-weight:400;margin-top:1px;}
+.ex-col-head{font-size:8px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);text-align:center;padding-bottom:4px;}
+.ex-val{text-align:center;font-family:'Bebas Neue',sans-serif;font-size:19px;color:var(--accent);line-height:1.1;}
+.ex-val span{display:block;font-family:'DM Sans',sans-serif;font-size:8px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+.rest-strip{display:flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(232,255,58,.04);border-top:1px solid rgba(232,255,58,.12);font-size:11px;color:var(--muted);}
+.rest-strip strong{color:var(--accent);}
+.start-workout-btn{display:block;width:calc(100% - 32px);margin:0 16px 16px;padding:13px;background:var(--accent);color:#0a0a0a;border:none;border-radius:10px;font-size:14px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;letter-spacing:.04em;transition:opacity .15s;}
+.start-workout-btn:active{opacity:.8;}
+.start-workout-btn.bike-btn{background:var(--accent3);}
+.bike-block{padding:14px 16px;}
+.bike-phases{display:flex;flex-direction:column;gap:8px;}
+.bike-phase-row{display:grid;grid-template-columns:44px 1fr 52px;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;background:rgba(58,255,212,.05);border:1px solid rgba(58,255,212,.15);}
+.bp-min{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--accent3);line-height:1;text-align:center;}
+.bp-min span{display:block;font-family:'DM Sans',sans-serif;font-size:8px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;}
+.bp-name{font-size:13px;font-weight:500;}
+.bp-name small{display:block;font-size:10px;color:var(--muted);margin-top:2px;}
+.bp-rpm{text-align:center;font-family:'Bebas Neue',sans-serif;font-size:17px;color:var(--accent);line-height:1.1;}
+.bp-rpm span{display:block;font-family:'DM Sans',sans-serif;font-size:8px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;}
+.bike-total{margin-top:10px;padding:10px 12px;background:rgba(58,255,212,.08);border:1px solid rgba(58,255,212,.25);border-radius:8px;font-size:12px;color:var(--accent3);font-weight:600;text-align:center;}
+.progression-alert{margin:0 16px 16px;background:rgba(185,110,255,.1);border:1px solid rgba(185,110,255,.3);border-radius:10px;padding:14px 16px;display:none;}
+.progression-alert.show{display:block;}
+.prog-alert-title{font-size:12px;font-weight:700;color:var(--accent4);margin-bottom:4px;}
+.prog-alert-body{font-size:12px;color:var(--muted);line-height:1.5;}
+.prog-alert-dismiss{margin-top:10px;background:var(--accent4);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.imc-strip{margin:16px 16px 0;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;}
+.imc-strip h3{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.imc-bar-wrap{position:relative;height:8px;border-radius:99px;background:linear-gradient(to right,#5bc8f5 0%,#5bf5b2 25%,#f5e25b 50%,#f5935b 75%,#f55b5b 100%);margin-bottom:6px;}
+.imc-marker{position:absolute;top:50%;transform:translate(-50%,-50%);left:calc((26.35 - 15) / (40 - 15) * 100%);width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid var(--accent);box-shadow:0 0 10px var(--accent);}
+.imc-labels{display:flex;justify-content:space-between;font-size:9px;color:var(--muted);}
+.imc-current{margin-top:8px;font-size:13px;}
+.imc-current strong{color:var(--accent2);}
+.imc-meta{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;}
+.imc-badge{font-size:10px;padding:3px 9px;border-radius:4px;font-weight:500;background:rgba(255,92,58,.12);color:var(--accent2);border:1px solid rgba(255,92,58,.3);}
+.imc-badge.ok{background:rgba(58,255,212,.1);color:var(--accent3);border-color:rgba(58,255,212,.3);}
+.progress-section{padding:16px 16px 8px;}
+.progress-title{font-family:'Bebas Neue',sans-serif;font-size:24px;margin-bottom:12px;}
+.phase-bar{display:flex;gap:6px;margin-bottom:12px;}
+.phase{flex:1;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;}
+.phase.active{border-color:var(--accent);background:rgba(232,255,58,.05);}
+.phase .ph-num{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--accent);}
+.phase .ph-name{font-size:10px;font-weight:600;margin:2px 0;}
+.phase .ph-weeks{font-size:9px;color:var(--muted);}
+.phase-desc{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;font-size:12px;color:var(--muted);line-height:1.7;}
+.phase-desc strong{color:var(--text);}
+/* TIMER */
+.timer-page{padding:24px 16px;}
+.timer-title{font-family:'Bebas Neue',sans-serif;font-size:28px;margin-bottom:4px;}
+.timer-sub{font-size:12px;color:var(--muted);margin-bottom:16px;}
+.timer-display{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;text-align:center;margin-bottom:14px;}
+#timer-label{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:6px;}
+#timer-count{font-family:'Bebas Neue',sans-serif;font-size:80px;color:var(--accent);line-height:1;text-shadow:0 0 30px rgba(232,255,58,.4);}
+#timer-phase{font-size:12px;color:var(--muted);margin-top:6px;}
+.timer-controls{display:flex;gap:10px;margin-bottom:18px;}
+.timer-btn{flex:1;padding:13px;border-radius:10px;border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity .15s;}
+.timer-btn:active{opacity:.75;}
+#btn-start{background:var(--accent);color:#0a0a0a;}
+#btn-reset{background:var(--card);color:var(--text);border:1px solid var(--border);}
+.preset-title{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:10px;}
+.presets{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;}
+.preset-btn{padding:8px 14px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:border-color .15s,color .15s;}
+.preset-btn.selected{border-color:var(--accent);color:var(--accent);}
+.hiit-section{background:var(--card);border:1px solid rgba(255,92,58,.3);border-radius:14px;padding:18px;margin-bottom:16px;}
+.hiit-section-title{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--accent2);margin-bottom:4px;}
+.hiit-section-sub{font-size:11px;color:var(--muted);margin-bottom:14px;}
+.hiit-display{text-align:center;padding:20px 0 14px;}
+#hiit-phase-label{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:6px;}
+#hiit-count{font-family:'Bebas Neue',sans-serif;font-size:80px;line-height:1;text-shadow:0 0 30px rgba(255,92,58,.5);transition:color .3s;}
+#hiit-round-info{font-size:13px;color:var(--muted);margin-top:8px;}
+.hiit-progress{height:6px;background:var(--border);border-radius:99px;margin:12px 0;overflow:hidden;}
+.hiit-progress-fill{height:100%;border-radius:99px;transition:width .3s,background .3s;}
+.hiit-controls{display:flex;gap:10px;}
+.hiit-btn{flex:1;padding:13px;border-radius:10px;border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;}
+#hiit-start{background:var(--accent2);color:#fff;}
+#hiit-reset{background:var(--card);color:var(--text);border:1px solid var(--border);}
+.hiit-config{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.hiit-cfg-item label{display:block;font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:4px;}
+.hiit-cfg-item input,.hiit-cfg-item select{width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:8px 10px;font-size:14px;font-family:'DM Sans',sans-serif;text-align:center;}
+/* CHECKLIST */
+.checklist-section{padding:0 16px 24px;}
+.check-day{background:var(--card);border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden;}
+.check-day.bike-day{border-color:rgba(58,255,212,.2);}
+.check-day-header{padding:12px 16px;background:var(--surface);font-size:13px;font-weight:600;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.check-day-header span:last-child{font-size:10px;color:var(--muted);}
+.check-item{display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.04);cursor:pointer;}
+.check-item:last-child{border-bottom:none;}
+.check-item input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent);cursor:pointer;flex-shrink:0;}
+.check-item label{font-size:13px;cursor:pointer;flex:1;}
+.check-item.done label{text-decoration:line-through;color:var(--muted);}
+.check-progress{height:3px;background:var(--border);}
+.check-progress-bar{height:100%;background:var(--accent);transition:width .3s;}
+.check-day.bike-day .check-progress-bar{background:var(--accent3);}
+/* CALENDAR */
+.cal-section{padding:0 16px 24px;}
+.cal-month-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.cal-month-title{font-family:'Bebas Neue',sans-serif;font-size:22px;}
+.cal-nav-btn{background:var(--card);border:1px solid var(--border);color:var(--text);width:34px;height:34px;border-radius:8px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:16px;}
+.cal-dow{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);text-align:center;padding:4px 0;}
+.cal-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:6px;font-size:12px;font-weight:500;color:var(--muted);}
+.cal-day.has-treino{background:rgba(232,255,58,.15);color:var(--accent);font-weight:700;}
+.cal-day.has-bike{background:rgba(58,255,212,.12);color:var(--accent3);font-weight:700;}
+.cal-day.today{border:1px solid var(--accent);}
+.cal-day.other-month{opacity:.3;}
+.history-log{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.history-log-title{padding:12px 16px;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);background:var(--surface);border-bottom:1px solid var(--border);}
+.history-item{display:flex;align-items:center;gap:12px;padding:11px 16px;border-bottom:1px solid rgba(255,255,255,.04);}
+.history-item:last-child{border-bottom:none;}
+.history-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.no-history{padding:24px 16px;text-align:center;color:var(--muted);font-size:13px;}
+/* WEIGHT */
+.weight-section{padding:0 16px 24px;}
+.weight-input-row{display:flex;gap:10px;margin-bottom:16px;}
+.weight-input{flex:1;background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:12px 14px;font-size:16px;font-family:'DM Sans',sans-serif;}
+.weight-add-btn{background:var(--accent);color:#0a0a0a;border:none;border-radius:10px;padding:0 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.weight-chart-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px;}
+.weight-chart-title{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:12px;}
+#weight-canvas{width:100%;height:160px;display:block;}
+.weight-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
+.w-stat{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center;}
+.w-stat .wval{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--accent);line-height:1;}
+.w-stat .wlbl{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-top:2px;}
+.weight-log{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.weight-log-title{padding:10px 16px;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);background:var(--surface);border-bottom:1px solid var(--border);}
+.weight-log-item{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.04);}
+.weight-log-item:last-child{border-bottom:none;}
+.weight-log-val{font-family:'Bebas Neue',sans-serif;font-size:20px;}
+.weight-log-date{font-size:11px;color:var(--muted);}
+.weight-log-diff{font-size:11px;font-weight:600;}
+.weight-log-diff.up{color:var(--accent2);}
+.weight-log-diff.down{color:var(--accent3);}
+.weight-delete{background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;padding:0 4px;}
+/* EXECUTION OVERLAY */
+#exec-overlay{display:none;position:fixed;inset:0;background:#0a0a0a;z-index:999;flex-direction:column;padding-top:env(safe-area-inset-top,20px);}
+#exec-overlay.active{display:flex;}
+.exec-header{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--border);}
+.exec-close{background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer;}
+.exec-workout-name{font-size:13px;font-weight:600;flex:1;}
+.exec-step-info{font-size:11px;color:var(--muted);}
+.exec-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 24px 12px;text-align:center;}
+.exec-phase-badge{font-size:10px;text-transform:uppercase;letter-spacing:.15em;font-weight:600;padding:4px 12px;border-radius:99px;margin-bottom:14px;}
+.exec-phase-badge.work{background:rgba(255,92,58,.15);color:var(--accent2);border:1px solid rgba(255,92,58,.3);}
+.exec-phase-badge.rest{background:rgba(58,255,212,.1);color:var(--accent3);border:1px solid rgba(58,255,212,.25);}
+.exec-phase-badge.ex{background:rgba(232,255,58,.1);color:var(--accent);border:1px solid rgba(232,255,58,.25);}
+.exec-ex-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(28px,8vw,48px);line-height:1;margin-bottom:6px;}
+.exec-ex-detail{font-size:13px;color:var(--muted);margin-bottom:18px;}
+.exec-timer-big{font-family:'Bebas Neue',sans-serif;font-size:clamp(72px,20vw,110px);line-height:1;transition:color .3s;margin-bottom:6px;}
+.exec-round-info{font-size:13px;color:var(--muted);margin-bottom:20px;}
+.exec-progress-bar{width:100%;height:6px;background:var(--border);border-radius:99px;overflow:hidden;margin-bottom:20px;}
+.exec-progress-fill{height:100%;border-radius:99px;transition:width .1s linear,background .3s;}
+.exec-footer{padding:0 20px 16px;display:flex;gap:10px;}
+.exec-btn{flex:1;padding:15px;border-radius:12px;border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.exec-btn-main{background:var(--accent);color:#0a0a0a;}
+.exec-btn-skip{background:var(--card);color:var(--muted);border:1px solid var(--border);}
+/* CONFIG */
+.notify-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:10px;}
+.notify-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.notify-label{font-size:13px;font-weight:600;}
+.notify-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+.toggle-switch{position:relative;width:44px;height:24px;flex-shrink:0;}
+.toggle-switch input{opacity:0;width:0;height:0;}
+.toggle-slider{position:absolute;inset:0;background:var(--border);border-radius:99px;cursor:pointer;transition:.3s;}
+.toggle-slider::before{content:'';position:absolute;width:18px;height:18px;left:3px;bottom:3px;background:var(--muted);border-radius:50%;transition:.3s;}
+.toggle-switch input:checked+.toggle-slider{background:var(--accent);}
+.toggle-switch input:checked+.toggle-slider::before{transform:translateX(20px);background:#0a0a0a;}
+.notify-time-row{display:flex;align-items:center;gap:10px;margin-top:4px;}
+.notify-time-row label{font-size:12px;color:var(--muted);}
+.notify-time-input{background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:8px 10px;font-size:14px;font-family:'DM Sans',sans-serif;}
+.notify-save-btn{width:100%;padding:12px;background:var(--accent);color:#0a0a0a;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:12px;}
+.tips-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px;}
+.tip-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 12px;}
+.tip-icon{font-size:20px;margin-bottom:7px;}
+.tip-title{font-size:12px;font-weight:600;margin-bottom:5px;}
+.tip-body{font-size:11px;color:var(--muted);line-height:1.5;}
+.tip-card.accent-border{border-color:rgba(232,255,58,.3);}
+.tip-card.danger-border{border-color:rgba(255,92,58,.3);}
+.tip-card.teal-border{border-color:rgba(58,255,212,.3);}
+footer{margin:24px 16px 80px;padding:16px;background:var(--card);border:1px solid var(--border);border-radius:10px;text-align:center;}
+footer p{font-size:11px;color:var(--muted);line-height:1.6;}
+footer strong{color:var(--accent);}
+@media(max-width:380px){.tips-grid{grid-template-columns:1fr;}}
 </style>
-
 <script>
-(function() {
-  const manifest = {
-    name: "Calistenia 20min",
-    short_name: "Calistenia",
-    start_url: ".",
-    display: "standalone",
-    background_color: "#0a0a0a",
-    theme_color: "#e8ff3a",
-    icons: [{
-      src: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' fill='%230a0a0a'/><text x='96' y='130' font-size='120' text-anchor='middle' fill='%23e8ff3a'>💪</text></svg>",
-      sizes: "192x192", type: "image/svg+xml"
-    }]
-  };
-  const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('link');
-  link.rel = 'manifest'; link.href = url;
-  document.head.appendChild(link);
-})();
+(function(){const m={name:"Calistenia Pro",short_name:"Calistenia",start_url:".",display:"standalone",background_color:"#0a0a0a",theme_color:"#e8ff3a",icons:[{src:"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' fill='%230a0a0a'/><text x='96' y='130' font-size='110' text-anchor='middle' fill='%23e8ff3a'>💪</text></svg>",sizes:"192x192",type:"image/svg+xml"}]};const b=new Blob([JSON.stringify(m)],{type:'application/json'});const l=document.createElement('link');l.rel='manifest';l.href=URL.createObjectURL(b);document.head.appendChild(l);})();
 </script>
 </head>
 <body>
+
+<!-- EXECUTION OVERLAY -->
+<div id="exec-overlay">
+  <div class="exec-header">
+    <button class="exec-close" id="exec-close">✕</button>
+    <div class="exec-workout-name" id="exec-workout-name">Treino</div>
+    <div class="exec-step-info" id="exec-step-info">1/4</div>
+  </div>
+  <div class="exec-body">
+    <div class="exec-phase-badge ex" id="exec-phase-badge">Exercício</div>
+    <div class="exec-ex-name" id="exec-ex-name">—</div>
+    <div class="exec-ex-detail" id="exec-ex-detail">—</div>
+    <div class="exec-timer-big" id="exec-timer-big" style="color:var(--accent);">GO</div>
+    <div class="exec-round-info" id="exec-round-info">Série 1 de 3</div>
+    <div class="exec-progress-bar"><div class="exec-progress-fill" id="exec-progress-fill" style="width:0%;background:var(--accent);"></div></div>
+  </div>
+  <div class="exec-footer">
+    <button class="exec-btn exec-btn-skip" id="exec-skip">Pular</button>
+    <button class="exec-btn exec-btn-main" id="exec-main-btn">Iniciar Descanso</button>
+  </div>
+</div>
 
 <div id="install-banner">
   <p>📲 Instalar como app</p>
@@ -356,70 +292,58 @@
   <div class="nav-tab active" data-page="home">Início</div>
   <div class="nav-tab" data-page="treinos">Treinos</div>
   <div class="nav-tab" data-page="timer">Timer</div>
-  <div class="nav-tab" data-page="checklist">Checklist</div>
-  <div class="nav-tab" data-page="dicas">Dicas</div>
+  <div class="nav-tab" data-page="historico">Histórico</div>
+  <div class="nav-tab" data-page="peso">Peso</div>
+  <div class="nav-tab" data-page="config">Config</div>
 </nav>
 
-<!-- PAGE: HOME -->
+<!-- HOME -->
 <div class="page active" id="page-home">
   <section class="hero">
-    <div class="hero-tag">5 dias · Força + Cardio</div>
+    <div class="hero-tag">5 dias · Força + HIIT</div>
     <h1>TREINO<br><span>SEMANAL</span></h1>
-    <p class="hero-sub">Seg/Qua/Sex: calistenia 20 min · Ter/Qui: bicicleta 15 min</p>
+    <p class="hero-sub">Seg/Qua/Sex: calistenia 20min · Ter/Qui: HIIT bike 15min</p>
   </section>
-
   <div class="stats-bar">
-    <div class="stat-item"><div class="val">3x</div><div class="lbl">Força/sem</div></div>
-    <div class="stat-item"><div class="val">2x</div><div class="lbl">Cardio/sem</div></div>
-    <div class="stat-item"><div class="val">20'</div><div class="lbl">Por treino</div></div>
+    <div class="stat-item"><div class="val" id="stat-total">0</div><div class="lbl">Treinos</div></div>
+    <div class="stat-item"><div class="val" id="stat-streak">0</div><div class="lbl">Streak</div></div>
+    <div class="stat-item"><div class="val" id="stat-xp">0</div><div class="lbl">XP</div></div>
+    <div class="stat-item"><div class="val" id="stat-week">0/5</div><div class="lbl">Esta sem.</div></div>
   </div>
-
+  <div class="xp-bar-wrap">
+    <div class="xp-top">
+      <div><div class="xp-level" id="xp-level-num">Nv 1</div><div class="xp-name" id="xp-level-name">Iniciante</div></div>
+      <div style="text-align:right;"><div class="xp-label">Próximo nível</div><div class="xp-pts" id="xp-pts-label">0 / 50 XP</div></div>
+    </div>
+    <div class="xp-track"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div>
+  </div>
+  <div class="streak-card">
+    <div class="streak-fire">🔥</div>
+    <div>
+      <div class="streak-num" id="streak-big">0</div>
+      <div class="streak-label">dias seguidos</div>
+      <div class="streak-msg" id="streak-msg">Complete um treino para começar!</div>
+    </div>
+  </div>
+  <div class="week-grid">
+    <div class="week-day-pill treino" id="pill-seg"><div class="wd-name">Seg</div><div class="wd-icon">💪</div><div class="wd-min">20'</div><div class="wd-label">Força</div></div>
+    <div class="week-day-pill bike" id="pill-ter"><div class="wd-name">Ter</div><div class="wd-icon">🔥</div><div class="wd-min">15'</div><div class="wd-label">HIIT</div></div>
+    <div class="week-day-pill treino" id="pill-qua"><div class="wd-name">Qua</div><div class="wd-icon">💪</div><div class="wd-min">20'</div><div class="wd-label">Força</div></div>
+    <div class="week-day-pill bike" id="pill-qui"><div class="wd-name">Qui</div><div class="wd-icon">🔥</div><div class="wd-min">15'</div><div class="wd-label">HIIT</div></div>
+    <div class="week-day-pill treino" id="pill-sex"><div class="wd-name">Sex</div><div class="wd-icon">💪</div><div class="wd-min">20'</div><div class="wd-label">Força</div></div>
+  </div>
+  <div id="progression-alert" class="progression-alert">
+    <div class="prog-alert-title">🚀 Hora de progredir!</div>
+    <div class="prog-alert-body">Você treinou consistentemente! Adicione +1 série ou +2 reps em cada exercício esta semana.</div>
+    <button class="prog-alert-dismiss" onclick="dismissProgression()">Entendido! 💪</button>
+  </div>
   <div class="imc-strip">
     <h3>Seu IMC</h3>
     <div class="imc-bar-wrap"><div class="imc-marker"></div></div>
-    <div class="imc-labels"><span>Abaixo (15)</span><span>Normal (18.5)</span><span>Sobrepeso</span><span>Obeso (30+)</span></div>
+    <div class="imc-labels"><span>Abaixo</span><span>Normal</span><span>Sobrepeso</span><span>Obeso</span></div>
     <p class="imc-current">IMC atual: <strong>26.35 — Sobrepeso leve</strong>. Alvo: 65kg (IMC ~24.5)</p>
-    <div class="imc-meta">
-      <span class="imc-badge">Mesomorfo</span>
-      <span class="imc-badge">Iniciante</span>
-      <span class="imc-badge ok">Alto potencial</span>
-    </div>
+    <div class="imc-meta"><span class="imc-badge">Mesomorfo</span><span class="imc-badge">Iniciante</span><span class="imc-badge ok">Alto potencial</span></div>
   </div>
-
-  <!-- SEMANA VISUAL -->
-  <div class="week-grid">
-    <div class="week-day-pill treino">
-      <div class="wd-name">Seg</div>
-      <div class="wd-icon">💪</div>
-      <div class="wd-min">20'</div>
-      <div class="wd-label">Força</div>
-    </div>
-    <div class="week-day-pill bike">
-      <div class="wd-name">Ter</div>
-      <div class="wd-icon">🚴</div>
-      <div class="wd-min">15'</div>
-      <div class="wd-label">Cardio</div>
-    </div>
-    <div class="week-day-pill treino">
-      <div class="wd-name">Qua</div>
-      <div class="wd-icon">💪</div>
-      <div class="wd-min">20'</div>
-      <div class="wd-label">Força</div>
-    </div>
-    <div class="week-day-pill bike">
-      <div class="wd-name">Qui</div>
-      <div class="wd-icon">🚴</div>
-      <div class="wd-min">15'</div>
-      <div class="wd-label">Cardio</div>
-    </div>
-    <div class="week-day-pill treino">
-      <div class="wd-name">Sex</div>
-      <div class="wd-icon">💪</div>
-      <div class="wd-min">20'</div>
-      <div class="wd-label">Força</div>
-    </div>
-  </div>
-
   <div class="progress-section">
     <div class="progress-title">FASES DO PLANO</div>
     <div class="phase-bar">
@@ -427,36 +351,19 @@
       <div class="phase"><div class="ph-num">2</div><div class="ph-name">Hipertrofia</div><div class="ph-weeks">Sem. 4–7</div></div>
       <div class="phase"><div class="ph-num">3</div><div class="ph-name">Potência</div><div class="ph-weeks">Sem. 8–12</div></div>
     </div>
-    <div class="phase-desc">
-      <strong>Fase 1 (agora):</strong> Foco na técnica e consistência. Reduza reps se necessário.<br>
-      <strong>Fase 2:</strong> Aumente volume e diminua o descanso para mais estresse metabólico.<br>
-      <strong>Fase 3:</strong> Progressão de exercícios: flexão archer, pistol squat, L-sit.
-    </div>
+    <div class="phase-desc"><strong>Fase 1:</strong> Técnica em primeiro lugar.<br><strong>Fase 2:</strong> Mais volume, menos descanso.<br><strong>Fase 3:</strong> Variações explosivas: flexão archer, pistol squat.</div>
   </div>
-
-  <footer>
-    <p>Perfil: <strong>IMC 26.35 · Mesomorfo · 163cm / 70kg → 65kg</strong><br>
-    Reavalie o plano a cada 4 semanas.</p>
-  </footer>
+  <footer><p>Perfil: <strong>IMC 26.35 · Mesomorfo · 163cm / 70kg → 65kg</strong><br>Reavalie o plano a cada 4 semanas.</p></footer>
 </div>
 
-<!-- PAGE: TREINOS -->
+<!-- TREINOS -->
 <div class="page" id="page-treinos">
   <div class="section">
     <div class="section-title">OS TREINOS</div>
-    <div class="section-sub">Seg/Qua/Sex — 20 min força · Ter/Qui — 15 min bicicleta</div>
-
-    <!-- DIA A: SEGUNDA -->
+    <div class="section-sub">Toque em "Iniciar Treino" para modo guiado passo a passo</div>
     <div class="day-card">
-      <div class="day-header">
-        <div class="day-num">A</div>
-        <div class="day-info"><h3>Peito, Ombros & Tríceps</h3><p>Empurrar · parte superior</p></div>
-        <div class="day-focus">Segunda</div>
-      </div>
-      <div class="warmup-block">
-        <strong>⚡ Aquecimento (2 min)</strong>
-        <p>20s jumping jacks → 20s arm circles → 20s shoulder rolls × 3 rounds</p>
-      </div>
+      <div class="day-header"><div class="day-num">A</div><div class="day-info"><h3>Peito, Ombros & Tríceps</h3><p>Empurrar · parte superior</p></div><div class="day-focus">Segunda</div></div>
+      <div class="warmup-block"><strong>⚡ Aquecimento (2 min)</strong><p>20s jumping jacks → 20s arm circles → 20s shoulder rolls × 3</p></div>
       <div class="ex-table">
         <div class="ex-row"><div></div><div class="ex-col-head">Séries</div><div class="ex-col-head">Reps</div></div>
         <div class="ex-row"><div class="ex-name">Flexão Tradicional<small>Peito e tríceps</small></div><div class="ex-val">3<span>séries</span></div><div class="ex-val">8-10<span>reps</span></div></div>
@@ -464,139 +371,78 @@
         <div class="ex-row"><div class="ex-name">Flexão Diamante<small>Tríceps</small></div><div class="ex-val">2<span>séries</span></div><div class="ex-val">6-8<span>reps</span></div></div>
         <div class="ex-row"><div class="ex-name">Prancha<small>Core e estabilidade</small></div><div class="ex-val">3<span>séries</span></div><div class="ex-val">20s<span>tempo</span></div></div>
       </div>
-      <div class="rest-strip">⏱ Descanso: <strong>45s</strong> entre séries · Total ~20 min</div>
+      <div class="rest-strip">⏱ Descanso: <strong>45s</strong> · Total ~20 min</div>
+      <button class="start-workout-btn" onclick="startExecution('A')">▶ Iniciar Treino A</button>
     </div>
-
-    <!-- DIA BIKE: TERÇA -->
     <div class="day-card">
-      <div class="day-header">
-        <div class="day-num bike-num">🔥</div>
-        <div class="day-info"><h3>HIIT — Bicicleta</h3><p>Queima de gordura · pós-combustão</p></div>
-        <div class="day-focus bike-focus">Terça</div>
-      </div>
+      <div class="day-header"><div class="day-num bike-num">🔥</div><div class="day-info"><h3>HIIT — Bicicleta</h3><p>Queima de gordura · efeito EPOC</p></div><div class="day-focus bike-focus">Terça</div></div>
       <div class="bike-block">
         <div class="bike-phases">
-          <div class="bike-phase-row">
-            <div class="bp-min">3<span>min</span></div>
-            <div class="bp-name">Aquecimento<small>Pedalada leve, aumentando o ritmo gradualmente</small></div>
-            <div class="bp-rpm">Leve<span>zona 1</span></div>
-          </div>
-          <div class="bike-phase-row" style="border-color:rgba(255,92,58,0.4);background:rgba(255,92,58,0.07);">
-            <div class="bp-min" style="color:var(--accent2);">8×<span>rounds</span></div>
-            <div class="bp-name"><strong style="color:var(--text);">Tabata HIIT</strong><small>🔴 20s NO LIMITE → 🟡 10s pedalada leve · Repete 8x = 4 min</small></div>
-            <div class="bp-rpm" style="color:var(--accent2);">4<span>min total</span></div>
-          </div>
-          <div class="bike-phase-row" style="border-color:rgba(255,92,58,0.3);background:rgba(255,92,58,0.05);">
-            <div class="bp-min" style="color:var(--accent2);">3×<span>rounds</span></div>
-            <div class="bp-name"><strong style="color:var(--text);">Sprint 30/30</strong><small>🔴 30s intenso → 🟡 30s recuperação · Repete 3x = 3 min</small></div>
-            <div class="bp-rpm" style="color:var(--accent2);">3<span>min total</span></div>
-          </div>
-          <div class="bike-phase-row">
-            <div class="bp-min">5<span>min</span></div>
-            <div class="bp-name">Recuperação ativa<small>Pedalada leve — não pare de vez, o corpo ainda queima</small></div>
-            <div class="bp-rpm">Leve<span>zona 1</span></div>
-          </div>
+          <div class="bike-phase-row"><div class="bp-min">3<span>min</span></div><div class="bp-name">Aquecimento<small>Pedalada leve, gradualmente acelerando</small></div><div class="bp-rpm">Leve<span>zona 1</span></div></div>
+          <div class="bike-phase-row" style="border-color:rgba(255,92,58,.4);background:rgba(255,92,58,.07);"><div class="bp-min" style="color:var(--accent2);">8×<span>rounds</span></div><div class="bp-name"><strong style="color:var(--text);">Tabata</strong><small>🔴 20s NO LIMITE → 🟡 10s leve · = 4 min</small></div><div class="bp-rpm" style="color:var(--accent2);">4<span>min</span></div></div>
+          <div class="bike-phase-row" style="border-color:rgba(255,92,58,.3);background:rgba(255,92,58,.05);"><div class="bp-min" style="color:var(--accent2);">3×<span>rounds</span></div><div class="bp-name"><strong style="color:var(--text);">Sprint 30/30</strong><small>🔴 30s intenso → 🟡 30s recuperação · = 3 min</small></div><div class="bp-rpm" style="color:var(--accent2);">3<span>min</span></div></div>
+          <div class="bike-phase-row"><div class="bp-min">5<span>min</span></div><div class="bp-name">Recuperação ativa<small>Não pare de vez — continue queimando</small></div><div class="bp-rpm">Leve<span>zona 1</span></div></div>
         </div>
-        <div class="bike-total">🔥 Total: 15 min · ~150–200 kcal · Efeito EPOC até 24h depois</div>
+        <div class="bike-total">🔥 15 min · ~160–200 kcal · EPOC ativo até 24h depois</div>
       </div>
+      <button class="start-workout-btn bike-btn" onclick="startExecution('BIKE1')">▶ Iniciar HIIT Guiado</button>
     </div>
-
-    <!-- DIA B: QUARTA -->
     <div class="day-card">
-      <div class="day-header">
-        <div class="day-num">B</div>
-        <div class="day-info"><h3>Pernas & Core</h3><p>Parte inferior + abdômen</p></div>
-        <div class="day-focus">Quarta</div>
-      </div>
-      <div class="warmup-block">
-        <strong>⚡ Aquecimento (2 min)</strong>
-        <p>20s corrida estacionária → 20s agachamento livre → 20s hip circles × 3 rounds</p>
-      </div>
+      <div class="day-header"><div class="day-num">B</div><div class="day-info"><h3>Pernas & Core</h3><p>Parte inferior + abdômen</p></div><div class="day-focus">Quarta</div></div>
+      <div class="warmup-block"><strong>⚡ Aquecimento (2 min)</strong><p>20s corrida estacionária → 20s agachamento → 20s hip circles × 3</p></div>
       <div class="ex-table">
         <div class="ex-row"><div></div><div class="ex-col-head">Séries</div><div class="ex-col-head">Reps</div></div>
-        <div class="ex-row"><div class="ex-name">Agachamento Simples<small>Glúteo e quadríceps</small></div><div class="ex-val">3<span>séries</span></div><div class="ex-val">15<span>reps</span></div></div>
-        <div class="ex-row"><div class="ex-name">Afundo Reverso<small>Glúteo e quadríceps</small></div><div class="ex-val">3<span>séries</span></div><div class="ex-val">10<span>cada lado</span></div></div>
+        <div class="ex-row"><div class="ex-name">Agachamento<small>Glúteo e quadríceps</small></div><div class="ex-val">3<span>séries</span></div><div class="ex-val">15<span>reps</span></div></div>
+        <div class="ex-row"><div class="ex-name">Afundo Reverso<small>Glúteo e quadríceps</small></div><div class="ex-val">3<span>séries</span></div><div class="ex-val">10<span>cada</span></div></div>
         <div class="ex-row"><div class="ex-name">Glute Bridge<small>Glúteo e posterior</small></div><div class="ex-val">3<span>séries</span></div><div class="ex-val">15<span>reps</span></div></div>
-        <div class="ex-row"><div class="ex-name">Abdominal Bicicleta<small>Oblíquos e core</small></div><div class="ex-val">3<span>séries</span></div><div class="ex-val">12<span>cada lado</span></div></div>
+        <div class="ex-row"><div class="ex-name">Abdominal Bicicleta<small>Oblíquos e core</small></div><div class="ex-val">3<span>séries</span></div><div class="ex-val">12<span>cada</span></div></div>
       </div>
-      <div class="rest-strip">⏱ Descanso: <strong>45s</strong> entre séries · Total ~20 min</div>
+      <div class="rest-strip">⏱ Descanso: <strong>45s</strong> · Total ~20 min</div>
+      <button class="start-workout-btn" onclick="startExecution('B')">▶ Iniciar Treino B</button>
     </div>
-
-    <!-- DIA BIKE: QUINTA -->
     <div class="day-card">
-      <div class="day-header">
-        <div class="day-num bike-num">🔥</div>
-        <div class="day-info"><h3>HIIT — Bicicleta</h3><p>Queima de gordura · pós-combustão</p></div>
-        <div class="day-focus bike-focus">Quinta</div>
-      </div>
+      <div class="day-header"><div class="day-num bike-num">🔥</div><div class="day-info"><h3>HIIT — Bicicleta</h3><p>Queima de gordura · efeito EPOC</p></div><div class="day-focus bike-focus">Quinta</div></div>
       <div class="bike-block">
         <div class="bike-phases">
-          <div class="bike-phase-row">
-            <div class="bp-min">3<span>min</span></div>
-            <div class="bp-name">Aquecimento<small>Pedalada leve, aumentando o ritmo gradualmente</small></div>
-            <div class="bp-rpm">Leve<span>zona 1</span></div>
-          </div>
-          <div class="bike-phase-row" style="border-color:rgba(255,92,58,0.4);background:rgba(255,92,58,0.07);">
-            <div class="bp-min" style="color:var(--accent2);">8×<span>rounds</span></div>
-            <div class="bp-name"><strong style="color:var(--text);">Tabata HIIT</strong><small>🔴 20s NO LIMITE → 🟡 10s pedalada leve · Repete 8x = 4 min</small></div>
-            <div class="bp-rpm" style="color:var(--accent2);">4<span>min total</span></div>
-          </div>
-          <div class="bike-phase-row" style="border-color:rgba(255,92,58,0.3);background:rgba(255,92,58,0.05);">
-            <div class="bp-min" style="color:var(--accent2);">3×<span>rounds</span></div>
-            <div class="bp-name"><strong style="color:var(--text);">Sprint 30/30</strong><small>🔴 30s intenso → 🟡 30s recuperação · Repete 3x = 3 min</small></div>
-            <div class="bp-rpm" style="color:var(--accent2);">3<span>min total</span></div>
-          </div>
-          <div class="bike-phase-row">
-            <div class="bp-min">5<span>min</span></div>
-            <div class="bp-name">Recuperação ativa<small>Pedalada leve — não pare de vez, o corpo ainda queima</small></div>
-            <div class="bp-rpm">Leve<span>zona 1</span></div>
-          </div>
+          <div class="bike-phase-row"><div class="bp-min">3<span>min</span></div><div class="bp-name">Aquecimento<small>Pedalada leve, gradualmente acelerando</small></div><div class="bp-rpm">Leve<span>zona 1</span></div></div>
+          <div class="bike-phase-row" style="border-color:rgba(255,92,58,.4);background:rgba(255,92,58,.07);"><div class="bp-min" style="color:var(--accent2);">8×<span>rounds</span></div><div class="bp-name"><strong style="color:var(--text);">Tabata</strong><small>🔴 20s NO LIMITE → 🟡 10s leve · = 4 min</small></div><div class="bp-rpm" style="color:var(--accent2);">4<span>min</span></div></div>
+          <div class="bike-phase-row" style="border-color:rgba(255,92,58,.3);background:rgba(255,92,58,.05);"><div class="bp-min" style="color:var(--accent2);">3×<span>rounds</span></div><div class="bp-name"><strong style="color:var(--text);">Sprint 30/30</strong><small>🔴 30s intenso → 🟡 30s recuperação · = 3 min</small></div><div class="bp-rpm" style="color:var(--accent2);">3<span>min</span></div></div>
+          <div class="bike-phase-row"><div class="bp-min">5<span>min</span></div><div class="bp-name">Recuperação ativa<small>Não pare de vez — continue queimando</small></div><div class="bp-rpm">Leve<span>zona 1</span></div></div>
         </div>
-        <div class="bike-total">🔥 Total: 15 min · ~150–200 kcal · Efeito EPOC até 24h depois</div>
+        <div class="bike-total">🔥 15 min · ~160–200 kcal · EPOC ativo até 24h depois</div>
       </div>
+      <button class="start-workout-btn bike-btn" onclick="startExecution('BIKE2')">▶ Iniciar HIIT Guiado</button>
     </div>
-
-    <!-- DIA C: SEXTA -->
     <div class="day-card">
-      <div class="day-header">
-        <div class="day-num">C</div>
-        <div class="day-info"><h3>Costas & Core Profundo</h3><p>Puxar · postura e lombar</p></div>
-        <div class="day-focus">Sexta</div>
-      </div>
-      <div class="warmup-block">
-        <strong>⚡ Aquecimento (2 min)</strong>
-        <p>Cat-cow → Superman hold → braços abertos × 3 rounds</p>
-      </div>
+      <div class="day-header"><div class="day-num">C</div><div class="day-info"><h3>Costas & Core Profundo</h3><p>Puxar · postura e lombar</p></div><div class="day-focus">Sexta</div></div>
+      <div class="warmup-block"><strong>⚡ Aquecimento (2 min)</strong><p>Cat-cow → Superman hold → braços abertos × 3</p></div>
       <div class="ex-table">
         <div class="ex-row"><div></div><div class="ex-col-head">Séries</div><div class="ex-col-head">Reps</div></div>
         <div class="ex-row"><div class="ex-name">Superman<small>Lombar e glúteo</small></div><div class="ex-val">3<span>séries</span></div><div class="ex-val">12<span>reps</span></div></div>
         <div class="ex-row"><div class="ex-name">Flexão Escápula<small>Romboides e serrátil</small></div><div class="ex-val">3<span>séries</span></div><div class="ex-val">10<span>reps</span></div></div>
-        <div class="ex-row"><div class="ex-name">Dead Bug<small>Core profundo</small></div><div class="ex-val">3<span>séries</span></div><div class="ex-val">8<span>cada lado</span></div></div>
+        <div class="ex-row"><div class="ex-name">Dead Bug<small>Core profundo</small></div><div class="ex-val">3<span>séries</span></div><div class="ex-val">8<span>cada</span></div></div>
         <div class="ex-row"><div class="ex-name">Glute Bridge<small>Quadril e lombar</small></div><div class="ex-val">3<span>séries</span></div><div class="ex-val">15<span>reps</span></div></div>
       </div>
-      <div class="rest-strip">⏱ Descanso: <strong>45s</strong> entre séries · Total ~20 min</div>
+      <div class="rest-strip">⏱ Descanso: <strong>45s</strong> · Total ~20 min</div>
+      <button class="start-workout-btn" onclick="startExecution('C')">▶ Iniciar Treino C</button>
     </div>
-
   </div>
 </div>
 
-<!-- PAGE: TIMER -->
+<!-- TIMER -->
 <div class="page" id="page-timer">
   <div class="timer-page">
     <div class="timer-title">TIMER DE DESCANSO</div>
-    <div class="timer-sub">Use entre as séries para controlar o tempo</div>
-
+    <div class="timer-sub">Use entre as séries dos treinos de força</div>
     <div class="timer-display">
       <div id="timer-label">PRONTO</div>
       <div id="timer-count">00</div>
       <div id="timer-phase">Selecione um tempo e pressione Iniciar</div>
     </div>
-
     <div class="timer-controls">
       <button class="timer-btn" id="btn-start">▶ Iniciar</button>
       <button class="timer-btn" id="btn-reset">↺ Reset</button>
     </div>
-
     <div class="preset-title">Tempos de descanso</div>
     <div class="presets">
       <button class="preset-btn selected" data-secs="30">30s</button>
@@ -604,226 +450,504 @@
       <button class="preset-btn" data-secs="60">60s</button>
       <button class="preset-btn" data-secs="90">90s</button>
       <button class="preset-btn" data-secs="120">2 min</button>
-      <button class="preset-btn" data-secs="180">3 min</button>
+    </div>
+    <div class="hiit-section">
+      <div class="hiit-section-title">🔥 TIMER HIIT</div>
+      <div class="hiit-section-sub">Cronômetro automático com voz e vibração</div>
+      <div class="hiit-config">
+        <div class="hiit-cfg-item"><label>Sprint (seg)</label><input type="number" id="hiit-work" value="20" min="5" max="60"></div>
+        <div class="hiit-cfg-item"><label>Descanso (seg)</label><input type="number" id="hiit-rest" value="10" min="5" max="60"></div>
+        <div class="hiit-cfg-item"><label>Rounds</label><input type="number" id="hiit-rounds" value="8" min="1" max="20"></div>
+        <div class="hiit-cfg-item"><label>Modo</label>
+          <select id="hiit-mode"><option value="tabata">Tabata 20/10</option><option value="sprint">Sprint 30/30</option></select>
+        </div>
+      </div>
+      <div class="hiit-display">
+        <div id="hiit-phase-label">PRONTO</div>
+        <div id="hiit-count" style="color:var(--accent2);">00</div>
+        <div id="hiit-round-info">Configure e pressione Iniciar</div>
+      </div>
+      <div class="hiit-progress"><div class="hiit-progress-fill" id="hiit-progress-fill" style="width:0%;background:var(--accent2);"></div></div>
+      <div class="hiit-controls">
+        <button class="hiit-btn" id="hiit-reset">↺ Reset</button>
+        <button class="hiit-btn" id="hiit-start">▶ Iniciar HIIT</button>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- PAGE: CHECKLIST -->
-<div class="page" id="page-checklist">
-  <div class="section">
-    <div class="section-title">PROGRESSO SEMANAL</div>
-    <div class="section-sub">Marque os treinos concluídos</div>
+<!-- HISTÓRICO -->
+<div class="page" id="page-historico">
+  <div class="section"><div class="section-title">HISTÓRICO</div><div class="section-sub">Calendário completo de treinos</div></div>
+  <div class="cal-section">
+    <div class="cal-month-nav">
+      <button class="cal-nav-btn" id="cal-prev">‹</button>
+      <div class="cal-month-title" id="cal-month-title"></div>
+      <button class="cal-nav-btn" id="cal-next">›</button>
+    </div>
+    <div class="cal-grid" id="cal-grid"></div>
+    <div class="history-log">
+      <div class="history-log-title">Últimos treinos</div>
+      <div id="history-list"></div>
+    </div>
   </div>
-  <div class="checklist-section" id="checklist-container"></div>
 </div>
 
-<!-- PAGE: DICAS -->
-<div class="page" id="page-dicas">
-  <div class="section">
-    <div class="section-title">DICAS ESSENCIAIS</div>
-    <div class="section-sub">Para maximizar cada sessão</div>
-    <div class="tips-grid">
-      <div class="tip-card accent-border"><div class="tip-icon">💧</div><div class="tip-title">Hidratação</div><div class="tip-body">500ml antes do treino. 200ml a cada 10 min. Mínimo 2L/dia.</div></div>
-      <div class="tip-card danger-border"><div class="tip-icon">🍽️</div><div class="tip-title">Pré-Treino</div><div class="tip-body">Carboidrato leve 60 min antes: banana, tapioca ou pão integral.</div></div>
-      <div class="tip-card teal-border"><div class="tip-icon">😴</div><div class="tip-title">Sono</div><div class="tip-body">7–9h por noite. 80% da recuperação muscular ocorre no sono.</div></div>
-      <div class="tip-card danger-border"><div class="tip-icon">🔥</div><div class="tip-title">HIIT Bike</div><div class="tip-body">No sprint, vá NO LIMITE mesmo. A mágica do HIIT é o EPOC: você queima gordura por horas depois.</div></div>
+<!-- PESO -->
+<div class="page" id="page-peso">
+  <div class="section"><div class="section-title">PESO CORPORAL</div><div class="section-sub">Registre semanalmente para ver sua evolução</div></div>
+  <div class="weight-section">
+    <div class="weight-input-row">
+      <input class="weight-input" type="number" id="weight-input" placeholder="70.0" step="0.1" min="30" max="200">
+      <button class="weight-add-btn" onclick="addWeight()">+ Registrar</button>
+    </div>
+    <div class="weight-stats">
+      <div class="w-stat"><div class="wval" id="w-atual">—</div><div class="wlbl">Atual (kg)</div></div>
+      <div class="w-stat"><div class="wval" id="w-diff">—</div><div class="wlbl">Variação</div></div>
+      <div class="w-stat"><div class="wval" id="w-meta">—</div><div class="wlbl">Para meta</div></div>
+    </div>
+    <div class="weight-chart-wrap">
+      <div class="weight-chart-title">Evolução do peso · meta: 65 kg</div>
+      <canvas id="weight-canvas"></canvas>
+    </div>
+    <div class="weight-log">
+      <div class="weight-log-title">Registros</div>
+      <div id="weight-log-list"></div>
     </div>
   </div>
+</div>
 
+<!-- CONFIG -->
+<div class="page" id="page-config">
   <div class="section">
-    <div class="section-title">MELHORIAS IDENTIFICADAS</div>
-    <div class="section-sub">Com base no seu perfil</div>
-
-    <div class="improve-card">
-      <div class="improve-header"><div class="improve-dot" style="background:#e8ff3a;"></div><h4>🥗 Déficit Calórico Suave</h4></div>
-      <p>Para ir de 70kg a 65kg sem perder músculo: <strong style="color:var(--accent);">déficit de 300–400 kcal/dia</strong>. Reduza ultraprocessados e refrigerantes. Priorize proteínas: frango, ovos, atum, feijão.</p>
+    <div class="section-title">CONFIGURAÇÕES</div>
+    <div class="section-sub">Lembretes e preferências</div>
+    <div class="notify-card">
+      <div class="notify-row">
+        <div><div class="notify-label">🔔 Lembrete de treino</div><div class="notify-sub">Notificação diária para não esquecer</div></div>
+        <label class="toggle-switch"><input type="checkbox" id="notify-toggle"><span class="toggle-slider"></span></label>
+      </div>
+      <div class="notify-time-row"><label>Horário:</label><input class="notify-time-input" type="time" id="notify-time" value="07:00"></div>
+      <button class="notify-save-btn" onclick="saveNotifySettings()">Salvar configurações</button>
     </div>
-    <div class="improve-card">
-      <div class="improve-header"><div class="improve-dot" style="background:#ff5c3a;"></div><h4>🔥 Por que HIIT queima mais gordura</h4></div>
-      <p>O HIIT cria o efeito <strong style="color:var(--accent);">EPOC</strong> (consumo elevado de oxigênio pós-exercício): seu metabolismo fica acelerado por até 24h depois do treino, queimando gordura mesmo parado. 15 min de HIIT pode superar 45 min de cardio leve em resultado.</p>
+    <div class="notify-card">
+      <div class="notify-label" style="margin-bottom:8px;">📊 Dados</div>
+      <button onclick="exportData()" style="width:100%;padding:11px;background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:8px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:8px;">📤 Exportar dados (JSON)</button>
+      <button onclick="if(confirm('Apagar TODO o histórico?')){clearAllData()}" style="width:100%;padding:11px;background:rgba(255,92,58,.1);border:1px solid rgba(255,92,58,.3);color:var(--accent2);border-radius:8px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">🗑️ Apagar todos os dados</button>
     </div>
-    <div class="improve-card">
-      <div class="improve-header"><div class="improve-dot" style="background:#ff5c3a;"></div><h4>📈 Meta Realista</h4></div>
-      <p>Com constância: <strong style="color:var(--accent);">0.3–0.5 kg/semana</strong>. Chegar a 65kg levará <strong style="color:var(--accent);">10–16 semanas</strong>. Você parecerá atlético antes mesmo de atingir o peso.</p>
-    </div>
-    <div class="improve-card">
-      <div class="improve-header"><div class="improve-dot" style="background:#9b8fff;"></div><h4>📈 Progressão do Treino</h4></div>
-      <p>A cada 2 semanas: <strong style="color:var(--text);">+1 série ou +2 reps</strong> por exercício. Quando 3 séries ficarem fáceis, adicione a variação mais difícil do mesmo movimento.</p>
+    <div class="tips-grid" style="margin-top:8px;">
+      <div class="tip-card accent-border"><div class="tip-icon">💧</div><div class="tip-title">Hidratação</div><div class="tip-body">500ml antes. 200ml a cada 10 min. 2L/dia mínimo.</div></div>
+      <div class="tip-card danger-border"><div class="tip-icon">🔥</div><div class="tip-title">HIIT Bike</div><div class="tip-body">No sprint: vá no LIMITE. O EPOC queima gordura por horas.</div></div>
+      <div class="tip-card teal-border"><div class="tip-icon">😴</div><div class="tip-title">Sono</div><div class="tip-body">7–9h por noite. 80% da recuperação ocorre no sono.</div></div>
+      <div class="tip-card"><div class="tip-icon">📈</div><div class="tip-title">Progressão</div><div class="tip-body">A cada 2 semanas: +1 série ou +2 reps por exercício.</div></div>
     </div>
   </div>
-
-  <footer>
-    <p>Perfil: <strong>IMC 26.35 · Mesomorfo · Sedentário · 163cm / 70kg</strong><br>
-    Consulte profissional de Ed. Física se sentir dores persistentes.</p>
-  </footer>
+  <footer><p>Perfil: <strong>IMC 26.35 · Mesomorfo · 163cm / 70kg</strong><br>Consulte profissional se sentir dores persistentes.</p></footer>
 </div>
 
 <script>
-// ---- NAV TABS ----
-const tabs = document.querySelectorAll('.nav-tab');
-const pages = document.querySelectorAll('.page');
-tabs.forEach(tab => {
-  tab.addEventListener('click', () => {
-    const target = tab.dataset.page;
-    tabs.forEach(t => t.classList.remove('active'));
-    pages.forEach(p => p.classList.remove('active'));
-    tab.classList.add('active');
-    document.getElementById('page-' + target).classList.add('active');
-    window.scrollTo(0, 0);
-  });
-});
+// === DATA ===
+function gd(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch(e){return d;}}
+function sd(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
 
-// ---- TIMER ----
-let timerInterval = null;
-let timerSecs = 30;
-let timerRunning = false;
-let currentSecs = 30;
+const WDEFS={
+  A:{name:'Treino A',type:'treino',xp:15,exercises:[
+    {name:'Flexão Tradicional',detail:'3 séries · 8-10 reps',sets:3,restSecs:45},
+    {name:'Pike Push-Up',detail:'3 séries · 8 reps',sets:3,restSecs:45},
+    {name:'Flexão Diamante',detail:'2 séries · 6-8 reps',sets:2,restSecs:45},
+    {name:'Prancha',detail:'3 séries · 20s',sets:3,restSecs:30},
+  ]},
+  B:{name:'Treino B',type:'treino',xp:15,exercises:[
+    {name:'Agachamento',detail:'3 séries · 15 reps',sets:3,restSecs:45},
+    {name:'Afundo Reverso',detail:'3 séries · 10 cada lado',sets:3,restSecs:45},
+    {name:'Glute Bridge',detail:'3 séries · 15 reps',sets:3,restSecs:40},
+    {name:'Abdominal Bicicleta',detail:'3 séries · 12 cada lado',sets:3,restSecs:40},
+  ]},
+  C:{name:'Treino C',type:'treino',xp:15,exercises:[
+    {name:'Superman',detail:'3 séries · 12 reps',sets:3,restSecs:40},
+    {name:'Flexão Escápula',detail:'3 séries · 10 reps',sets:3,restSecs:40},
+    {name:'Dead Bug',detail:'3 séries · 8 cada lado',sets:3,restSecs:45},
+    {name:'Glute Bridge',detail:'3 séries · 15 reps',sets:3,restSecs:40},
+  ]},
+  BIKE1:{name:'HIIT Bike (Terça)',type:'bike',xp:20,exercises:[
+    {name:'Aquecimento',detail:'Pedalar leve — 3 min',sets:1,restSecs:0,durationSecs:180},
+    {name:'TABATA Sprint',detail:'20s no limite — Round',sets:8,restSecs:10,durationSecs:20},
+    {name:'Sprint 30/30',detail:'30s intenso — Round',sets:3,restSecs:30,durationSecs:30},
+    {name:'Recuperação ativa',detail:'Pedalar leve — 5 min',sets:1,restSecs:0,durationSecs:300},
+  ]},
+  BIKE2:{name:'HIIT Bike (Quinta)',type:'bike',xp:20,exercises:[
+    {name:'Aquecimento',detail:'Pedalar leve — 3 min',sets:1,restSecs:0,durationSecs:180},
+    {name:'TABATA Sprint',detail:'20s no limite — Round',sets:8,restSecs:10,durationSecs:20},
+    {name:'Sprint 30/30',detail:'30s intenso — Round',sets:3,restSecs:30,durationSecs:30},
+    {name:'Recuperação ativa',detail:'Pedalar leve — 5 min',sets:1,restSecs:0,durationSecs:300},
+  ]},
+};
 
-const timerCount = document.getElementById('timer-count');
-const timerLabel = document.getElementById('timer-label');
-const timerPhase = document.getElementById('timer-phase');
-const btnStart = document.getElementById('btn-start');
-const btnReset = document.getElementById('btn-reset');
-
-function formatSecs(s) {
-  const m = Math.floor(s / 60);
-  const sec = s % 60;
-  return m > 0 ? `${m}:${sec.toString().padStart(2,'0')}` : sec.toString().padStart(2,'0');
-}
-function updateDisplay() { timerCount.textContent = formatSecs(currentSecs); }
-
-document.querySelectorAll('.preset-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('selected'));
-    btn.classList.add('selected');
-    timerSecs = parseInt(btn.dataset.secs);
-    currentSecs = timerSecs;
-    updateDisplay();
-    if (timerRunning) { clearInterval(timerInterval); timerRunning = false; }
-    timerLabel.textContent = 'PRONTO';
-    timerPhase.textContent = 'Pressione Iniciar para começar';
-    btnStart.textContent = '▶ Iniciar';
-    timerCount.style.color = 'var(--accent)';
-  });
-});
-
-btnStart.addEventListener('click', () => {
-  if (timerRunning) {
-    clearInterval(timerInterval); timerRunning = false;
-    btnStart.textContent = '▶ Continuar'; timerLabel.textContent = 'PAUSADO';
-  } else {
-    if (currentSecs <= 0) { currentSecs = timerSecs; updateDisplay(); }
-    timerRunning = true;
-    btnStart.textContent = '⏸ Pausar';
-    timerLabel.textContent = 'DESCANSANDO';
-    timerPhase.textContent = 'Respire fundo...';
-    timerCount.style.color = 'var(--accent)';
-    timerInterval = setInterval(() => {
-      currentSecs--; updateDisplay();
-      if (currentSecs <= 3 && currentSecs > 0) timerCount.style.color = 'var(--accent2)';
-      if (currentSecs <= 0) {
-        clearInterval(timerInterval); timerRunning = false;
-        timerCount.textContent = 'GO!'; timerCount.style.color = 'var(--accent3)';
-        timerLabel.textContent = 'PRÓXIMA SÉRIE';
-        timerPhase.textContent = '💪 Hora de arrasar!';
-        btnStart.textContent = '▶ Iniciar';
-        if ('vibrate' in navigator) navigator.vibrate([200, 100, 200]);
-      }
-    }, 1000);
-  }
-});
-
-btnReset.addEventListener('click', () => {
-  clearInterval(timerInterval); timerRunning = false;
-  currentSecs = timerSecs; updateDisplay();
-  timerCount.style.color = 'var(--accent)';
-  timerLabel.textContent = 'PRONTO';
-  timerPhase.textContent = 'Pressione Iniciar para começar';
-  btnStart.textContent = '▶ Iniciar';
-});
-
-updateDisplay();
-
-// ---- CHECKLIST ----
-const workouts = [
-  { id: 'A', name: 'Treino A — Peito & Ombros', day: 'Segunda', type: 'treino', exercises: ['Flexão Tradicional', 'Pike Push-Up', 'Flexão Diamante', 'Prancha'] },
-  { id: 'BIKE1', name: 'Bicicleta Ergométrica', day: 'Terça', type: 'bike', exercises: ['Aquecimento 3 min', 'Ritmo constante 10 min', 'Desaceleração 2 min'] },
-  { id: 'B', name: 'Treino B — Pernas & Core', day: 'Quarta', type: 'treino', exercises: ['Agachamento Simples', 'Afundo Reverso', 'Glute Bridge', 'Abdominal Bicicleta'] },
-  { id: 'BIKE2', name: 'Bicicleta Ergométrica', day: 'Quinta', type: 'bike', exercises: ['Aquecimento 3 min', 'Ritmo constante 10 min', 'Desaceleração 2 min'] },
-  { id: 'C', name: 'Treino C — Costas & Core', day: 'Sexta', type: 'treino', exercises: ['Superman', 'Flexão Escápula', 'Dead Bug', 'Glute Bridge'] },
+const XP_LEVELS=[
+  {name:'Iniciante',xp:0},{name:'Treinando',xp:50},{name:'Consistente',xp:120},
+  {name:'Dedicado',xp:250},{name:'Atleta',xp:450},{name:'Elite',xp:700},{name:'Lenda',xp:1000},
 ];
 
-function getChecks() {
-  try { return JSON.parse(localStorage.getItem('checklist_v2') || '{}'); } catch(e) { return {}; }
+// === NAV ===
+document.querySelectorAll('.nav-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    const t=tab.dataset.page;
+    document.querySelectorAll('.nav-tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('page-'+t).classList.add('active');
+    window.scrollTo(0,0);
+    if(t==='historico')renderCalendar();
+    if(t==='peso'){renderWeightLog();drawWeightChart();}
+  });
+});
+
+// === UTILS ===
+function todayStr(){return new Date().toISOString().slice(0,10);}
+function prevDay(d){const dt=new Date(d+'T12:00:00');dt.setDate(dt.getDate()-1);return dt.toISOString().slice(0,10);}
+function fmt(s){const m=Math.floor(s/60),sec=s%60;return m>0?`${m}:${sec.toString().padStart(2,'0')}`:sec.toString().padStart(2,'0');}
+function showToast(msg){
+  let t=document.getElementById('_toast');
+  if(!t){t=document.createElement('div');t.id='_toast';t.style.cssText='position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--accent);color:#0a0a0a;padding:10px 20px;border-radius:99px;font-size:13px;font-weight:700;z-index:9998;transition:opacity .4s;white-space:nowrap;';document.body.appendChild(t);}
+  t.textContent=msg;t.style.opacity='1';clearTimeout(t._t);t._t=setTimeout(()=>t.style.opacity='0',2500);
 }
-function saveChecks(obj) { try { localStorage.setItem('checklist_v2', JSON.stringify(obj)); } catch(e) {} }
 
-function renderChecklist() {
-  const container = document.getElementById('checklist-container');
-  const checks = getChecks();
-  container.innerHTML = '';
+// === HISTORY & XP ===
+function getHistory(){return gd('history_v3',[]);}
+function addHistory(e){const h=getHistory();h.unshift(e);sd('history_v3',h);}
 
-  workouts.forEach(w => {
-    const doneCount = w.exercises.filter((_, i) => checks[`${w.id}-${i}`]).length;
-    const pct = Math.round(doneCount / w.exercises.length * 100);
+function calcStreak(){
+  const days=[...new Set(getHistory().map(x=>x.date))].sort().reverse();
+  if(!days.length)return 0;
+  let streak=0,cur=todayStr();
+  for(const d of days){if(d===cur){streak++;cur=prevDay(cur);}else break;}
+  // also allow yesterday as streak start
+  if(streak===0){cur=prevDay(todayStr());for(const d of days){if(d===cur){streak++;cur=prevDay(cur);}else break;}}
+  return streak;
+}
 
-    const card = document.createElement('div');
-    card.className = 'check-day' + (w.type === 'bike' ? ' bike-day' : '');
+function getWeekDates(){
+  const t=new Date(),dow=t.getDay(),mon=new Date(t);
+  mon.setDate(t.getDate()-(dow===0?6:dow-1));
+  return Array.from({length:5},(_,i)=>{const d=new Date(mon);d.setDate(mon.getDate()+i);return d.toISOString().slice(0,10);});
+}
 
-    const header = document.createElement('div');
-    header.className = 'check-day-header';
-    const icon = w.type === 'bike' ? '🚴 ' : '💪 ';
-    header.innerHTML = `<span>${icon}${w.day} · ${w.name}</span><span>${doneCount}/${w.exercises.length}</span>`;
+function getLvl(xp){
+  let lvl=1,name=XP_LEVELS[0].name;
+  for(let i=0;i<XP_LEVELS.length;i++){if(xp>=XP_LEVELS[i].xp){lvl=i+1;name=XP_LEVELS[i].name;}}
+  const ni=Math.min(lvl,XP_LEVELS.length-1);
+  const next=XP_LEVELS[ni].xp;
+  const prev=XP_LEVELS[lvl-1]?.xp||0;
+  const pct=next>prev?Math.min((xp-prev)/(next-prev)*100,100):100;
+  return{lvl,name,next,pct};
+}
 
-    const progressBar = document.createElement('div');
-    progressBar.className = 'check-progress';
-    progressBar.innerHTML = `<div class="check-progress-bar" style="width:${pct}%"></div>`;
+function completeWorkout(id){
+  const def=WDEFS[id];if(!def)return;
+  addHistory({id,name:def.name,type:def.type,xp:def.xp,date:todayStr(),ts:Date.now()});
+  updateHomeStats();renderChecklist();
+  showToast('🏆 +'+def.xp+' XP · Treino concluído!');
+}
 
-    card.appendChild(header);
-    card.appendChild(progressBar);
+function dismissProgression(){sd('prog_dismissed',todayStr());document.getElementById('progression-alert').classList.remove('show');}
 
-    w.exercises.forEach((ex, i) => {
-      const key = `${w.id}-${i}`;
-      const item = document.createElement('div');
-      item.className = 'check-item' + (checks[key] ? ' done' : '');
-      item.innerHTML = `<input type="checkbox" id="${key}" ${checks[key] ? 'checked' : ''}><label for="${key}">${ex}</label>`;
-      item.querySelector('input').addEventListener('change', (e) => {
-        const c = getChecks(); c[key] = e.target.checked;
-        saveChecks(c); renderChecklist();
+function updateHomeStats(){
+  const h=getHistory();
+  const totalXp=h.reduce((s,x)=>s+(x.xp||15),0);
+  const streak=calcStreak();
+  const wd=getWeekDates();
+  const doneDays=new Set(h.filter(x=>wd.includes(x.date)).map(x=>x.date));
+  document.getElementById('stat-total').textContent=h.length;
+  document.getElementById('stat-streak').textContent=streak;
+  document.getElementById('stat-xp').textContent=totalXp;
+  document.getElementById('stat-week').textContent=doneDays.size+'/5';
+  document.getElementById('streak-big').textContent=streak;
+  const msgs=['Complete um treino para começar!','Ótimo começo!','2 dias seguidos! 🔥','3 dias! Não pare!','4 dias! Incrível! 🚀','5 dias seguidos! 🏆','Semana completa! Você é uma máquina!'];
+  document.getElementById('streak-msg').textContent=msgs[Math.min(streak,msgs.length-1)];
+  const li=getLvl(totalXp);
+  document.getElementById('xp-level-num').textContent='Nv '+li.lvl;
+  document.getElementById('xp-level-name').textContent=li.name;
+  document.getElementById('xp-pts-label').textContent=totalXp+' / '+li.next+' XP';
+  document.getElementById('xp-fill').style.width=li.pct+'%';
+  const doneDates=new Set(h.map(x=>x.date));
+  ['seg','ter','qua','qui','sex'].forEach((d,i)=>{const p=document.getElementById('pill-'+d);if(p)p.classList.toggle('done-day',doneDates.has(wd[i]));});
+  const twoWks=new Date();twoWks.setDate(twoWks.getDate()-14);
+  if(h.filter(x=>new Date(x.date)>=twoWks).length>=10&&gd('prog_dismissed','')!==todayStr()){
+    document.getElementById('progression-alert').classList.add('show');
+  }
+}
+
+// === REST TIMER ===
+let tInt=null,tSecs=30,tRun=false,tCur=30;
+const tCount=document.getElementById('timer-count');
+const tLabel=document.getElementById('timer-label');
+const tPhase=document.getElementById('timer-phase');
+const btnS=document.getElementById('btn-start');
+const btnR=document.getElementById('btn-reset');
+function upTD(){tCount.textContent=fmt(tCur);}
+document.querySelectorAll('.preset-btn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.preset-btn').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');
+    tSecs=parseInt(b.dataset.secs);tCur=tSecs;upTD();if(tRun){clearInterval(tInt);tRun=false;}
+    tLabel.textContent='PRONTO';tPhase.textContent='Pressione Iniciar';btnS.textContent='▶ Iniciar';tCount.style.color='var(--accent)';
+  });
+});
+btnS.addEventListener('click',()=>{
+  if(tRun){clearInterval(tInt);tRun=false;btnS.textContent='▶ Continuar';tLabel.textContent='PAUSADO';}
+  else{
+    if(tCur<=0){tCur=tSecs;upTD();}tRun=true;btnS.textContent='⏸ Pausar';tLabel.textContent='DESCANSANDO';tPhase.textContent='Respire fundo...';tCount.style.color='var(--accent)';
+    tInt=setInterval(()=>{tCur--;upTD();if(tCur<=3&&tCur>0)tCount.style.color='var(--accent2)';if(tCur<=0){clearInterval(tInt);tRun=false;tCount.textContent='GO!';tCount.style.color='var(--accent3)';tLabel.textContent='PRÓXIMA SÉRIE';tPhase.textContent='💪 Hora de arrasar!';btnS.textContent='▶ Iniciar';if('vibrate'in navigator)navigator.vibrate([200,100,200]);}},1000);
+  }
+});
+btnR.addEventListener('click',()=>{clearInterval(tInt);tRun=false;tCur=tSecs;upTD();tCount.style.color='var(--accent)';tLabel.textContent='PRONTO';tPhase.textContent='Pressione Iniciar';btnS.textContent='▶ Iniciar';});
+upTD();
+
+// === HIIT TIMER ===
+let hInt=null,hRun=false,hPhase='work',hCur=0,hRound=0,hTotal=8,hWork=20,hRest=10;
+function hvib(p){if('vibrate'in navigator)navigator.vibrate(p);}
+function hspeak(t){if('speechSynthesis'in window){const u=new SpeechSynthesisUtterance(t);u.lang='pt-BR';speechSynthesis.cancel();speechSynthesis.speak(u);}}
+function upHD(){
+  const c=document.getElementById('hiit-count'),l=document.getElementById('hiit-phase-label'),ri=document.getElementById('hiit-round-info'),f=document.getElementById('hiit-progress-fill');
+  const tot=hTotal*(hWork+hRest);
+  const elap=hPhase==='work'?(hRound*(hWork+hRest))+(hWork-hCur):(hRound*(hWork+hRest))+hWork+(hRest-hCur);
+  f.style.width=Math.min(elap/tot*100,100)+'%';
+  if(hPhase==='work'){c.style.color='var(--accent2)';f.style.background='var(--accent2)';l.textContent='🔴 SPRINT!';}
+  else{c.style.color='var(--accent3)';f.style.background='var(--accent3)';l.textContent='🟡 RECUPERA';}
+  c.textContent=fmt(hCur);ri.textContent='Round '+(hRound+1)+' de '+hTotal;
+}
+document.getElementById('hiit-mode').addEventListener('change',function(){
+  if(this.value==='sprint'){document.getElementById('hiit-work').value=30;document.getElementById('hiit-rest').value=30;document.getElementById('hiit-rounds').value=3;}
+  else{document.getElementById('hiit-work').value=20;document.getElementById('hiit-rest').value=10;document.getElementById('hiit-rounds').value=8;}
+});
+document.getElementById('hiit-start').addEventListener('click',()=>{
+  if(hRun){clearInterval(hInt);hRun=false;document.getElementById('hiit-start').textContent='▶ Continuar';}
+  else{
+    if(hRound===0&&hPhase==='work'){hTotal=parseInt(document.getElementById('hiit-rounds').value)||8;hWork=parseInt(document.getElementById('hiit-work').value)||20;hRest=parseInt(document.getElementById('hiit-rest').value)||10;hCur=hWork;hspeak('Prepara. Vai!');}
+    hRun=true;document.getElementById('hiit-start').textContent='⏸ Pausar';
+    hInt=setInterval(()=>{
+      hCur--;upHD();
+      if(hCur<=3&&hCur>0)hvib([80]);
+      if(hCur<=0){
+        if(hPhase==='work'){hPhase='rest';hCur=hRest;hvib([300,100,300]);hspeak('Recupera!');}
+        else{hRound++;if(hRound>=hTotal){clearInterval(hInt);hRun=false;document.getElementById('hiit-count').textContent='FIM!';document.getElementById('hiit-phase-label').textContent='✅ CONCLUÍDO!';document.getElementById('hiit-round-info').textContent='Parabéns! HIIT completo!';document.getElementById('hiit-start').textContent='▶ Iniciar HIIT';document.getElementById('hiit-progress-fill').style.width='100%';hRound=0;hPhase='work';hvib([400,200,400,200,600]);hspeak('Parabéns! Treino concluído!');return;}hPhase='work';hCur=hWork;hvib([200,100,200]);hspeak('Sprint!');}
+        upHD();
+      }
+    },1000);
+  }
+});
+document.getElementById('hiit-reset').addEventListener('click',()=>{
+  clearInterval(hInt);hRun=false;hRound=0;hPhase='work';hCur=parseInt(document.getElementById('hiit-work').value)||20;
+  document.getElementById('hiit-start').textContent='▶ Iniciar HIIT';document.getElementById('hiit-count').textContent='00';document.getElementById('hiit-count').style.color='var(--accent2)';
+  document.getElementById('hiit-phase-label').textContent='PRONTO';document.getElementById('hiit-round-info').textContent='Configure e pressione Iniciar';document.getElementById('hiit-progress-fill').style.width='0%';
+});
+
+// === CHECKLIST ===
+const CWS=[
+  {id:'A',name:'Treino A',day:'Segunda',type:'treino',exercises:['Flexão Tradicional','Pike Push-Up','Flexão Diamante','Prancha']},
+  {id:'BIKE1',name:'HIIT Bike',day:'Terça',type:'bike',exercises:['Aquecimento 3min','Tabata 8 rounds','Sprint 30/30 × 3','Recuperação 5min']},
+  {id:'B',name:'Treino B',day:'Quarta',type:'treino',exercises:['Agachamento','Afundo Reverso','Glute Bridge','Abdominal Bicicleta']},
+  {id:'BIKE2',name:'HIIT Bike',day:'Quinta',type:'bike',exercises:['Aquecimento 3min','Tabata 8 rounds','Sprint 30/30 × 3','Recuperação 5min']},
+  {id:'C',name:'Treino C',day:'Sexta',type:'treino',exercises:['Superman','Flexão Escápula','Dead Bug','Glute Bridge']},
+];
+function getChecks(){return gd('checklist_v3',{});}
+function saveChecks(o){sd('checklist_v3',o);}
+function renderChecklist(){
+  const con=document.getElementById('checklist-container');if(!con)return;
+  const checks=getChecks();const todayH=new Set(getHistory().filter(x=>x.date===todayStr()).map(x=>x.id));
+  con.innerHTML='';
+  CWS.forEach(w=>{
+    const dc=w.exercises.filter((_,i)=>checks[`${w.id}-${i}`]).length;
+    const pct=Math.round(dc/w.exercises.length*100);
+    const card=document.createElement('div');card.className='check-day'+(w.type==='bike'?' bike-day':'');
+    const done=todayH.has(w.id);
+    const hdr=document.createElement('div');hdr.className='check-day-header';
+    hdr.innerHTML=`<span>${w.type==='bike'?'🔥 ':'💪 '}${w.day} · ${w.name}</span>${done?'<span style="color:var(--accent3)">✓ Feito</span>':'<span>'+dc+'/'+w.exercises.length+'</span>'}`;
+    const pb=document.createElement('div');pb.className='check-progress';pb.innerHTML=`<div class="check-progress-bar" style="width:${pct}%"></div>`;
+    card.appendChild(hdr);card.appendChild(pb);
+    w.exercises.forEach((ex,i)=>{
+      const key=`${w.id}-${i}`;
+      const item=document.createElement('div');item.className='check-item'+(checks[key]?' done':'');
+      item.innerHTML=`<input type="checkbox" id="${key}" ${checks[key]?'checked':''}><label for="${key}">${ex}</label>`;
+      item.querySelector('input').addEventListener('change',(e)=>{
+        const c=getChecks();c[key]=e.target.checked;saveChecks(c);
+        const all=w.exercises.every((_,j)=>j===i?e.target.checked:c[`${w.id}-${j}`]);
+        if(all)completeWorkout(w.id);else renderChecklist();
       });
       card.appendChild(item);
     });
-
-    container.appendChild(card);
+    con.appendChild(card);
   });
-
-  const resetBtn = document.createElement('button');
-  resetBtn.style.cssText = 'width:100%;padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--muted);font-size:13px;font-family:DM Sans,sans-serif;cursor:pointer;margin-top:4px;';
-  resetBtn.textContent = '↺ Reiniciar semana';
-  resetBtn.addEventListener('click', () => { if(confirm('Limpar todo o progresso desta semana?')) { saveChecks({}); renderChecklist(); } });
-  container.appendChild(resetBtn);
+  const rb=document.createElement('button');rb.style.cssText='width:100%;padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--muted);font-size:13px;font-family:DM Sans,sans-serif;cursor:pointer;margin-top:4px;';rb.textContent='↺ Reiniciar semana';
+  rb.addEventListener('click',()=>{if(confirm('Limpar checklist?')){saveChecks({});renderChecklist();}});
+  con.appendChild(rb);
 }
-
 renderChecklist();
 
-// ---- INSTALL PROMPT ----
-let deferredPrompt;
-const banner = document.getElementById('install-banner');
-const installBtn = document.getElementById('install-btn');
-const closeBtn = document.getElementById('install-close');
+// === CALENDAR ===
+let calY=new Date().getFullYear(),calM=new Date().getMonth();
+const MONTHS=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const DOWS=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+function renderCalendar(){
+  const h=getHistory();const dmap={};h.forEach(x=>{dmap[x.date]=dmap[x.date]||x.type;});
+  document.getElementById('cal-month-title').textContent=MONTHS[calM]+' '+calY;
+  const grid=document.getElementById('cal-grid');grid.innerHTML='';
+  DOWS.forEach(d=>{const el=document.createElement('div');el.className='cal-dow';el.textContent=d;grid.appendChild(el);});
+  const first=new Date(calY,calM,1).getDay(),days=new Date(calY,calM+1,0).getDate(),today=todayStr();
+  for(let i=0;i<first;i++){const el=document.createElement('div');el.className='cal-day other-month';grid.appendChild(el);}
+  for(let d=1;d<=days;d++){
+    const el=document.createElement('div');el.className='cal-day';
+    const ds=calY+'-'+String(calM+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    if(dmap[ds])el.classList.add(dmap[ds]==='bike'?'has-bike':'has-treino');
+    if(ds===today)el.classList.add('today');
+    el.textContent=d;grid.appendChild(el);
+  }
+  const list=document.getElementById('history-list');const rec=h.slice(0,20);
+  if(!rec.length){list.innerHTML='<div class="no-history">Nenhum treino ainda.<br>Complete seu primeiro treino! 💪</div>';return;}
+  list.innerHTML='';
+  rec.forEach(e=>{
+    const item=document.createElement('div');item.className='history-item';
+    const color=e.type==='bike'?'var(--accent3)':'var(--accent)';const icon=e.type==='bike'?'🔥':'💪';
+    const date=new Date(e.date+'T12:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});
+    item.innerHTML=`<div class="history-dot" style="background:${color}"></div><div style="flex:1;font-size:13px;">${icon} ${e.name}</div><div style="text-align:right;"><div style="font-size:11px;color:var(--muted);">${date}</div><div style="font-size:10px;color:var(--accent4);">+${e.xp||15} XP</div></div>`;
+    list.appendChild(item);
+  });
+}
+document.getElementById('cal-prev').addEventListener('click',()=>{calM--;if(calM<0){calM=11;calY--;}renderCalendar();});
+document.getElementById('cal-next').addEventListener('click',()=>{calM++;if(calM>11){calM=0;calY++;}renderCalendar();});
 
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault(); deferredPrompt = e;
-  setTimeout(() => banner.classList.add('show'), 2000);
-});
+// === WEIGHT ===
+function getWeights(){return gd('weights_v2',[]);}
+function saveWeights(w){sd('weights_v2',w);}
+function addWeight(){
+  const inp=document.getElementById('weight-input');const val=parseFloat(inp.value);
+  if(!val||val<30||val>300){showToast('Peso inválido');return;}
+  const w=getWeights();w.unshift({kg:val,date:todayStr(),ts:Date.now()});saveWeights(w);inp.value='';
+  renderWeightLog();drawWeightChart();showToast('Peso registrado: '+val+' kg');
+}
+function deleteWeight(i){const w=getWeights();w.splice(i,1);saveWeights(w);renderWeightLog();drawWeightChart();}
+function renderWeightLog(){
+  const w=getWeights();const cur=w[0]?.kg||null;const prv=w[1]?.kg||null;
+  const diff=cur&&prv?+(cur-prv).toFixed(1):null;
+  document.getElementById('w-atual').textContent=cur||'—';
+  document.getElementById('w-diff').textContent=diff!==null?(diff>0?'+':'')+diff+' kg':'—';
+  document.getElementById('w-meta').textContent=cur?+(cur-65).toFixed(1)+' kg':'—';
+  const list=document.getElementById('weight-log-list');
+  if(!w.length){list.innerHTML='<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px;">Nenhum registro ainda.</div>';return;}
+  list.innerHTML='';
+  w.forEach((x,i)=>{
+    const nxt=w[i+1];const d=nxt?+(x.kg-nxt.kg).toFixed(1):null;
+    const dH=d!==null?`<span class="weight-log-diff ${d>0?'up':'down'}">${d>0?'+':''}${d}kg</span>`:'';
+    const date=new Date(x.date+'T12:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});
+    const item=document.createElement('div');item.className='weight-log-item';
+    item.innerHTML=`<div><div class="weight-log-val">${x.kg} kg</div><div class="weight-log-date">${date}</div></div><div style="display:flex;align-items:center;gap:8px;">${dH}<button class="weight-delete" onclick="deleteWeight(${i})">×</button></div>`;
+    list.appendChild(item);
+  });
+}
+function drawWeightChart(){
+  const canvas=document.getElementById('weight-canvas');if(!canvas)return;
+  const raw=getWeights().slice(0,12).reverse();
+  const ctx=canvas.getContext('2d');const W=canvas.offsetWidth||300,H=140;
+  canvas.width=W*2;canvas.height=H*2;canvas.style.width=W+'px';canvas.style.height=H+'px';ctx.scale(2,2);
+  ctx.clearRect(0,0,W,H);
+  if(raw.length<2){ctx.fillStyle='#888';ctx.font='12px DM Sans';ctx.textAlign='center';ctx.fillText('Registre 2+ pesos para ver o gráfico',W/2,H/2);return;}
+  const vals=raw.map(x=>x.kg);const mn=Math.min(...vals,65)-1,mx=Math.max(...vals)+1.5;
+  const p={l:28,r:12,t:14,b:28},cw=W-p.l-p.r,ch=H-p.t-p.b;
+  const xp=i=>(i/(raw.length-1))*cw+p.l,yp=v=>ch-(v-mn)/(mx-mn)*ch+p.t;
+  // goal line
+  ctx.setLineDash([4,4]);ctx.strokeStyle='rgba(255,92,58,.5)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(p.l,yp(65));ctx.lineTo(W-p.r,yp(65));ctx.stroke();
+  ctx.fillStyle='rgba(255,92,58,.8)';ctx.font='9px DM Sans';ctx.textAlign='left';ctx.fillText('Meta 65kg',p.l+2,yp(65)-3);ctx.setLineDash([]);
+  // fill
+  const gr=ctx.createLinearGradient(0,0,0,H);gr.addColorStop(0,'rgba(232,255,58,.18)');gr.addColorStop(1,'rgba(232,255,58,0)');
+  ctx.beginPath();ctx.moveTo(xp(0),yp(vals[0]));for(let i=1;i<vals.length;i++)ctx.lineTo(xp(i),yp(vals[i]));
+  ctx.lineTo(xp(vals.length-1),H-p.b);ctx.lineTo(xp(0),H-p.b);ctx.closePath();ctx.fillStyle=gr;ctx.fill();
+  ctx.beginPath();ctx.moveTo(xp(0),yp(vals[0]));for(let i=1;i<vals.length;i++)ctx.lineTo(xp(i),yp(vals[i]));
+  ctx.strokeStyle='var(--accent)';ctx.lineWidth=2;ctx.stroke();
+  vals.forEach((v,i)=>{
+    ctx.beginPath();ctx.arc(xp(i),yp(v),3.5,0,Math.PI*2);ctx.fillStyle='var(--accent)';ctx.fill();
+    ctx.fillStyle='#f0f0f0';ctx.font='bold 9px DM Sans';ctx.textAlign='center';ctx.fillText(v,xp(i),yp(v)-8);
+    const dt=new Date(raw[i].date+'T12:00:00');ctx.fillStyle='#888';ctx.font='8px DM Sans';ctx.fillText(dt.getDate()+'/'+(dt.getMonth()+1),xp(i),H-p.b+12);
+  });
+}
 
-installBtn.addEventListener('click', async () => {
-  banner.classList.remove('show');
-  if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; }
-});
+// === EXECUTION MODE ===
+let exId=null,exStep=0,exSet=0,exPhase='set',exTimer=null;
+function startExecution(id){
+  exId=id;exStep=0;exSet=0;exPhase='set';
+  document.getElementById('exec-overlay').classList.add('active');
+  document.getElementById('exec-workout-name').textContent=WDEFS[id].name;
+  renderExStep();
+}
+function renderExStep(){
+  const def=WDEFS[exId];const steps=def.exercises;const step=steps[exStep];
+  if(!step){exFinish();return;}
+  let total=steps.reduce((s,x)=>s+x.sets,0),done=0;
+  for(let i=0;i<exStep;i++)done+=steps[i].sets;done+=exSet;
+  document.getElementById('exec-step-info').textContent=(done+1)+'/'+total;
+  document.getElementById('exec-progress-fill').style.width=(done/total*100)+'%';
+  const badge=document.getElementById('exec-phase-badge');
+  if(exPhase==='set'){
+    badge.className='exec-phase-badge ex';badge.textContent='Exercício';
+    document.getElementById('exec-ex-name').textContent=step.name;
+    document.getElementById('exec-ex-detail').textContent=step.detail;
+    document.getElementById('exec-timer-big').style.color='var(--accent)';
+    document.getElementById('exec-timer-big').textContent='GO';
+    document.getElementById('exec-round-info').textContent='Série '+(exSet+1)+' de '+step.sets;
+    document.getElementById('exec-main-btn').textContent='Iniciar Descanso';
+    document.getElementById('exec-main-btn').onclick=()=>{if('vibrate'in navigator)navigator.vibrate([100,50,100]);exPhase='rest';startExRest(step.restSecs||45);};
+    document.getElementById('exec-progress-fill').style.background='var(--accent)';
+  } else {
+    badge.className='exec-phase-badge rest';badge.textContent='Descanso';
+    document.getElementById('exec-ex-name').textContent='Respire 💨';
+    const nextStep=exSet+1<step.sets?step.name:steps[exStep+1]?.name||'Fim!';
+    document.getElementById('exec-ex-detail').textContent='Próximo: '+nextStep;
+    document.getElementById('exec-main-btn').textContent='Pular descanso';
+    document.getElementById('exec-main-btn').onclick=()=>{stopExTimer();exNext();};
+    document.getElementById('exec-progress-fill').style.background='var(--accent3)';
+  }
+}
+function startExRest(secs){
+  let s=secs;const tBig=document.getElementById('exec-timer-big');tBig.style.color='var(--accent3)';
+  stopExTimer();
+  exTimer=setInterval(()=>{s--;tBig.textContent=fmt(s);if(s<=3&&s>0){if('vibrate'in navigator)navigator.vibrate([80]);tBig.style.color='var(--accent2)';}if(s<=0){stopExTimer();exNext();}},1000);
+  tBig.textContent=fmt(s);
+}
+function stopExTimer(){if(exTimer){clearInterval(exTimer);exTimer=null;}}
+function exNext(){
+  const def=WDEFS[exId];const step=def.exercises[exStep];exSet++;
+  if(exSet>=step.sets){exStep++;exSet=0;}exPhase='set';renderExStep();if('vibrate'in navigator)navigator.vibrate([120]);
+}
+function exFinish(){stopExTimer();document.getElementById('exec-overlay').classList.remove('active');completeWorkout(exId);}
+document.getElementById('exec-skip').addEventListener('click',()=>{stopExTimer();exNext();});
+document.getElementById('exec-close').addEventListener('click',()=>{stopExTimer();document.getElementById('exec-overlay').classList.remove('active');});
 
-closeBtn.addEventListener('click', () => banner.classList.remove('show'));
+// === NOTIFICATIONS ===
+function saveNotifySettings(){
+  const enabled=document.getElementById('notify-toggle').checked;const time=document.getElementById('notify-time').value;
+  sd('notify_settings',{enabled,time});
+  if(enabled&&'Notification'in window){Notification.requestPermission().then(p=>{showToast(p==='granted'?'✅ Lembrete salvo para '+time:'Permissão negada');});}
+  else showToast('Lembrete desativado');
+}
+function loadNotifySettings(){const s=gd('notify_settings',{enabled:false,time:'07:00'});document.getElementById('notify-toggle').checked=s.enabled;document.getElementById('notify-time').value=s.time;}
+function checkNotif(){
+  const s=gd('notify_settings',{enabled:false,time:'07:00'});
+  if(!s.enabled||!('Notification'in window)||Notification.permission!=='granted')return;
+  const now=new Date();const[h,m]=s.time.split(':').map(Number);const t=new Date();t.setHours(h,m,0,0);
+  if(t-now>0&&t-now<60000&&gd('last_notif','')!==todayStr()){sd('last_notif',todayStr());new Notification('💪 Hora do treino!',{body:'Você está a '+calcStreak()+' dias seguidos. Não quebre a sequência!'});}
+}
+loadNotifySettings();setInterval(checkNotif,30000);
+
+// === DATA OPS ===
+function exportData(){const data={history:getHistory(),weights:getWeights(),checklist:getChecks()};const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));a.download='calistenia_backup.json';a.click();}
+function clearAllData(){['history_v3','weights_v2','checklist_v3','notify_settings','last_notif','prog_dismissed'].forEach(k=>localStorage.removeItem(k));updateHomeStats();renderChecklist();renderWeightLog();drawWeightChart();showToast('Dados apagados');}
+
+// === INSTALL ===
+let dp;const banner=document.getElementById('install-banner');
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;setTimeout(()=>banner.classList.add('show'),2500);});
+document.getElementById('install-btn').addEventListener('click',async()=>{banner.classList.remove('show');if(dp){dp.prompt();dp=null;}});
+document.getElementById('install-close').addEventListener('click',()=>banner.classList.remove('show'));
+
+// === INIT ===
+updateHomeStats();
 </script>
 </body>
 </html>
