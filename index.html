@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="FitForce">
-<title>FitForce · Cindy</title>
+<title>FitForce · Cindy + Shadow</title>
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icon-192.png">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -24,6 +24,25 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 [hidden]{display:none!important}
+:root{--fig:#e8ff3a;--fig2:rgba(232,255,58,.42);--prop:#5a5a5a}
+.fig{display:block;width:100%;height:auto}
+.howfig{background:#0e0e0e;border:1px solid var(--border);border-radius:16px;padding:6px;max-width:280px;margin:0 auto 14px;position:relative}
+.howfig .pn{position:absolute;top:10px;left:12px}
+.pn{display:inline-grid;place-items:center;min-width:30px;height:30px;padding:0 6px;border-radius:9px;background:var(--hot);color:#0a0a0a;font-family:var(--fd);font-size:20px;line-height:1}
+.howlist{margin:4px 0 12px 20px}
+.howlist li{font-size:14px;line-height:1.5;margin-bottom:6px}
+.howlist.av li{color:var(--muted)}
+.howlist.av li::marker{content:'✕  ';color:var(--hot)}
+.punches{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.punches button{position:relative;background:#0e0e0e;border:1px solid var(--border);border-radius:12px;padding:4px 4px 8px;display:flex;flex-direction:column;align-items:center;gap:2px;min-height:44px}
+.punches button span:last-child{font-size:11.5px;font-weight:600;color:var(--muted);line-height:1.2;text-align:center}
+.punches .pn{position:absolute;top:5px;left:5px;min-width:22px;height:22px;font-size:15px;border-radius:7px}
+.wod div[data-how]{cursor:pointer;position:relative}
+.wod .mini{width:56px;margin:0 auto 2px}
+.howlink{background:none;border:none;color:var(--accent);font-weight:600;font-size:13.5px;padding:8px 0 0;min-height:36px;display:inline-flex;align-items:center;gap:6px}
+.hero.sb .howlink{color:var(--hot)}
+.mv{cursor:pointer}
+.mv .mini{width:44px;margin:0 auto}
 html,body{background:var(--bg);color:var(--text);font-family:var(--fb);font-size:15px;line-height:1.5}
 body{min-height:100vh;padding-bottom:calc(var(--nav) + env(safe-area-inset-bottom) + 20px)}
 button,input,select{font:inherit;color:inherit}
@@ -77,8 +96,20 @@ nav.tabs .in{display:flex;width:100%;max-width:520px}
 .dchip.plan{color:var(--muted);border-color:#3a3a3a}
 .dchip.done{background:var(--accentdim);border-color:rgba(232,255,58,.45);color:var(--accent)}
 .dchip.today{box-shadow:0 0 0 2px var(--accent)}
+.dchip i{display:block;font-style:normal;font-size:13px;line-height:1.2}
+.hero.sb{border-color:rgba(255,106,61,.4);background:linear-gradient(150deg,rgba(255,106,61,.12),var(--card) 55%)}
+.hero.sb .eyebrow,.hero.sb .wod b{color:var(--hot)}
+.hero.sb .btn-main{background:var(--hot);color:#0a0a0a}
+.hero.rest{border-color:var(--border);background:var(--card)}
+.hero.rest .eyebrow{color:var(--cool)}
+.legend{display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;font-size:12.5px;color:var(--muted);margin-top:10px}
+.legend b{color:var(--text);font-family:var(--fd);font-size:17px;margin-right:6px}
+.seg{display:flex;background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:4px;gap:4px;margin:0 16px 12px}
+.seg button{flex:1;border:none;background:none;border-radius:9px;padding:10px 6px;font-weight:700;font-size:14px;color:var(--muted);min-height:44px}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#0a0a0a}
+.seg button[data-t="shadow"][aria-pressed="true"]{background:var(--hot)}
 .hero{position:relative;overflow:hidden;border-color:rgba(232,255,58,.35);background:linear-gradient(150deg,rgba(232,255,58,.10),var(--card) 55%)}
-.hero h2{font-family:var(--fd);font-size:34px;line-height:1;letter-spacing:.02em}
+.hero h2{font-family:var(--fd);font-size:32px;line-height:1;letter-spacing:.02em}
 .wod{display:flex;gap:8px;margin:14px 0}
 .wod div{flex:1;background:rgba(0,0,0,.35);border:1px solid var(--border);border-radius:10px;padding:10px 6px;text-align:center}
 .wod b{display:block;font-family:var(--fd);font-size:30px;line-height:1;color:var(--accent)}
@@ -97,6 +128,7 @@ nav.tabs .in{display:flex;width:100%;max-width:520px}
 .a.on{border-color:rgba(232,255,58,.4);background:var(--accentdim)}
 .a.on .i{filter:none;opacity:1}
 .a.on .n{color:var(--text)}
+.ach{grid-template-columns:repeat(5,1fr)!important}
 details.what summary{list-style:none;cursor:pointer;font-weight:600;font-size:14px;display:flex;justify-content:space-between;align-items:center;min-height:32px}
 details.what summary::-webkit-details-marker{display:none}
 details.what summary::after{content:'+';color:var(--accent);font-size:20px}
@@ -154,8 +186,22 @@ details.what ul{padding-left:18px}
 .cfg .input{flex:0 0 130px;min-height:44px;padding:8px 10px;text-align:right}
 
 /* OVERLAY TREINO */
-#run{position:fixed;inset:0;z-index:500;background:var(--bg);display:none;flex-direction:column;padding:calc(env(safe-area-inset-top) + 8px) 0 calc(env(safe-area-inset-bottom) + 12px)}
-#run.on{display:flex}
+#run,#sbrun{position:fixed;inset:0;z-index:500;background:var(--bg);display:none;flex-direction:column;padding:calc(env(safe-area-inset-top) + 8px) 0 calc(env(safe-area-inset-bottom) + 12px)}
+#run.on,#sbrun.on{display:flex}
+#sbrun .time{color:var(--hot)}
+#sbrun .bar>span{background:var(--hot)}
+#sbrun.resting .time{color:var(--cool)}
+#sbrun.resting .bar>span{background:var(--cool)}
+.rdots{display:flex;justify-content:center;gap:6px;margin:12px 0 4px}
+.rdots i{width:22px;height:6px;border-radius:99px;background:var(--card2)}
+.rdots i.ok{background:var(--hot)}
+.rdots i.cur{background:var(--accent)}
+.sb-focus{text-align:center;font-weight:700;font-size:15px;padding:6px 20px 0}
+.combo{flex:1;margin:12px 16px 8px;border-radius:18px;background:var(--hotdim);border:1px solid rgba(255,106,61,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:14px;min-height:150px}
+.combo b{font-family:var(--fd);font-size:clamp(52px,17vw,88px);line-height:1;color:var(--text);letter-spacing:.04em}
+.combo span{font-size:14px;color:var(--muted);margin-top:8px}
+.combo.flash b{animation:pop .5s ease both}
+#sbrun.resting .combo{background:var(--cooldim);border-color:rgba(58,255,212,.3)}
 .run-top{display:flex;align-items:center;gap:10px;padding:8px 16px}
 .run-top .t{flex:1;font-weight:700;font-size:14px}
 .run-top .t small{display:block;font-weight:500;color:var(--muted);font-size:12px}
@@ -217,9 +263,9 @@ details.what ul{padding-left:18px}
 <!-- ═════════ INÍCIO ═════════ -->
 <main class="page active wrap" id="p-home" aria-labelledby="home-t">
   <header class="head">
-    <div class="eyebrow">FitForce · Cindy</div>
+    <div class="eyebrow">FitForce · Cindy + Shadow</div>
     <h1 class="h1" id="home-t">Olá!</h1>
-    <p class="sub" id="home-sub">20 minutos. 3 movimentos. Quantos rounds você aguenta?</p>
+    <p class="sub" id="home-sub">Cindy e shadowboxing de segunda a sexta. Fim de semana é descanso.</p>
   </header>
 
   <section class="card" aria-label="Meta da semana">
@@ -241,11 +287,13 @@ details.what ul{padding-left:18px}
     <div class="eyebrow" id="hero-eye">Treino de hoje</div>
     <h2 id="hero-t">Cindy · AMRAP 20'</h2>
     <div class="wod">
-      <div><b>5</b><span id="w-pull">Barras</span></div>
+      <div><b>5</b><span id="w-pull">Superman</span></div>
       <div><b>10</b><span id="w-push">Flexões</span></div>
       <div><b>15</b><span id="w-squat">Agachamentos</span></div>
     </div>
     <button class="btn btn-main w100" id="home-start">▶ Iniciar Cindy</button>
+    <button class="btn btn-ghost w100" id="home-alt" hidden style="margin-top:8px">Treinar mesmo assim</button>
+    <div style="text-align:center"><button class="howlink" id="home-how">📖 Como fazer os exercícios</button></div>
     <div class="muted" style="font-size:12.5px;text-align:center;margin-top:8px" id="hero-foot"></div>
   </section>
 
@@ -255,7 +303,7 @@ details.what ul{padding-left:18px}
       <div class="stat"><div class="v" id="s-pr">—</div><div class="l" id="s-pr-l">Recorde (20')</div></div>
       <div class="stat"><div class="v" id="s-last">—</div><div class="l" id="s-last-l">Último treino</div></div>
       <div class="stat"><div class="v" id="s-total">0</div><div class="l">Treinos feitos</div></div>
-      <div class="stat"><div class="v" id="s-reps">0</div><div class="l">Repetições no total</div></div>
+      <div class="stat"><div class="v" id="s-reps">0</div><div class="l">Minutos de shadowboxing</div></div>
     </div>
     <div class="trend" id="s-trend"></div>
   </section>
@@ -264,8 +312,14 @@ details.what ul{padding-left:18px}
     <details class="what" id="what">
       <summary>O que é a Cindy?</summary>
       <p>Um dos treinos de referência do CrossFit. Você repete o circuito abaixo o máximo de vezes que conseguir em 20 minutos (AMRAP — “as many rounds as possible”):</p>
-      <ul><li><b>5 barras</b> (pull-ups)</li><li><b>10 flexões</b></li><li><b>15 agachamentos</b> livres</li></ul>
-      <p>O resultado é <b>rounds + repetições</b> (ex.: 12 + 7). Repita a cada semana e acompanhe a evolução. Sem barra? Use a remada invertida numa mesa firme.</p>
+      <ul><li><b>5 barras</b> — aqui trocadas por <b>superman com puxada</b> (ou burpee), sem equipamento</li><li><b>10 flexões</b></li><li><b>15 agachamentos</b> livres</li></ul>
+      <p>O resultado é <b>rounds + repetições</b> (ex.: 12 + 7). Repita a cada semana e acompanhe a evolução. Só precisa de um espaço no chão.</p>
+    </details>
+    <details class="what" id="what-sb" style="margin-top:6px;border-top:1px solid var(--border);padding-top:6px">
+      <summary>O que é shadowboxing?</summary>
+      <p>Boxe “contra a sombra”: você luta sozinho, sem saco nem luvas, em rounds de 2–3 minutos. O app chama as combinações por voz, pelos números do boxe:</p>
+      <div id="what-punches" style="margin-top:10px"></div>
+      <p>Mantenha a guarda alta, o queixo baixo e se movimente o tempo todo. É cardio e coordenação — ótimo para os dias entre as Cindys.</p>
     </details>
   </section>
 
@@ -280,14 +334,16 @@ details.what ul{padding-left:18px}
   <header class="head">
     <div class="eyebrow">Configurar</div>
     <h1 class="h1" id="train-t">Treinar</h1>
-    <p class="sub">Ajuste a Cindy ao seu nível. <span class="tag rx">RX</span> = versão oficial.</p>
+    <p class="sub" id="train-sub">Ajuste o treino ao seu nível.</p>
   </header>
+  <div class="seg" role="group" aria-label="Tipo de treino"><button data-t="cindy" aria-pressed="true">💪 Cindy</button><button data-t="shadow" aria-pressed="false">🥊 Shadowboxing</button></div>
 
+  <div id="t-cindy">
   <section class="card">
     <div class="opt"><div class="t">Duração <small id="o-dur-h"></small></div><div class="chips" data-opt="dur"></div></div>
-    <div class="opt"><div class="t">5 × Barras <small id="o-pull-h"></small></div><div class="chips" data-opt="pull"></div></div>
-    <div class="opt"><div class="t">10 × Flexões</div><div class="chips" data-opt="push"></div></div>
-    <div class="opt"><div class="t">15 × Agachamentos</div><div class="chips" data-opt="squat"></div></div>
+    <div class="opt"><div class="t">5 × Costas <small id="o-pull-h"></small></div><div class="chips" data-opt="pull"></div><button class="howlink" data-howmv="pull">▶ Ver como fazer</button></div>
+    <div class="opt"><div class="t">10 × Flexões</div><div class="chips" data-opt="push"></div><button class="howlink" data-howmv="push">▶ Ver como fazer</button></div>
+    <div class="opt"><div class="t">15 × Agachamentos</div><div class="chips" data-opt="squat"></div><button class="howlink" data-howmv="squat">▶ Ver como fazer</button></div>
   </section>
 
   <section class="card">
@@ -295,6 +351,24 @@ details.what ul{padding-left:18px}
       <button class="sw" role="switch" id="o-warm" aria-checked="true" aria-label="Aquecimento guiado"></button></div>
     <ul class="warm" id="warm-list"></ul>
   </section>
+  </div>
+
+  <div id="t-shadow" hidden>
+  <section class="card">
+    <div class="opt"><div class="t">Nível <small id="sb-lv-h"></small></div><div class="chips" data-sb="level"></div></div>
+    <div class="opt"><div class="t">Rounds <small id="sb-total"></small></div><div class="chips" data-sb="rounds"></div></div>
+    <div class="opt"><div class="t">Duração do round</div><div class="chips" data-sb="roundMin"></div></div>
+    <div class="opt"><div class="t">Descanso entre rounds</div><div class="chips" data-sb="rest"></div></div>
+  </section>
+  <section class="card">
+    <div class="label">Golpes · toque para ver como fazer</div>
+    <div id="sb-punches"></div>
+  </section>
+  <section class="card">
+    <div class="label">Roteiro</div>
+    <div id="sb-plan"></div>
+  </section>
+  </div>
 
   <section class="card">
     <div class="toggle"><div><b>Avisos de voz</b><div class="muted" style="font-size:12.5px">Contagem, metade do tempo, último minuto</div></div>
@@ -304,6 +378,7 @@ details.what ul{padding-left:18px}
   <div style="padding:0 16px">
     <button class="btn btn-main w100" id="train-start">▶ Começar agora</button>
     <button class="btn btn-ghost w100" id="train-manual" style="margin-top:10px">Registrar resultado sem cronômetro</button>
+    <p class="muted" style="font-size:12.5px;text-align:center;margin-top:10px" id="train-sched"></p>
   </div>
 </section>
 
@@ -312,12 +387,12 @@ details.what ul{padding-left:18px}
   <header class="head">
     <div class="eyebrow">Evolução</div>
     <h1 class="h1" id="hist-t">Histórico</h1>
-    <p class="sub" id="hist-sub">Seus resultados na Cindy.</p>
+    <p class="sub" id="hist-sub">Seus treinos de Cindy e shadowboxing.</p>
   </header>
   <section class="card">
     <div class="filters chips" id="hfilter"></div>
     <div class="chartbox"><canvas id="chart" role="img" aria-label="Gráfico da evolução das repetições totais"></canvas><div class="tt" id="tt"></div></div>
-    <div class="muted" style="font-size:12px;margin-top:8px">Repetições totais por treino · <span style="color:var(--accent)">●</span> RX · <span style="color:var(--cool)">●</span> adaptado · linha tracejada = recorde</div>
+    <div class="muted" style="font-size:12px;margin-top:8px" id="chart-leg"></div>
   </section>
   <section class="card"><div class="label">Todos os treinos</div><div id="hlist"></div></section>
 </section>
@@ -355,14 +430,15 @@ details.what ul{padding-left:18px}
     <div class="cfg"><div class="x"><b>Meta de peso</b><span>Opcional (kg)</span></div><input class="input" id="c-goal" inputmode="decimal" placeholder="—"></div>
   </section>
   <section class="card">
-    <div class="label">Dias de treino</div>
+    <div class="label">Agenda da semana</div>
+    <div class="muted" style="font-size:13px;margin-bottom:10px">Toque para escolher os dias da <b style="color:var(--accent)">Cindy</b>. Os outros dias úteis viram <b style="color:var(--hot)">shadowboxing</b>. Sábado e domingo são descanso.</div>
     <div class="chips" id="c-days"></div>
-    <p class="muted" style="font-size:12.5px;margin-top:10px">A meta semanal é o número de dias escolhidos. Dias de descanso não quebram sua sequência.</p>
+    <p class="muted" style="font-size:12.5px;margin-top:10px" id="c-days-h"></p>
   </section>
   <section class="card">
     <div class="label">Lembrete</div>
     <div class="cfg"><div class="x"><b>Horário</b></div><input class="input" id="c-time" type="time" value="07:00" style="flex-basis:110px"></div>
-    <button class="cfg" id="c-ics"><div class="x"><b>Adicionar lembrete ao calendário</b><span>Evento semanal nos seus dias de treino, com alerta. Funciona com o app fechado.</span></div><span style="color:var(--accent);font-size:20px">＋</span></button>
+    <button class="cfg" id="c-ics"><div class="x"><b>Adicionar lembrete ao calendário</b><span>Evento de segunda a sexta, com alerta no horário. Funciona com o app fechado.</span></div><span style="color:var(--accent);font-size:20px">＋</span></button>
   </section>
   <section class="card">
     <div class="label">Seus dados</div>
@@ -416,6 +492,29 @@ details.what ul{padding-left:18px}
   <div class="countdown" id="r-count" hidden><b id="r-count-n">3</b></div>
 </div>
 
+<!-- ═════════ SHADOWBOXING EM ANDAMENTO ═════════ -->
+<div id="sbrun" role="dialog" aria-modal="true" aria-labelledby="sb-t">
+  <div class="run-top">
+    <button class="xbtn" id="sb-close" aria-label="Encerrar treino">✕</button>
+    <div class="t" id="sb-t">Shadowboxing<small id="sb-cfg"></small></div>
+    <button class="xbtn" id="sb-pause" aria-label="Pausar">❚❚</button>
+  </div>
+  <div class="clock">
+    <div class="phase" id="sb-phase">Round 1</div>
+    <div class="time" id="sb-time">03:00</div>
+  </div>
+  <div class="bar"><span id="sb-bar" style="width:0%"></span></div>
+  <div class="rdots" id="sb-dots"></div>
+  <div class="sb-focus" id="sb-focus"></div>
+  <div class="combo" id="sb-combo-box" aria-live="polite" title="Toque para ver os golpes" style="cursor:pointer"><b id="sb-combo">—</b><span id="sb-combo-d"></span></div>
+  <div class="pace" id="sb-tip" style="padding:0 20px"></div>
+  <div class="run-foot">
+    <button class="btn btn-sec" id="sb-skip">Próximo round</button>
+    <button class="btn btn-sec" id="sb-end">Terminar</button>
+  </div>
+  <div class="countdown" id="sb-count" hidden><b id="sb-count-n">3</b></div>
+</div>
+
 <!-- Resultado -->
 <div class="sheetwrap" id="res" role="dialog" aria-modal="true" aria-labelledby="res-t">
   <div class="sheet">
@@ -423,9 +522,9 @@ details.what ul{padding-left:18px}
     <p class="s" id="res-s">Confira seu resultado e salve.</p>
     <div class="scorebig" id="res-score">0 + 0<small>rounds + repetições</small></div>
     <div id="res-pr" class="prbanner" hidden>🏆 Novo recorde!</div>
-    <div class="field"><div class="l">Rounds completos</div>
+    <div class="field"><div class="l" id="res-r-l">Rounds completos</div>
       <div class="stepper"><button data-st="r" data-d="-1" aria-label="Menos um round">−</button><output id="res-r">0</output><button data-st="r" data-d="1" aria-label="Mais um round">+</button></div></div>
-    <div class="field"><div class="l">Repetições do round incompleto <span class="muted" id="res-e-h">(0–29)</span></div>
+    <div class="field" id="res-e-f"><div class="l">Repetições do round incompleto <span class="muted" id="res-e-h">(0–29)</span></div>
       <div class="stepper"><button data-st="e" data-d="-1" aria-label="Menos uma repetição">−</button><output id="res-e">0</output><button data-st="e" data-d="1" aria-label="Mais uma repetição">+</button></div></div>
     <div class="field"><div class="l">Como foi?</div><div class="chips" id="res-feel"></div></div>
     <div class="field" id="res-date-f" hidden><label for="res-date">Data</label><input class="input" type="date" id="res-date"></div>
@@ -437,12 +536,29 @@ details.what ul{padding-left:18px}
 <!-- Boas-vindas -->
 <div class="sheetwrap" id="ob" role="dialog" aria-modal="true" aria-labelledby="ob-t">
   <div class="sheet">
-    <h3 id="ob-t">Bem-vindo à Cindy</h3>
-    <p class="s">5 barras, 10 flexões e 15 agachamentos, o máximo de rounds em 20 minutos. Vamos ajustar ao seu treino.</p>
+    <h3 id="ob-t">Bem-vindo ao FitForce</h3>
+    <p class="s">De segunda a sexta, sem equipamento: Cindy em casa (5 superman com puxada, 10 flexões e 15 agachamentos em AMRAP de 20 min) alternada com shadowboxing.</p>
     <div class="field"><label for="ob-name">Seu nome (opcional)</label><input class="input" id="ob-name" maxlength="24" placeholder="Como quer ser chamado"></div>
-    <div class="field"><div class="l">Você tem barra fixa?</div><div class="chips" id="ob-bar"></div></div>
-    <div class="field"><div class="l">Em quais dias quer treinar?</div><div class="chips" id="ob-days"></div></div>
+    <div class="field"><div class="l">Em quais dias quer fazer a Cindy?</div><div class="chips" id="ob-days"></div>
+      <div class="muted" style="font-size:12.5px;margin-top:8px">Os outros dias úteis serão de <b style="color:var(--hot)">shadowboxing</b> 🥊. Fim de semana é descanso.</div></div>
     <button class="btn btn-main w100" id="ob-go">Começar</button>
+  </div>
+</div>
+
+<!-- Como fazer -->
+<div class="sheetwrap" id="how" role="dialog" aria-modal="true" aria-labelledby="how-t">
+  <div class="sheet">
+    <div id="how-detail">
+      <div class="howfig"><span class="pn" id="how-n" hidden></span><div id="how-fig"></div></div>
+      <h3 id="how-t">—</h3>
+      <div class="label" style="margin-top:14px">Como fazer</div>
+      <ol class="howlist" id="how-do"></ol>
+      <div class="label">Evite</div>
+      <ul class="howlist av" id="how-av"></ul>
+      <button class="link" id="how-back" hidden>← Todos os golpes</button>
+    </div>
+    <div id="how-grid" hidden></div>
+    <button class="btn btn-sec w100" id="how-close" style="margin-top:8px">Fechar</button>
   </div>
 </div>
 
@@ -451,17 +567,38 @@ details.what ul{padding-left:18px}
 <script>
 // ═══════════════════════ DEFINIÇÕES ═══════════════════════
 const MOVES = [
-  { key: 'pull', reps: 5, name: 'Barras', opts: [['rx', 'Barra fixa'], ['band', 'Com elástico'], ['row', 'Remada invertida'], ['jump', 'Com salto']] },
+  { key: 'pull', reps: 5, name: 'Superman', opts: [['sup', 'Superman com puxada'], ['burpee', 'Burpee']] },
   { key: 'push', reps: 10, name: 'Flexões', opts: [['rx', 'Completa'], ['incline', 'Inclinada'], ['knee', 'Com joelhos']] },
   { key: 'squat', reps: 15, name: 'Agachamentos', opts: [['rx', 'Livre'], ['box', 'Até a cadeira']] }
 ];
 const ROUND_REPS = MOVES.reduce((a, m) => a + m.reps, 0); // 30
 const DURS = [[10, '10 min'], [15, '15 min'], [20, '20 min']];
-const WARMUP = ['Polichinelos', 'Rotação de ombros e braços', 'Agachamento lento (pausa embaixo)', 'Flexão escapular / prancha', 'Pendurar na barra ou remada leve'];
+const WARMUP = ['Polichinelos', 'Rotação de ombros e braços', 'Agachamento lento (pausa embaixo)', 'Flexão escapular / prancha', 'Superman lento (segura 2 s em cima)'];
 const FEELS = [['leve', '😌 Leve'], ['ok', '💪 Moderado'], ['duro', '🔥 Difícil'], ['max', '💀 No limite']];
 const DOW = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 const ICS_DAY = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
-const optName = (mk, ok) => (MOVES.find(m => m.key === mk).opts.find(o => o[0] === ok) || [, ''])[1];
+const WEEKDAYS = [1, 2, 3, 4, 5]; // fim de semana é descanso
+// Numeração padrão do boxe (base ortodoxa)
+const PUNCH = { '1': 'jab', '2': 'direto', '3': 'cruzado de frente', '4': 'cruzado de trás', '5': 'upper de frente', '6': 'upper de trás' };
+const NUM_WORD = { '1': 'um', '2': 'dois', '3': 'três', '4': 'quatro', '5': 'cinco', '6': 'seis' };
+const SB_PLAN = [
+  { f: 'Jab e movimentação', tip: 'Base firme, queixo baixo, volte a guarda a cada soco.', combos: ['1', '1-1', '1-2', '1 + passo lateral', '1-1-2', 'passo à frente + 1'] },
+  { f: 'Direto e cruzado', tip: 'Gire o quadril no direto; cotovelo alto no cruzado.', combos: ['1-2', '1-2-3', '3-2', '2-3-2', '1-2 + esquiva', '1-1-2-3'] },
+  { f: 'Defesa e contra-ataque', tip: 'Esquive com as pernas, não só com o tronco.', combos: ['esquiva + 2', 'bloqueio + 1-2', 'pêndulo + 3-2', '1-2 + pêndulo + 2', 'esquiva dupla + 2-3'] },
+  { f: 'Uppercuts e linha de cintura', tip: 'Dobre os joelhos para descer; suba o upper com as pernas.', combos: ['1-2-5', '3-6', '5-2', 'corpo: 3-3', '2-5-2', '1-6-3-2'] },
+  { f: 'Combinações de potência', tip: 'Solte o ar a cada soco. Técnica antes de força.', combos: ['1-2-3-2', '1-2-5-2', '3-2-3', '1-1-2-3-2', '2-3-6-3'] },
+  { f: 'Livre + sprint final', tip: 'Crie suas combinações. Nos 20 s finais: socos rápidos sem parar!', combos: ['1-2', 'livre', '1-2-3', '3-2-3', 'livre', '5-6'] }
+];
+const SB_LEVELS = [['ini', 'Iniciante'], ['int', 'Intermediário'], ['adv', 'Avançado']];
+const SB_EVERY = { ini: 9, int: 6, adv: 4 }; // segundos entre chamadas de combinação
+const comboDesc = c => c.replace(/[1-6](?:-[1-6])*/g, m => m.split('-').map(n => PUNCH[n]).join(' · '));
+const comboSpeech = c => c.replace(/[1-6]/g, n => NUM_WORD[n]).replace(/-/g, ', ').replace(/\s*\+\s*/g, ', ').replace(/:/g, ',');
+const sbPlanFor = (i, total) => i === total - 1 ? SB_PLAN[5] : SB_PLAN[i % 5];
+// Opções antigas de barra (só para exibir treinos já salvos)
+const LEGACY_PULL = { rx: 'Barra fixa', band: 'Barra c/ elástico', row: 'Remada invertida', jump: 'Barra c/ salto' };
+const PULL_OK = ['sup', 'burpee'];
+const optName = (mk, ok) => (MOVES.find(m => m.key === mk).opts.find(o => o[0] === ok) || [, mk === 'pull' ? LEGACY_PULL[ok] || '' : ''])[1];
+const moveShort = (m, cfg) => m.key !== 'pull' ? m.name : cfg.pull === 'burpee' ? 'Burpees' : 'Superman';
 
 // ═══════════════════════ DATAS (horário local — corrige o "dia vira às 21h") ═══════════════════════
 const DAY = 864e5;
@@ -478,15 +615,17 @@ const fmtPace = ms => { const s = Math.round(ms / 1000); return `${Math.floor(s 
 // ═══════════════════════ ESTADO ═══════════════════════
 let S = {
   v: 1, name: '', days: [1, 3, 5], time: '07:00', goal: null, onboarded: false,
-  cfg: { dur: 20, pull: 'rx', push: 'rx', squat: 'rx', warm: true, voice: true },
-  sessions: [],  // {id, date, dur, pull, push, squat, rounds, extra, splits[], feel}
+  cfg: { dur: 20, pull: 'sup', push: 'rx', squat: 'rx', warm: true, voice: true, sb: { rounds: 6, roundMin: 3, rest: 60, level: 'ini' } },
+  sessions: [],  // Cindy: {id, date, type:'cindy', dur, pull, push, squat, rounds, extra, splits[], feel} · Shadow: {id, date, type:'shadow', rounds, roundMin, level, feel}
   weights: []    // {date, kg}
 };
+function fixPull() { if (!PULL_OK.includes(S.cfg.pull)) S.cfg.pull = 'sup'; }
+function fixDays() { S.days = (S.days || []).filter(d => WEEKDAYS.includes(d)); if (!S.days.length) S.days = [1, 3, 5]; }
 function save() { try { localStorage.setItem('fitforce_cindy_v1', JSON.stringify(S)); } catch (e) {} }
 function load() {
   try {
     const raw = localStorage.getItem('fitforce_cindy_v1');
-    if (raw) { const d = JSON.parse(raw); S = { ...S, ...d, cfg: { ...S.cfg, ...(d.cfg || {}) } }; return; }
+    if (raw) { const d = JSON.parse(raw); S = { ...S, ...d, cfg: { ...S.cfg, ...(d.cfg || {}), sb: { ...S.cfg.sb, ...((d.cfg || {}).sb || {}) } } }; fixDays(); fixPull(); return; }
     // Aproveita nome, meta e pesos da versão anterior do FitForce
     const pf = JSON.parse(localStorage.getItem('perfil_v1') || 'null');
     if (pf) { S.name = pf.nome && pf.nome !== 'Atleta' ? pf.nome : ''; S.goal = pf.meta || null; }
@@ -496,12 +635,18 @@ function load() {
 }
 
 // ═══════════════════════ CÁLCULOS (tudo derivado do histórico) ═══════════════════════
-const isRx = s => s.dur === 20 && s.pull === 'rx' && s.push === 'rx' && s.squat === 'rx';
+const isCindy = s => (s.type || 'cindy') === 'cindy';
+const isShadow = s => s.type === 'shadow';
+const CS = () => S.sessions.filter(isCindy);
+const SH = () => S.sessions.filter(isShadow);
+const shadowMin = s => s.rounds * s.roundMin;
+const dayType = dow => !WEEKDAYS.includes(dow) ? 'rest' : S.days.includes(dow) ? 'cindy' : 'shadow';
+const isRx = s => isCindy(s) && s.dur === 20 && ['sup', 'burpee', 'rx'].includes(s.pull) && s.push === 'rx' && s.squat === 'rx'; // “completa”
 const totalReps = s => s.rounds * ROUND_REPS + s.extra;
 const scoreTxt = s => `${s.rounds} + ${s.extra}`;
 const sameSetup = (a, b) => a.dur === b.dur && a.pull === b.pull && a.push === b.push && a.squat === b.squat;
 function bestOf(list) { return list.reduce((b, s) => !b || totalReps(s) > totalReps(b) ? s : b, null); }
-function prFor(setup, excludeId) { return bestOf(S.sessions.filter(s => s.id !== excludeId && sameSetup(s, setup))); }
+function prFor(setup, excludeId) { return bestOf(CS().filter(s => s.id !== excludeId && sameSetup(s, setup))); }
 function trainedDates() { return new Set(S.sessions.map(s => s.date)); }
 function weekCount(ws) {
   const a = iso(ws), b = iso(new Date(ws.getTime() + 6 * DAY));
@@ -509,7 +654,7 @@ function weekCount(ws) {
 }
 function weekStreak() {
   // Semanas seguidas cumprindo a meta. A semana atual conta se já foi cumprida; senão não quebra.
-  const goal = Math.max(1, S.days.length);
+  const goal = WEEKDAYS.length;
   let ws = weekStart(), n = 0;
   if (weekCount(ws) >= goal) n++;
   ws = new Date(ws.getTime() - 7 * DAY);
@@ -525,15 +670,173 @@ function weekStreak() {
 }
 
 const ACH = [
-  { i: '🌱', n: 'Primeira Cindy', ok: () => S.sessions.length >= 1 },
-  { i: '🔟', n: '10 rounds', ok: () => S.sessions.some(s => s.dur === 20 && s.rounds >= 10) },
-  { i: '⚡', n: '15 rounds', ok: () => S.sessions.some(s => s.dur === 20 && s.rounds >= 15) },
-  { i: '👑', n: '20 rounds', ok: () => S.sessions.some(s => s.dur === 20 && s.rounds >= 20) },
-  { i: '🎯', n: 'Primeira RX', ok: () => S.sessions.some(isRx) },
-  { i: '📈', n: 'Bateu o recorde', ok: () => S.sessions.some(s => s.pr) },
-  { i: '📅', n: '4 semanas na meta', ok: () => weekStreak().best >= 4 },
+  { i: '🌱', n: 'Primeira Cindy', ok: () => CS().length >= 1 },
+  { i: '🔟', n: '10 rounds na Cindy', ok: () => CS().some(s => s.dur === 20 && s.rounds >= 10) },
+  { i: '⚡', n: '15 rounds na Cindy', ok: () => CS().some(s => s.dur === 20 && s.rounds >= 15) },
+  { i: '👑', n: '20 rounds na Cindy', ok: () => CS().some(s => s.dur === 20 && s.rounds >= 20) },
+  { i: '🎯', n: 'Primeira completa', ok: () => CS().some(isRx) },
+  { i: '📈', n: 'Bateu o recorde', ok: () => CS().some(s => s.pr) },
+  { i: '🥊', n: 'Primeiro shadow', ok: () => SH().length >= 1 },
+  { i: '🔔', n: '50 rounds de shadow', ok: () => SH().reduce((a, s) => a + s.rounds, 0) >= 50 },
+  { i: '📅', n: '4 semanas completas', ok: () => weekStreak().best >= 4 },
   { i: '💯', n: '25 treinos', ok: () => S.sessions.length >= 25 }
 ];
+
+// ═══════════════════════ FIGURAS DE EXECUÇÃO ═══════════════════════
+// Figuras de execução (vista lateral, olhando para a direita). Coordenadas em viewBox 0 0 120 120.
+// l* = membros de trás (mais apagados), r* = membros da frente.
+const P = (o) => o;
+const STAND = { h: [62, 22], n: [60, 33], p: [60, 64], le: [58, 48], lh: [57, 62], re: [62, 48], rh: [63, 62], lk: [59, 87], lf: [58, 110], rk: [61, 87], rf: [62, 110] };
+const J = (base, over) => ({ ...base, ...over });
+const FIGS = {
+  squat: {
+    a: J(STAND, { le: [70, 44], lh: [84, 44], re: [72, 46], rh: [86, 46] }),
+    b: { h: [72, 42], n: [66, 51], p: [44, 80], le: [80, 54], lh: [94, 53], re: [81, 56], rh: [96, 55], lk: [66, 84], lf: [60, 110], rk: [68, 86], rf: [63, 110] },
+    props: 'floor'
+  },
+  squatBox: {
+    a: J(STAND, { le: [70, 44], lh: [84, 44], re: [72, 46], rh: [86, 46] }),
+    b: { h: [72, 44], n: [66, 53], p: [44, 80], le: [80, 56], lh: [94, 55], re: [81, 58], rh: [96, 57], lk: [66, 84], lf: [60, 110], rk: [68, 86], rf: [63, 110] },
+    props: 'floor chair'
+  },
+  push: {
+    a: { h: [31, 64], n: [40, 70], p: [74, 88], le: [40, 89], lh: [40, 108], re: [42, 89], rh: [42, 108], lk: [91, 98], lf: [108, 108], rk: [91, 98], rf: [108, 108] },
+    b: { h: [31, 90], n: [41, 94], p: [75, 101], le: [52, 97], lh: [40, 108], re: [54, 98], rh: [42, 108], lk: [91, 105], lf: [108, 108], rk: [91, 105], rf: [108, 108] },
+    props: 'floor'
+  },
+  pushKnee: {
+    a: { h: [34, 64], n: [43, 70], p: [68, 90], le: [43, 89], lh: [43, 108], re: [45, 89], rh: [45, 108], lk: [84, 108], lf: [100, 96], rk: [84, 108], rf: [100, 96] },
+    b: { h: [34, 90], n: [44, 94], p: [69, 102], le: [55, 97], lh: [43, 108], re: [57, 98], rh: [45, 108], lk: [84, 108], lf: [100, 96], rk: [84, 108], rf: [100, 96] },
+    props: 'floor'
+  },
+  pushIncline: {
+    a: { h: [34, 46], n: [42, 53], p: [74, 80], le: [38, 66], lh: [36, 78], re: [40, 66], rh: [38, 78], lk: [90, 95], lf: [106, 109], rk: [90, 95], rf: [106, 109] },
+    b: { h: [30, 64], n: [39, 68], p: [72, 88], le: [50, 72], lh: [36, 78], re: [52, 73], rh: [38, 78], lk: [89, 99], lf: [106, 109], rk: [89, 99], rf: [106, 109] },
+    props: 'floor bench'
+  },
+  pull: {
+    a: { h: [67, 36], n: [60, 42], p: [58, 72], le: [59, 28], lh: [60, 14], re: [61, 28], rh: [62, 14], lk: [60, 94], lf: [56, 114], rk: [62, 94], rf: [58, 114] },
+    b: { h: [67, 8], n: [59, 22], p: [56, 52], le: [70, 30], lh: [60, 14], re: [72, 31], rh: [62, 14], lk: [60, 74], lf: [55, 94], rk: [62, 74], rf: [57, 94] },
+    props: 'bar'
+  },
+  pullBand: {
+    a: { h: [67, 36], n: [60, 42], p: [58, 72], le: [59, 28], lh: [60, 14], re: [61, 28], rh: [62, 14], lk: [64, 92], lf: [52, 100], rk: [66, 92], rf: [54, 100] },
+    b: { h: [67, 8], n: [59, 22], p: [56, 52], le: [70, 30], lh: [60, 14], re: [72, 31], rh: [62, 14], lk: [62, 72], lf: [50, 80], rk: [64, 72], rf: [52, 80] },
+    props: 'bar band'
+  },
+  pullJump: {
+    a: { h: [70, 56], n: [63, 62], p: [52, 86], le: [62, 46], lh: [62, 30], re: [64, 46], rh: [64, 30], lk: [70, 96], lf: [60, 110], rk: [72, 96], rf: [62, 110] },
+    b: { h: [68, 22], n: [61, 36], p: [59, 66], le: [71, 42], lh: [62, 30], re: [73, 43], rh: [64, 30], lk: [61, 88], lf: [60, 110], rk: [63, 88], rf: [62, 110] },
+    props: 'floor barLow'
+  },
+  row: {
+    a: { h: [45, 83], n: [56, 86], p: [82, 97], le: [55, 73], lh: [55, 60], re: [57, 73], rh: [57, 60], lk: [95, 103], lf: [108, 109], rk: [95, 103], rf: [108, 109] },
+    b: { h: [46, 68], n: [57, 69], p: [84, 88], le: [70, 71], lh: [55, 60], re: [72, 72], rh: [57, 60], lk: [96, 98], lf: [108, 109], rk: [96, 98], rf: [108, 109] },
+    props: 'floor table'
+  },
+  // Boxe — base ortodoxa: r = mão/perna da frente (esquerda), l = de trás (direita)
+  guard: {
+    a: { h: [64, 27], n: [60, 37], p: [57, 68], le: [58, 50], lh: [66, 38], re: [66, 50], rh: [74, 35], lk: [49, 89], lf: [44, 110], rk: [70, 89], rf: [76, 110] },
+    b: { h: [64, 30], n: [60, 40], p: [57, 71], le: [58, 53], lh: [66, 41], re: [66, 53], rh: [74, 38], lk: [48, 91], lf: [44, 110], rk: [71, 91], rf: [76, 110] },
+    props: 'floor'
+  }
+};
+FIGS.supPull = {
+  a: { h: [88, 94], n: [78, 99], p: [46, 108], le: [94, 93], lh: [108, 87], re: [95, 94], rh: [109, 88], lk: [30, 107], lf: [14, 102], rk: [30, 107], rf: [14, 102] },
+  b: { h: [86, 88], n: [76, 95], p: [46, 108], le: [64, 99], lh: [77, 91], re: [65, 100], rh: [78, 92], lk: [30, 106], lf: [14, 99], rk: [30, 106], rf: [14, 99] },
+  props: 'floor', dur: 2.4
+};
+FIGS.burpee = {
+  frames: [
+    J(STAND, {}),
+    { h: [72, 74], n: [65, 80], p: [48, 94], le: [69, 95], lh: [71, 110], re: [71, 95], rh: [73, 110], lk: [62, 92], lf: [52, 110], rk: [64, 92], rf: [54, 110] },
+    { h: [82, 83], n: [72, 88], p: [42, 98], le: [71, 99], lh: [71, 110], re: [73, 99], rh: [73, 110], lk: [27, 103], lf: [12, 108], rk: [27, 103], rf: [12, 108] },
+    { h: [72, 74], n: [65, 80], p: [48, 94], le: [69, 95], lh: [71, 110], re: [71, 95], rh: [73, 110], lk: [62, 92], lf: [52, 110], rk: [64, 92], rf: [54, 110] },
+    { h: [62, 23], n: [60, 34], p: [60, 64], le: [58, 21], lh: [56, 9], re: [62, 21], rh: [64, 9], lk: [59, 85], lf: [58, 105], rk: [61, 85], rf: [60, 105] }
+  ],
+  props: 'floor', dur: 3.2
+};
+const G = FIGS.guard.a;
+Object.assign(FIGS, {
+  jab: { a: G, b: J(G, { h: [66, 27], n: [62, 37], re: [84, 36], rh: [104, 34] }), props: 'floor', dur: 1.2, hl: 'r' },
+  cross: { a: G, b: J(G, { h: [69, 28], n: [65, 38], p: [58, 68], le: [82, 38], lh: [102, 36], lk: [50, 89] }), props: 'floor', dur: 1.2, hl: 'l' },
+  hookL: { a: G, b: J(G, { h: [62, 28], n: [59, 38], re: [74, 36], rh: [84, 38] }), props: 'floor arcL', dur: 1.3, hl: 'r' },
+  hookR: { a: G, b: J(G, { h: [68, 28], n: [64, 38], le: [78, 38], lh: [88, 40], lk: [51, 89] }), props: 'floor arcR', dur: 1.3, hl: 'l' },
+  upL: { a: J(G, { h: [65, 33], n: [60, 43], p: [56, 74], re: [66, 58], rh: [72, 60], lk: [48, 93], rk: [70, 93] }), b: J(G, { re: [72, 46], rh: [80, 30] }), props: 'floor', dur: 1.3, hl: 'r' },
+  upR: { a: J(G, { h: [65, 33], n: [60, 43], p: [56, 74], le: [60, 58], lh: [66, 62], lk: [48, 93], rk: [70, 93] }), b: J(G, { h: [68, 28], n: [64, 38], le: [72, 46], lh: [82, 30] }), props: 'floor', dur: 1.3, hl: 'l' },
+  slip: { a: G, b: { h: [74, 42], n: [68, 50], p: [56, 76], le: [64, 62], lh: [72, 50], re: [74, 62], rh: [82, 48], lk: [46, 94], lf: [44, 110], rk: [72, 94], rf: [76, 110] }, props: 'floor', dur: 1.5 }
+});
+
+function figSVG(key, opts = {}) {
+  const f = FIGS[key], FR = f.frames || [f.a, f.b], A = FR[0], B = FR[1], dur = (f.dur || 2.2) + 's';
+  const kt = FR.map((_, i) => (i / FR.length).toFixed(3)).concat('1').join(';'), ks = FR.map(() => '.45 0 .55 1').join(';');
+  const still = opts.still; // 'a' | 'b' | undefined (animado)
+  const pick = (k) => still === 'b' ? B[k] : A[k];
+  const anim = (attr, k, i) => still ? '' : `<animate attributeName="${attr}" values="${FR.map(fr => fr[k][i]).concat(A[k][i]).join(';')}" dur="${dur}" repeatCount="indefinite" calcMode="spline" keyTimes="${kt}" keySplines="${ks}"/>`;
+  const hlArm = f.hl === 'l' ? ['le', 'lh'] : f.hl === 'r' ? ['re', 'rh'] : [];
+  const seg = (a, b, back) => { const hot = hlArm.includes(b); return `<line x1="${pick(a)[0]}" y1="${pick(a)[1]}" x2="${pick(b)[0]}" y2="${pick(b)[1]}" stroke="${hot ? 'var(--hot)' : back ? 'var(--fig2)' : 'var(--fig)'}" stroke-width="${back && !hot ? 5 : 6}" stroke-linecap="round">${anim('x1', a, 0)}${anim('y1', a, 1)}${anim('x2', b, 0)}${anim('y2', b, 1)}</line>`; };
+  const pr = f.props || '';
+  let props = '';
+  if (pr.includes('floor')) props += '<line x1="4" y1="113" x2="116" y2="113" stroke="var(--prop)" stroke-width="2"/>';
+  if (pr.includes('chair')) props += '<rect x="26" y="82" width="22" height="4" rx="1.5" fill="var(--prop)"/><line x1="28" y1="86" x2="28" y2="112" stroke="var(--prop)" stroke-width="3"/><line x1="46" y1="86" x2="46" y2="112" stroke="var(--prop)" stroke-width="3"/><line x1="28" y1="84" x2="28" y2="58" stroke="var(--prop)" stroke-width="3"/>';
+  if (pr.includes('bench')) props += '<rect x="22" y="78" width="26" height="4" rx="1.5" fill="var(--prop)"/><line x1="25" y1="82" x2="25" y2="112" stroke="var(--prop)" stroke-width="3"/><line x1="45" y1="82" x2="45" y2="112" stroke="var(--prop)" stroke-width="3"/>';
+  if (pr.includes('table')) props += '<rect x="6" y="56" width="54" height="4" rx="1.5" fill="var(--prop)"/><line x1="10" y1="60" x2="10" y2="112" stroke="var(--prop)" stroke-width="3"/>';
+  if (pr.includes('barLow')) props += '<line x1="20" y1="30" x2="100" y2="30" stroke="var(--prop)" stroke-width="3" stroke-linecap="round"/><line x1="20" y1="30" x2="20" y2="112" stroke="var(--prop)" stroke-width="2"/><line x1="100" y1="30" x2="100" y2="112" stroke="var(--prop)" stroke-width="2"/>';
+  else if (pr.includes('bar')) props += '<line x1="14" y1="14" x2="106" y2="14" stroke="var(--prop)" stroke-width="3.5" stroke-linecap="round"/>';
+  if (pr.includes('band')) props += `<path d="M58 14 Q46 ${still === 'b' ? 60 : 70} ${pick('lf')[0]} ${pick('lf')[1]}" fill="none" stroke="var(--cool)" stroke-width="2.5" stroke-dasharray="4 3">${still ? '' : `<animate attributeName="d" values="M58 14 Q46 70 ${A.lf[0]} ${A.lf[1]};M58 14 Q46 60 ${B.lf[0]} ${B.lf[1]};M58 14 Q46 70 ${A.lf[0]} ${A.lf[1]}" dur="${dur}" repeatCount="indefinite" calcMode="spline" keyTimes="0;.5;1" keySplines=".45 0 .55 1;.45 0 .55 1"/>`}</path>`;
+  if (pr.includes('arcL')) props += '<path d="M76 50 Q92 44 86 30" fill="none" stroke="var(--hot)" stroke-width="2" stroke-dasharray="3 3"/>';
+  if (pr.includes('arcR')) props += '<path d="M70 54 Q96 48 90 32" fill="none" stroke="var(--hot)" stroke-width="2" stroke-dasharray="3 3"/>';
+  const backArm = seg('n', 'le', 1) + seg('le', 'lh', 1);
+  const body = [seg('p', 'lk', 1), seg('lk', 'lf', 1), f.hl === 'l' ? '' : backArm, seg('n', 'p'), seg('p', 'rk'), seg('rk', 'rf'), seg('n', 're'), seg('re', 'rh'), f.hl === 'l' ? backArm : ''].join('');
+  const head = `<circle cx="${pick('h')[0]}" cy="${pick('h')[1]}" r="7.5" fill="var(--fig)">${anim('cx', 'h', 0)}${anim('cy', 'h', 1)}</circle>`;
+  return `<svg viewBox="0 0 120 120" class="fig" role="img" aria-label="${opts.label || ''}">${props}${body}${head}</svg>`;
+}
+
+// ═══════════════════════ COMO FAZER (textos) ═══════════════════════
+const HOW = {
+  'pull:sup': { fig: 'supPull', t: 'Superman com puxada', do: ['Deite de barriga para baixo, braços estendidos à frente — como o Super-Homem voando.', 'Tire o peito, os braços e as pernas um pouco do chão e mantenha assim.', 'Puxe os cotovelos para trás até a linha das costelas, apertando as escápulas, como se fizesse uma barra deitado.', 'Estenda os braços de novo sem encostar no chão. Isso é 1 repetição.'], avoid: ['Jogar a cabeça para trás — olhe para o chão', 'Subir alto demais forçando a lombar: basta tirar do chão'] },
+  'pull:burpee': { fig: 'burpee', t: 'Burpee', do: ['De pé, agache e apoie as mãos no chão.', 'Jogue os pés para trás até a posição de prancha.', 'Volte os pés para perto das mãos.', 'Levante e salte com os braços para cima.', 'Mais fácil: vá com os pés um de cada vez e troque o salto por ficar na ponta dos pés.'], avoid: ['Deixar o quadril cair na prancha', 'Aterrissar com os joelhos travados'] },
+  'pull:rx': { fig: 'pull', t: 'Barra fixa (pull-up)', do: ['Mãos na barra um pouco além da largura dos ombros, palmas para a frente.', 'Comece pendurado, braços estendidos e abdômen firme.', 'Puxe levando os cotovelos para baixo até o queixo passar da barra.', 'Desça controlando até estender os braços de novo.'], avoid: ['Balançar o corpo para ganhar impulso', 'Meia repetição — estenda os braços embaixo'] },
+  'pull:band': { fig: 'pullBand', t: 'Barra com elástico', do: ['Prenda um elástico de treino na barra e apoie o pé (ou o joelho) na alça.', 'Execute como a barra normal: do braço estendido até o queixo passar da barra.', 'Quanto mais grosso o elástico, mais ele ajuda. Troque por um mais fino conforme evoluir.'], avoid: ['Deixar o elástico “arremessar” você — suba e desça controlando'] },
+  'pull:row': { fig: 'row', t: 'Remada invertida', do: ['Deite embaixo de uma mesa bem firme (ou barra baixa) e segure a borda.', 'Corpo reto dos calcanhares aos ombros, como numa prancha.', 'Puxe o peito até a borda, apertando as escápulas.', 'Desça devagar até estender os braços. Mais fácil: joelhos dobrados. Mais difícil: pés mais à frente.'], avoid: ['Quadril caindo no meio do movimento', 'Usar móvel que pode virar — teste a mesa antes!'] },
+  'pull:jump': { fig: 'pullJump', t: 'Barra com salto', do: ['Use uma barra baixa, que você alcance com os pés no chão.', 'Agache um pouco, salte e puxe até o queixo passar da barra.', 'Desça devagar, contando 3 segundos — é na descida que a força se constrói.'], avoid: ['Soltar o corpo na descida'] },
+  'push:rx': { fig: 'push', t: 'Flexão completa', do: ['Mãos um pouco mais abertas que os ombros.', 'Corpo em linha reta da cabeça aos calcanhares — abdômen e glúteos firmes.', 'Desça até o peito quase tocar o chão, cotovelos a uns 45° do corpo.', 'Empurre o chão até estender os braços.'], avoid: ['Quadril caindo ou empinado', 'Cotovelos abertos para os lados (sobrecarrega o ombro)'] },
+  'push:incline': { fig: 'pushIncline', t: 'Flexão inclinada', do: ['Mãos num banco, sofá ou degrau firme.', 'Corpo em linha reta, como na flexão normal.', 'Desça até o peito chegar perto do apoio e empurre de volta.', 'Quanto mais alto o apoio, mais fácil.'], avoid: ['Apoio que escorrega', 'Quadril empinado'] },
+  'push:knee': { fig: 'pushKnee', t: 'Flexão com joelhos', do: ['Joelhos no chão (use um apoio macio), pés podem ficar no ar.', 'Linha reta dos joelhos até a cabeça.', 'Desça até o peito quase tocar o chão e empurre de volta.'], avoid: ['Dobrar o quadril em vez de manter a linha reta'] },
+  'squat:rx': { fig: 'squat', t: 'Agachamento livre', do: ['Pés na largura dos ombros, pontas levemente para fora.', 'Leve o quadril para trás e para baixo, braços à frente para equilibrar.', 'Desça até a dobra do quadril passar abaixo da linha do joelho.', 'Suba empurrando o chão com o pé inteiro até estender o quadril.'], avoid: ['Calcanhar saindo do chão', 'Joelhos caindo para dentro'] },
+  'squat:box': { fig: 'squatBox', t: 'Agachamento até a cadeira', do: ['Cadeira firme logo atrás de você.', 'Desça como no agachamento livre até tocar o assento de leve — sem relaxar em cima.', 'Levante empurrando o chão com o pé inteiro.'], avoid: ['Despencar na cadeira', 'Joelhos caindo para dentro'] },
+  'box:guard': { fig: 'guard', n: '🛡', t: 'Guarda (base)', do: ['Destro: pé esquerdo à frente, direito atrás, afastados na largura dos ombros. Canhoto: tudo espelhado.', 'Joelhos levemente dobrados, peso no meio, calcanhar de trás um pouco elevado.', 'Mãos na altura do queixo, cotovelos fechados protegendo as costelas.', 'Queixo baixo, olhar à frente. Volte sempre para cá depois de cada golpe.'], avoid: ['Ficar parado com as pernas travadas', 'Baixar as mãos depois de socar'] },
+  'box:1': { fig: 'jab', n: '1', t: 'Jab', do: ['Soco reto com a mão da frente.', 'Estenda o braço girando o punho (palma para baixo no final).', 'Volte rápido para a guarda pelo mesmo caminho.', 'A outra mão continua protegendo o queixo.'], avoid: ['Travar o cotovelo com força no final', 'Abaixar a mão antes de soltar o golpe'] },
+  'box:2': { fig: 'cross', n: '2', t: 'Direto', do: ['Soco reto com a mão de trás.', 'Gire o pé de trás e o quadril: a força vem das pernas.', 'No final, o ombro protege o queixo.', 'Volte para a guarda.'], avoid: ['Socar só com o braço, sem girar o quadril', 'Inclinar demais para a frente'] },
+  'box:3': { fig: 'hookL', n: '3', t: 'Cruzado de frente (gancho)', do: ['Gancho com a mão da frente: cotovelo na altura do punho, braço dobrado em 90°.', 'Gire o corpo e o pé da frente juntos — o braço acompanha como um bloco.', 'Mire na lateral do queixo do oponente imaginário.'], avoid: ['Abrir o braço como um tapa', 'Levar a mão para trás antes de soltar (avisa o golpe)'] },
+  'box:4': { fig: 'hookR', n: '4', t: 'Cruzado de trás', do: ['Mesmo gancho, com a mão de trás.', 'Gire o pé de trás e o quadril com força.', 'Mão da frente protege o rosto enquanto você gira.'], avoid: ['Perder o equilíbrio no giro'] },
+  'box:5': { fig: 'upL', n: '5', t: 'Upper de frente', do: ['Soco de baixo para cima com a mão da frente.', 'Dobre um pouco os joelhos e suba empurrando com as pernas.', 'Palma virada para você no final.'], avoid: ['Baixar a mão até a cintura antes (entrega o golpe)'] },
+  'box:6': { fig: 'upR', n: '6', t: 'Upper de trás', do: ['Upper com a mão de trás.', 'Gire o quadril e suba com as pernas, como se levantasse algo do chão.', 'Volte para a guarda.'], avoid: ['Inclinar o tronco para trás'] },
+  'box:slip': { fig: 'slip', n: '↯', t: 'Esquiva e pêndulo', do: ['Esquiva: incline o tronco para o lado, tirando a cabeça da linha do soco.', 'Pêndulo: dobre os joelhos e passe por baixo fazendo um “U”.', 'Mantenha a guarda alta e os olhos à frente o tempo todo.'], avoid: ['Olhar para o chão', 'Dobrar só a coluna — use os joelhos'] }
+};
+const PUNCH_KEYS = ['box:guard', 'box:1', 'box:2', 'box:3', 'box:4', 'box:5', 'box:6', 'box:slip'];
+function openHow(key) {
+  const h = HOW[key]; if (!h) return;
+  $('how-fig').innerHTML = figSVG(h.fig, { label: h.t });
+  $('how-n').hidden = !h.n; $('how-n').textContent = h.n || '';
+  $('how-t').textContent = h.t;
+  $('how-do').innerHTML = h.do.map(x => `<li>${x}</li>`).join('');
+  $('how-av').innerHTML = h.avoid.map(x => `<li>${x}</li>`).join('');
+  $('how-back').hidden = !key.startsWith('box:');
+  $('how-detail').hidden = false; $('how-grid').hidden = true;
+  $('how').classList.add('on');
+}
+function openPunches() {
+  $('how-grid').innerHTML = `<h3 style="margin-bottom:6px">Golpes do shadowboxing</h3><p class="s">Toque num golpe para ver como fazer. Os números são os que o app fala durante o treino.</p>
+    <div class="punches">${PUNCH_KEYS.map(k => `<button data-how="${k}"><span class="pn">${HOW[k].n}</span>${figSVG(HOW[k].fig, { label: HOW[k].t })}<span>${HOW[k].t.replace(' (gancho)', '')}</span></button>`).join('')}</div>`;
+  $('how-grid').querySelectorAll('[data-how]').forEach(b => b.onclick = () => openHow(b.dataset.how));
+  $('how-detail').hidden = true; $('how-grid').hidden = false;
+  $('how').classList.add('on');
+}
+function punchGrid(el) {
+  el.innerHTML = `<div class="punches">${PUNCH_KEYS.map(k => `<button data-how="${k}"><span class="pn">${HOW[k].n}</span>${figSVG(HOW[k].fig, { label: HOW[k].t })}<span>${HOW[k].t.replace(' (gancho)', '')}</span></button>`).join('')}</div>`;
+  el.querySelectorAll('[data-how]').forEach(b => b.onclick = () => openHow(b.dataset.how));
+}
 
 // ═══════════════════════ NAVEGAÇÃO ═══════════════════════
 const $ = id => document.getElementById(id);
@@ -555,49 +858,72 @@ document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () =>
 function renderHome() {
   const h = new Date().getHours();
   $('home-t').textContent = (h < 12 ? 'Bom dia' : h < 18 ? 'Boa tarde' : 'Boa noite') + (S.name ? `, ${S.name}` : '') + '!';
-  // Semana
-  const goal = Math.max(1, S.days.length), ws = weekStart(), done = weekCount(ws);
+  // Semana (seg–sex)
+  const goal = WEEKDAYS.length, ws = weekStart(), done = weekCount(ws);
   const td = trainedDates(), today = todayISO(), dow = new Date().getDay();
   $('wcount').textContent = `${Math.min(done, 99)}/${goal}`;
   $('wring').style.strokeDashoffset = 226.2 * (1 - Math.min(1, done / goal));
-  const st = weekStreak();
-  $('wtitle').textContent = done >= goal ? 'Meta da semana cumprida ✓' : `${goal - done > 1 ? 'Faltam' : 'Falta'} ${goal - done} treino${goal - done > 1 ? 's' : ''} esta semana`;
-  $('wstreak').textContent = st.cur ? `🔥 ${st.cur} semana${st.cur > 1 ? 's' : ''} seguida${st.cur > 1 ? 's' : ''} na meta` : 'Cumpra a meta para iniciar uma sequência de semanas.';
-  $('wdays').innerHTML = [1, 2, 3, 4, 5, 6, 0].map((d, i) => {
-    const ds = iso(new Date(ws.getTime() + i * DAY));
-    const cls = [td.has(ds) ? 'done' : S.days.includes(d) ? 'plan' : '', ds === today ? 'today' : ''].join(' ');
-    return `<div class="dchip ${cls}" title="${DOW[d]}${S.days.includes(d) ? ' · dia de treino' : ''}">${DOW[d]}</div>`;
+  const st = weekStreak(), left = goal - done;
+  const weekend = !WEEKDAYS.includes(dow);
+  $('wtitle').textContent = left <= 0 ? 'Semana completa ✓' : weekend ? `Semana encerrada: ${done} de ${goal}` : `${left > 1 ? 'Faltam' : 'Falta'} ${left} treino${left > 1 ? 's' : ''} esta semana`;
+  $('wstreak').textContent = st.cur ? `🔥 ${st.cur} semana${st.cur > 1 ? 's' : ''} completa${st.cur > 1 ? 's' : ''} seguida${st.cur > 1 ? 's' : ''}` : weekend ? 'Descanse. Uma nova semana começa na segunda.' : 'Treine de segunda a sexta para completar a semana.';
+  $('wdays').innerHTML = WEEKDAYS.map((d, i) => {
+    const ds = iso(new Date(ws.getTime() + i * DAY)), t = dayType(d);
+    const cls = [td.has(ds) ? 'done' : 'plan', ds === today ? 'today' : ''].join(' ');
+    return `<div class="dchip ${cls}" title="${DOW[d]} · ${t === 'cindy' ? 'Cindy' : 'Shadowboxing'}">${DOW[d]}<i>${t === 'cindy' ? '💪' : '🥊'}</i></div>`;
   }).join('');
-  // Card do treino
-  const c = S.cfg, trainedToday = td.has(today), planToday = S.days.includes(dow);
-  $('hero-eye').textContent = trainedToday ? 'Feito hoje ✓' : planToday ? 'Treino de hoje' : 'Hoje é descanso';
-  $('hero-t').textContent = `Cindy · AMRAP ${c.dur}'`;
-  $('w-pull').textContent = optName('pull', c.pull); $('w-push').textContent = 'Flexão ' + optName('push', c.push).toLowerCase(); $('w-squat').textContent = 'Agach. ' + optName('squat', c.squat).toLowerCase();
-  $('home-start').textContent = trainedToday ? '▶ Treinar de novo' : planToday ? '▶ Iniciar Cindy' : '▶ Treinar mesmo assim';
-  const next = [1, 2, 3, 4, 5, 6, 7].map(k => (dow + k) % 7).find(d => S.days.includes(d));
-  const pr = prFor(c);
-  $('hero-foot').textContent = [pr ? `Recorde nesta configuração: ${scoreTxt(pr)}` : 'Primeira vez nesta configuração — sem pressão!', !planToday && next != null ? `Próximo treino: ${DOW[next]}` : ''].filter(Boolean).join(' · ');
+  // Card de hoje
+  const type = dayType(dow), trainedToday = td.has(today), hero = $('hero-t').closest('.hero');
+  const nextD = [1, 2, 3, 4, 5, 6, 7].map(k => (dow + k) % 7).find(d => dayType(d) !== 'rest');
+  const nextTxt = nextD != null ? `${nextD === (dow + 1) % 7 ? 'Amanhã' : DOW[nextD]}: ${dayType(nextD) === 'cindy' ? 'Cindy 💪' : 'Shadowboxing 🥊'}` : '';
+  hero.classList.toggle('sb', type === 'shadow'); hero.classList.toggle('rest', type === 'rest');
+  $('home-alt').hidden = type !== 'rest'; $('home-start').hidden = type === 'rest';
+  $('home-how').hidden = type === 'rest';
+  $('home-how').textContent = type === 'shadow' ? '📖 Como fazer os golpes' : '📖 Toque num exercício para ver como fazer';
+  const wod = hero.querySelector('.wod');
+  if (type === 'rest') {
+    $('hero-eye').textContent = 'Fim de semana';
+    $('hero-t').textContent = 'Descanso 😴';
+    wod.innerHTML = `<div style="text-align:left;padding:12px"><span style="font-size:14px;color:var(--text)">Recuperar também é treino. Caminhe, alongue e durma bem.</span></div>`;
+    $('hero-foot').textContent = nextTxt;
+  } else if (type === 'shadow') {
+    const b = S.cfg.sb;
+    $('hero-eye').textContent = trainedToday ? 'Feito hoje ✓' : 'Treino de hoje';
+    $('hero-t').textContent = `Shadowboxing · ${b.rounds}×${b.roundMin}'`;
+    wod.innerHTML = `<div><b>${b.rounds}</b><span>rounds</span></div><div><b>${b.roundMin}'</b><span>por round</span></div><div><b>${b.rest}s</b><span>descanso</span></div>`;
+    $('home-start').textContent = trainedToday ? '▶ Treinar de novo' : '▶ Iniciar shadowboxing';
+    const last = SH().slice(-1)[0];
+    $('hero-foot').textContent = [SB_LEVELS.find(l => l[0] === b.level)[1], last ? `último: ${fmtDate(last.date)}` : 'primeira vez? Comece no iniciante', nextTxt].join(' · ');
+  } else {
+    const c = S.cfg, pr = prFor(c);
+    $('hero-eye').textContent = trainedToday ? 'Feito hoje ✓' : 'Treino de hoje';
+    $('hero-t').textContent = `Cindy · AMRAP ${c.dur}'`;
+    wod.innerHTML = MOVES.map(m => { const k = `${m.key}:${c[m.key]}`; return `<div data-how="${k}" role="button" tabindex="0" aria-label="Como fazer: ${HOW[k].t}"><div class="mini">${figSVG(HOW[k].fig, { label: HOW[k].t })}</div><b>${m.reps}</b><span>${m.key === 'pull' ? moveShort(m, c) : m.key === 'push' ? 'Flexão ' + optName('push', c.push).toLowerCase() : 'Agach. ' + optName('squat', c.squat).toLowerCase()}</span></div>`; }).join('');
+    wod.querySelectorAll('[data-how]').forEach(el => { el.onclick = () => openHow(el.dataset.how); el.onkeydown = e => { if (e.key === 'Enter') openHow(el.dataset.how); }; });
+    $('home-start').textContent = trainedToday ? '▶ Treinar de novo' : '▶ Iniciar Cindy';
+    $('hero-foot').textContent = [pr ? `Recorde nesta configuração: ${scoreTxt(pr)}` : 'Primeira vez nesta configuração — sem pressão!', nextTxt].join(' · ');
+  }
   // Números
-  const rx = bestOf(S.sessions.filter(isRx)), anyBest = bestOf(S.sessions.filter(s => s.dur === 20));
-  const shown = rx || anyBest;
-  $('s-pr').innerHTML = shown ? `${scoreTxt(shown)}` : '—';
-  $('s-pr-l').innerHTML = shown ? `Recorde 20' ${rx ? '<span class="tag rx">RX</span>' : '<span class="tag sc">adaptado</span>'}` : "Recorde (20')";
+  const cs = CS(), rx = bestOf(cs.filter(isRx)), anyBest = bestOf(cs.filter(s => s.dur === 20)), shown = rx || anyBest;
+  $('s-pr').innerHTML = shown ? scoreTxt(shown) : '—';
+  $('s-pr-l').innerHTML = shown ? `Recorde Cindy 20' ${rx ? '<span class="tag rx">completa</span>' : '<span class="tag sc">adaptado</span>'}` : "Recorde Cindy (20')";
   const last = S.sessions[S.sessions.length - 1];
-  $('s-last').textContent = last ? scoreTxt(last) : '—';
-  $('s-last-l').textContent = last ? `Último · ${fmtDate(last.date)} · ${last.dur}'` : 'Último treino';
+  $('s-last').textContent = !last ? '—' : isShadow(last) ? `${last.rounds}×${last.roundMin}'` : scoreTxt(last);
+  $('s-last-l').textContent = !last ? 'Último treino' : `Último · ${isShadow(last) ? 'shadow' : 'Cindy'} · ${fmtDate(last.date)}`;
   $('s-total').textContent = S.sessions.length;
-  $('s-reps').textContent = S.sessions.reduce((a, s) => a + totalReps(s), 0).toLocaleString('pt-BR');
-  // Tendência: compara os 3 últimos da mesma configuração do último treino com os 3 anteriores
+  $('s-reps').textContent = SH().reduce((a, s) => a + shadowMin(s), 0).toLocaleString('pt-BR');
+  // Tendência da Cindy
   let tr = '';
-  if (last) {
-    const same = S.sessions.filter(s => sameSetup(s, last));
+  const lastC = cs[cs.length - 1];
+  if (lastC) {
+    const same = cs.filter(s => sameSetup(s, lastC));
     if (same.length >= 4) {
       const n = Math.min(3, Math.floor(same.length / 2));
       const avg = a => a.reduce((x, s) => x + totalReps(s), 0) / a.length;
       const diff = avg(same.slice(-n)) - avg(same.slice(-2 * n, -n));
-      tr = diff >= 1 ? `📈 Média dos últimos ${n} treinos: <b>+${Math.round(diff)} repetições</b> em relação aos ${n} anteriores.` :
-           diff <= -1 ? `Média dos últimos ${n} treinos: ${Math.round(diff)} repetições. Sono e descanso contam — sem estresse.` : 'Resultados estáveis. Tente fechar 1 round a mais no próximo.';
-    } else if (same.length) tr = `Faça ${4 - same.length} treino${4 - same.length > 1 ? 's' : ''} a mais nesta configuração para ver sua tendência.`;
+      tr = diff >= 1 ? `📈 Cindy: média dos últimos ${n} treinos <b>+${Math.round(diff)} repetições</b> em relação aos ${n} anteriores.` :
+           diff <= -1 ? `Cindy: média dos últimos ${n} treinos ${Math.round(diff)} repetições. Sono e descanso contam — sem estresse.` : 'Cindy estável. Tente fechar 1 round a mais no próximo.';
+    } else tr = `Faça ${4 - same.length} Cindy${4 - same.length > 1 ? 's' : ''} a mais nesta configuração para ver sua tendência.`;
   }
   $('s-trend').innerHTML = tr;
   $('what').open = S.sessions.length === 0;
@@ -606,25 +932,50 @@ function renderHome() {
   $('ach-count').textContent = `${on}/${ACH.length}`;
   $('ach').innerHTML = ACH.map(a => `<div class="a ${a.ok() ? 'on' : ''}"><div class="i">${a.i}</div><div class="n">${a.n}</div></div>`).join('');
 }
-$('home-start').addEventListener('click', () => startRun());
+$('home-start').addEventListener('click', () => dayType(new Date().getDay()) === 'shadow' ? startShadow() : startRun());
+$('home-alt').addEventListener('click', () => go('train'));
+$('home-how').addEventListener('click', () => dayType(new Date().getDay()) === 'shadow' ? openPunches() : openHow(`pull:${S.cfg.pull}`));
 
 // ═══════════════════════ TREINAR ═══════════════════════
 function chipGroup(el, items, val, onPick) {
   el.innerHTML = items.map(([k, l]) => `<button data-k="${k}" aria-pressed="${String(k) === String(val)}">${l}</button>`).join('');
   el.querySelectorAll('button').forEach(b => b.onclick = () => onPick(b.dataset.k));
 }
+let trainTab = null;
 function renderTrain() {
+  if (!trainTab) trainTab = dayType(new Date().getDay()) === 'shadow' ? 'shadow' : 'cindy';
+  document.querySelectorAll('.seg [data-t]').forEach(b => b.setAttribute('aria-pressed', b.dataset.t === trainTab));
+  $('t-cindy').hidden = trainTab !== 'cindy'; $('t-shadow').hidden = trainTab !== 'shadow';
+  $('train-manual').hidden = trainTab !== 'cindy';
+  const sbtn = $('train-start'); sbtn.textContent = trainTab === 'cindy' ? '▶ Começar Cindy' : '▶ Começar shadowboxing';
+  sbtn.style.background = trainTab === 'shadow' ? 'var(--hot)' : '';
+  $('train-sub').innerHTML = trainTab === 'cindy' ? 'Cindy em casa, sem equipamento. <span class="tag rx">completa</span> = 20 min, flexão e agachamento completos.' : 'Rounds de boxe contra a sombra, com combinações chamadas por voz.';
+  const cd = S.days.map(d => DOW[d]).join(', '), sd = WEEKDAYS.filter(d => !S.days.includes(d)).map(d => DOW[d]).join(', ');
+  $('train-sched').textContent = `Agenda: Cindy ${cd}${sd ? ' · shadowboxing ' + sd : ''} · sáb e dom descanso. Mude em Config.`;
   const c = S.cfg;
   chipGroup(document.querySelector('[data-opt="dur"]'), DURS, c.dur, k => { c.dur = +k; save(); renderTrain(); });
   MOVES.forEach(m => chipGroup(document.querySelector(`[data-opt="${m.key}"]`), m.opts, c[m.key], k => { c[m.key] = k; save(); renderTrain(); }));
-  $('o-dur-h').innerHTML = isRx(c) ? '<span class="tag rx">RX</span>' : '<span class="tag sc">adaptado</span>';
-  $('o-pull-h').textContent = c.pull === 'row' ? 'numa mesa firme ou barra baixa' : c.pull === 'jump' ? 'suba com impulso, desça devagar' : '';
+  $('o-dur-h').innerHTML = isRx(c) ? '<span class="tag rx">completa</span>' : '<span class="tag sc">adaptado</span>';
+  $('o-pull-h').textContent = c.pull === 'burpee' ? 'mais cardio, mais puxado' : 'trabalha as costas, como a barra';
   $('o-warm').setAttribute('aria-checked', c.warm); $('o-voice').setAttribute('aria-checked', c.voice);
   $('warm-list').innerHTML = c.warm ? WARMUP.map(w => `<li>${w}</li>`).join('') : '';
+  // Shadow
+  const b = c.sb;
+  chipGroup(document.querySelector('[data-sb="level"]'), SB_LEVELS, b.level, k => { b.level = k; save(); renderTrain(); });
+  chipGroup(document.querySelector('[data-sb="rounds"]'), [[4, '4'], [6, '6'], [8, '8']], b.rounds, k => { b.rounds = +k; save(); renderTrain(); });
+  chipGroup(document.querySelector('[data-sb="roundMin"]'), [[2, '2 min'], [3, '3 min']], b.roundMin, k => { b.roundMin = +k; save(); renderTrain(); });
+  chipGroup(document.querySelector('[data-sb="rest"]'), [[30, '30 s'], [60, '1 min']], b.rest, k => { b.rest = +k; save(); renderTrain(); });
+  $('sb-lv-h').textContent = { ini: 'combinações curtas, a cada 9 s', int: 'a cada 6 s', adv: 'combinações longas, a cada 4 s' }[b.level];
+  const totalMin = Math.round((b.rounds * b.roundMin * 60 + (b.rounds - 1) * b.rest) / 60);
+  $('sb-total').textContent = `≈ ${totalMin} min no total`;
+  if (!$('sb-punches').children.length) punchGrid($('sb-punches'));
+  $('sb-plan').innerHTML = Array.from({ length: b.rounds }, (_, i) => { const pl = sbPlanFor(i, b.rounds); return `<div class="cfg" style="padding:9px 0"><div class="x"><b>Round ${i + 1} · ${pl.f}</b><span>${pl.tip}</span></div></div>`; }).join('');
 }
+document.querySelectorAll('.seg [data-t]').forEach(b => b.addEventListener('click', () => { trainTab = b.dataset.t; renderTrain(); }));
+document.querySelectorAll('[data-howmv]').forEach(b => b.addEventListener('click', () => openHow(`${b.dataset.howmv}:${S.cfg[b.dataset.howmv]}`)));
 $('o-warm').addEventListener('click', () => { S.cfg.warm = !S.cfg.warm; save(); renderTrain(); });
 $('o-voice').addEventListener('click', () => { S.cfg.voice = !S.cfg.voice; save(); renderTrain(); });
-$('train-start').addEventListener('click', () => startRun());
+$('train-start').addEventListener('click', () => trainTab === 'shadow' ? startShadow() : startRun());
 $('train-manual').addEventListener('click', () => openResult({ manual: true }));
 
 // ═══════════════════════ ÁUDIO / VOZ ═══════════════════════
@@ -646,7 +997,7 @@ const vib = p => { if ('vibrate' in navigator) navigator.vibrate(p); };
 let wakeLock = null;
 async function lockScreen() { try { if ('wakeLock' in navigator) wakeLock = await navigator.wakeLock.request('screen'); } catch (e) {} }
 function unlockScreen() { try { wakeLock && wakeLock.release(); } catch (e) {} wakeLock = null; }
-document.addEventListener('visibilitychange', () => { if (!document.hidden && R && R.phase !== 'done') lockScreen(); });
+document.addEventListener('visibilitychange', () => { if (!document.hidden && ((R && R.phase !== 'done') || B)) lockScreen(); });
 
 // ═══════════════════════ TREINO EM ANDAMENTO ═══════════════════════
 // O relógio é calculado pela hora real (Date.now), então não atrasa se a tela apagar ou o app for para segundo plano.
@@ -655,7 +1006,7 @@ function startRun() {
   const c = { ...S.cfg };
   R = { cfg: c, phase: c.warm ? 'warm' : 'amrap', warmI: 0, rounds: 0, move: 0, splits: [], hist: [], paused: false, pausedMs: 0, pauseAt: 0, t0: 0, roundT0: 0, cues: {} };
   $('run').classList.add('on'); document.body.style.overflow = 'hidden';
-  $('r-cfg').textContent = `${c.dur} min · ${isRx(c) ? 'RX' : 'adaptado'}`;
+  $('r-cfg').textContent = `${c.dur} min · ${optName('pull', c.pull).toLowerCase()} · ${isRx(c) ? 'completa' : 'adaptado'}`;
   lockScreen(); beep(1, 1); // desbloqueia o áudio no toque
   countdown(() => begin(R.phase));
 }
@@ -723,9 +1074,10 @@ function render(timeOnly) {
   $('r-undo').disabled = !R.hist.length; $('r-end').textContent = 'Terminar';
   $('r-rounds').textContent = R.rounds;
   $('r-reps').textContent = R.rounds * ROUND_REPS + MOVES.slice(0, R.move).reduce((a, m) => a + m.reps, 0);
-  $('r-moves').innerHTML = MOVES.map((m, i) => `<div class="mv ${i === R.move ? 'cur' : i < R.move ? 'ok' : ''}"><b>${m.reps}</b><span>${m.key === 'pull' ? optName('pull', R.cfg.pull) : m.name}</span></div>`).join('');
+  $('r-moves').innerHTML = MOVES.map((m, i) => { const k = `${m.key}:${R.cfg[m.key]}`; return `<div class="mv ${i === R.move ? 'cur' : i < R.move ? 'ok' : ''}" data-how="${k}" title="Como fazer"><div class="mini">${figSVG(HOW[k].fig, { still: i < R.move ? 'a' : undefined, label: HOW[k].t })}</div><b>${m.reps}</b><span>${moveShort(m, R.cfg)}</span></div>`; }).join('');
+  $('r-moves').querySelectorAll('[data-how]').forEach(el => el.onclick = () => openHow(el.dataset.how));
   const m = MOVES[R.move];
-  tap.className = 'tap'; $('r-tap-b').textContent = `${m.reps} ${m.name.toUpperCase()}`;
+  tap.className = 'tap'; $('r-tap-b').textContent = `${m.reps} ${moveShort(m, R.cfg).toUpperCase()}`;
   $('r-tap-s').textContent = R.paused ? 'Pausado — toque ▶ para continuar' : R.move === 2 ? `Toque ao terminar · fecha o round ${R.rounds + 1}` : 'Toque quando terminar';
   renderPace();
 }
@@ -782,20 +1134,134 @@ function finishRun(early) {
   openResult(data);
 }
 
+// ═══════════════════════ SHADOWBOXING ═══════════════════════
+// Mesmo princípio da Cindy: relógio pela hora real, com pausa que não conta tempo.
+let B = null, sbTick = null;
+function bell(n = 3) { for (let i = 0; i < n; i++) setTimeout(() => beep(1180, 150), i * 230); }
+function startShadow() {
+  B = { cfg: { ...S.cfg.sb }, round: 0, phase: 'round', t0: 0, pausedMs: 0, paused: false, pauseAt: 0, nextCall: 0, combo: null, comboD: '', cues: {}, done: 0 };
+  $('sbrun').classList.add('on'); document.body.style.overflow = 'hidden';
+  $('sb-cfg').textContent = `${B.cfg.rounds}×${B.cfg.roundMin} min · ${SB_LEVELS.find(l => l[0] === B.cfg.level)[1].toLowerCase()}`;
+  lockScreen(); beep(1, 1);
+  const el = $('sb-count'), n = $('sb-count-n'); let k = 3; el.hidden = false;
+  const step = () => {
+    if (!B) { el.hidden = true; return; }
+    if (k === 0) { el.hidden = true; sbBegin('round'); return; }
+    n.textContent = k; n.style.animation = 'none'; void n.offsetWidth; n.style.animation = '';
+    beep(880); say(String(k)); k--; setTimeout(step, 1000);
+  };
+  sbRender(); step();
+}
+function sbBegin(phase) {
+  B.phase = phase; B.t0 = Date.now(); B.pausedMs = 0; B.cues = {};
+  if (phase === 'round') {
+    const pl = sbPlanFor(B.round, B.cfg.rounds);
+    bell(3); vib([250]); B.combo = null; B.comboD = ''; B.nextCall = 4000;
+    say(`Round ${B.round + 1}. ${pl.f}`);
+  } else {
+    bell(2); vib([150, 80, 150]);
+    say(`Descanso. Próximo: ${sbPlanFor(B.round + 1, B.cfg.rounds).f}`);
+  }
+  clearInterval(sbTick); sbTick = setInterval(sbLoop, 200); sbRender();
+}
+const sbPhaseMs = () => B.phase === 'round' ? B.cfg.roundMin * 60e3 : B.cfg.rest * 1e3;
+const sbElapsed = () => (B.paused ? B.pauseAt : Date.now()) - B.t0 - B.pausedMs;
+function callCombo() {
+  const pl = sbPlanFor(B.round, B.cfg.rounds);
+  const n = c => (c.match(/[1-6]/g) || []).length;
+  let list = B.cfg.level === 'ini' ? pl.combos.filter(c => n(c) <= 3) : B.cfg.level === 'adv' ? pl.combos.filter(c => n(c) >= 2 || c === 'livre') : pl.combos;
+  if (!list.length) list = pl.combos;
+  let c; do { c = list[Math.floor(Math.random() * list.length)]; } while (list.length > 1 && c === B.combo);
+  B.combo = c; B.comboD = c === 'livre' ? 'crie sua combinação' : comboDesc(c);
+  say(c === 'livre' ? 'Livre!' : comboSpeech(c));
+  const box = $('sb-combo-box'); box.classList.remove('flash'); void box.offsetWidth; box.classList.add('flash');
+  sbRender();
+}
+function sbLoop() {
+  if (!B || B.paused) return;
+  const el = sbElapsed(), rem = sbPhaseMs() - el, lastRound = B.round === B.cfg.rounds - 1;
+  const once = (k, fn) => { if (!B.cues[k]) { B.cues[k] = 1; fn(); } };
+  if (B.phase === 'round') {
+    if (lastRound && rem <= 20e3) once('sprint', () => { B.combo = 'SPRINT!'; B.comboD = 'socos rápidos, sem parar'; say('Sprint final! Socos rápidos!'); vib([100, 50, 100, 50, 100]); sbRender(); });
+    else if (el >= B.nextCall && rem > 4000) { callCombo(); B.nextCall += SB_EVERY[B.cfg.level] * 1000; }
+    if (rem <= 30e3 && !lastRound) once('30', () => say('Trinta segundos'));
+    if (rem <= 3000 && rem > 0) once('c' + Math.ceil(rem / 1000), () => beep(990, 90));
+    if (rem <= 0) { B.done = B.round + 1; if (lastRound) { sbFinish(); return; } sbBegin('rest'); return; }
+  } else {
+    if (rem <= 10e3) once('10', () => say('Dez segundos. Guarda alta.'));
+    if (rem <= 3000 && rem > 0) once('c' + Math.ceil(rem / 1000), () => beep(880, 90));
+    if (rem <= 0) { B.round++; sbBegin('round'); return; }
+  }
+  sbRender(true);
+}
+function sbRender(timeOnly) {
+  if (!B) return;
+  const rem = Math.max(0, sbPhaseMs() - sbElapsed()), rest = B.phase === 'rest';
+  $('sb-time').textContent = fmtClock(B.t0 ? rem : sbPhaseMs());
+  $('sb-bar').style.width = (B.t0 ? Math.min(100, sbElapsed() / sbPhaseMs() * 100) : 0) + '%';
+  if (timeOnly) return;
+  $('sbrun').classList.toggle('resting', rest);
+  const pl = sbPlanFor(rest ? B.round + 1 : B.round, B.cfg.rounds);
+  $('sb-phase').textContent = B.paused ? 'Pausado' : rest ? `Descanso · próximo round ${B.round + 2} de ${B.cfg.rounds}` : `Round ${B.round + 1} de ${B.cfg.rounds}`;
+  $('sb-dots').innerHTML = Array.from({ length: B.cfg.rounds }, (_, i) => `<i class="${i < B.done ? 'ok' : i === B.round && !rest ? 'cur' : ''}"></i>`).join('');
+  $('sb-focus').textContent = (rest ? 'A seguir: ' : '') + pl.f;
+  $('sb-combo').textContent = rest ? 'Respire' : B.combo || (B.t0 ? 'Prepare-se' : '3…');
+  $('sb-combo-d').textContent = rest ? 'Solte os ombros, beba um gole de água' : B.comboD || 'Guarda alta, base firme';
+  $('sb-tip').textContent = pl.tip;
+  $('sb-skip').textContent = rest ? 'Pular descanso' : B.round === B.cfg.rounds - 1 ? 'Encerrar round' : 'Próximo round';
+  $('sb-pause').textContent = B.paused ? '▶' : '❚❚'; $('sb-pause').setAttribute('aria-label', B.paused ? 'Continuar' : 'Pausar');
+}
+$('sb-combo-box').addEventListener('click', () => { if (B) openPunches(); });
+$('sb-pause').addEventListener('click', () => {
+  if (!B || !B.t0) return;
+  if (B.paused) { B.pausedMs += Date.now() - B.pauseAt; B.paused = false; say('Continuando'); } else { B.paused = true; B.pauseAt = Date.now(); }
+  sbRender();
+});
+$('sb-skip').addEventListener('click', () => {
+  if (!B || !B.t0) return;
+  if (B.paused) { B.pausedMs += Date.now() - B.pauseAt; B.paused = false; }
+  if (B.phase === 'rest') { B.round++; sbBegin('round'); return; }
+  B.done = B.round + 1;
+  if (B.round === B.cfg.rounds - 1) sbFinish(); else sbBegin('rest');
+});
+$('sb-end').addEventListener('click', () => { if (B && confirm('Terminar agora e salvar os rounds feitos?')) sbFinish(true); });
+$('sb-close').addEventListener('click', () => {
+  if (!B) return;
+  if (B.done && confirm('Sair do treino? OK salva os rounds feitos; Cancelar volta ao treino.')) { sbFinish(true); return; }
+  if (!B.done && confirm('Sair sem salvar?')) sbClose();
+});
+function sbClose() { clearInterval(sbTick); B = null; $('sbrun').classList.remove('on'); $('sb-count').hidden = true; document.body.style.overflow = ''; unlockScreen(); if (window.speechSynthesis) speechSynthesis.cancel(); }
+function sbFinish(early) {
+  clearInterval(sbTick);
+  if (!early) { bell(4); say('Fim! Excelente treino!'); vib([400, 150, 400]); }
+  const d = { shadow: true, rounds: B.done, cfg: B.cfg, early };
+  sbClose(); openResult(d);
+}
+
 // ═══════════════════════ RESULTADO ═══════════════════════
 let RES = null;
 function openResult(d) {
-  const cfg = d.cfg || { ...S.cfg };
-  RES = { rounds: d.rounds || 0, extra: d.extra || 0, splits: d.splits || [], cfg, feel: null, manual: !!d.manual };
-  $('res-t').textContent = d.manual ? 'Registrar resultado' : d.early ? 'Treino encerrado' : 'Tempo!';
-  $('res-s').textContent = d.manual ? 'Fez a Cindy sem o cronômetro? Anote aqui.' : 'Ajuste as repetições do último round, se precisar, e salve.';
+  const shadow = !!d.shadow, cfg = d.cfg || (shadow ? { ...S.cfg.sb } : { ...S.cfg });
+  RES = { kind: shadow ? 'shadow' : 'cindy', rounds: d.rounds || 0, extra: d.extra || 0, splits: d.splits || [], cfg, feel: null, manual: !!d.manual };
+  $('res-t').textContent = d.manual ? 'Registrar resultado' : shadow ? (d.early ? 'Treino encerrado' : 'Fim do shadowboxing!') : d.early ? 'Treino encerrado' : 'Tempo!';
+  $('res-s').textContent = d.manual ? 'Fez a Cindy sem o cronômetro? Anote aqui.' : shadow ? 'Confira os rounds e conte como foi.' : 'Ajuste as repetições do último round, se precisar, e salve.';
+  $('res-e-f').hidden = shadow;
+  $('res-r-l').textContent = shadow ? `Rounds feitos (de ${cfg.rounds})` : 'Rounds completos';
   $('res-date-f').hidden = !d.manual; $('res-date').value = todayISO(); $('res-date').max = todayISO();
   $('res-cfg-f').hidden = !d.manual;
-  $('res-cfg').innerHTML = `${cfg.dur} min · ${optName('pull', cfg.pull)} · flexão ${optName('push', cfg.push).toLowerCase()} · agach. ${optName('squat', cfg.squat).toLowerCase()} — mude em <b>Treinar</b>`;
+  $('res-cfg').innerHTML = shadow ? '' : `${cfg.dur} min · ${optName('pull', cfg.pull)} · flexão ${optName('push', cfg.push).toLowerCase()} · agach. ${optName('squat', cfg.squat).toLowerCase()} — mude em <b>Treinar</b>`;
   renderRes(); $('res').classList.add('on');
 }
 function feelPick(k) { RES.feel = k; chipGroup($('res-feel'), FEELS, k, feelPick); }
 function renderRes() {
+  if (RES.kind === 'shadow') {
+    RES.rounds = Math.max(0, Math.min(RES.cfg.rounds, RES.rounds));
+    $('res-r').textContent = RES.rounds;
+    $('res-score').innerHTML = `${RES.rounds} × ${RES.cfg.roundMin}'<small>rounds · ${RES.rounds * RES.cfg.roundMin} minutos de luta</small>`;
+    $('res-pr').hidden = true;
+    chipGroup($('res-feel'), FEELS, RES.feel, feelPick);
+    return;
+  }
   RES.extra = Math.max(0, Math.min(ROUND_REPS - 1, RES.extra)); RES.rounds = Math.max(0, Math.min(60, RES.rounds));
   $('res-r').textContent = RES.rounds; $('res-e').textContent = RES.extra;
   $('res-e-h').textContent = `(0–${ROUND_REPS - 1})`;
@@ -811,7 +1277,16 @@ document.querySelectorAll('[data-st]').forEach(b => b.addEventListener('click', 
 $('res-discard').addEventListener('click', () => { if (RES.manual || confirm('Descartar este resultado?')) { $('res').classList.remove('on'); RES = null; } });
 $('res-save').addEventListener('click', () => {
   const c = RES.cfg, date = RES.manual ? ($('res-date').value || todayISO()) : todayISO();
-  const s = { id: Date.now(), date, dur: c.dur, pull: c.pull, push: c.push, squat: c.squat, rounds: RES.rounds, extra: RES.extra, splits: RES.splits, feel: RES.feel };
+  if (RES.kind === 'shadow') {
+    if (!RES.rounds) { toast('Nenhum round feito — nada foi salvo'); $('res').classList.remove('on'); RES = null; return; }
+    const before = ACH.filter(a => a.ok()).map(a => a.n);
+    S.sessions.push({ id: Date.now(), date, type: 'shadow', rounds: RES.rounds, roundMin: c.roundMin, rest: c.rest, level: c.level, feel: RES.feel });
+    S.sessions.sort((a, b) => a.date.localeCompare(b.date) || a.id - b.id); save();
+    $('res').classList.remove('on'); RES = null;
+    const na = ACH.filter(a => a.ok() && !before.includes(a.n));
+    toast(na.length ? `${na[0].i} Conquista: ${na[0].n}!` : '🥊 Shadowboxing salvo!'); go('home'); return;
+  }
+  const s = { id: Date.now(), date, type: 'cindy', dur: c.dur, pull: c.pull, push: c.push, squat: c.squat, rounds: RES.rounds, extra: RES.extra, splits: RES.splits, feel: RES.feel };
   if (!s.rounds && !s.extra) { toast('Resultado vazio — nada foi salvo'); $('res').classList.remove('on'); return; }
   const prev = prFor(s); s.pr = !!(prev && totalReps(s) > totalReps(prev));
   const before = ACH.filter(a => a.ok()).map(a => a.n);
@@ -826,30 +1301,35 @@ $('res-save').addEventListener('click', () => {
 let hFilter = 'all', chartPts = [];
 const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 function renderHist() {
-  const durs = [...new Set(S.sessions.map(s => s.dur))].sort((a, b) => b - a);
-  const items = [['all', 'Todos'], ...durs.map(d => [String(d), d + ' min'])];
-  if (!items.find(i => i[0] === hFilter)) hFilter = 'all';
-  chipGroup($('hfilter'), items, hFilter, k => { hFilter = k; renderHist(); });
-  const list = S.sessions.filter(s => hFilter === 'all' || String(s.dur) === hFilter);
-  $('hist-sub').textContent = S.sessions.length ? `${S.sessions.length} treino${S.sessions.length > 1 ? 's' : ''} registrado${S.sessions.length > 1 ? 's' : ''}.` : 'Seus resultados na Cindy aparecem aqui.';
-  drawHist(list);
+  chipGroup($('hfilter'), [['all', 'Todos'], ['cindy', '💪 Cindy'], ['shadow', '🥊 Shadow']], hFilter, k => { hFilter = k; renderHist(); });
+  const list = S.sessions.filter(s => hFilter === 'all' || (hFilter === 'cindy' ? isCindy(s) : isShadow(s)));
+  const nc = CS().length, ns = SH().length;
+  $('hist-sub').textContent = S.sessions.length ? `${nc} Cindy · ${ns} shadowboxing` : 'Seus treinos aparecem aqui.';
+  const chartShadow = hFilter === 'shadow';
+  drawHist(chartShadow ? SH() : CS(), chartShadow);
+  $('chart-leg').innerHTML = chartShadow ? 'Minutos de luta por treino · linha tracejada = maior treino'
+    : 'Cindy: repetições totais por treino · <span style="color:var(--accent)">●</span> completa · <span style="color:var(--cool)">●</span> adaptado · tracejado = recorde';
   $('hlist').innerHTML = list.length ? list.slice().reverse().map(s => {
-    const avg = s.splits && s.splits.length ? ` · ${fmtPace(s.splits.reduce((a, b) => a + b, 0) / s.splits.length)}/round` : '';
     const feel = s.feel ? ' · ' + FEELS.find(f => f[0] === s.feel)[1] : '';
-    return `<div class="hist-item"><div class="hist-score">${scoreTxt(s)}<small>${totalReps(s)} reps</small></div>
-      <div class="hist-info">${isRx(s) ? '<span class="tag rx">RX</span>' : '<span class="tag sc">adaptado</span>'} ${s.dur} min ${s.pr ? '<span class="pr">· 🏆 recorde</span>' : ''}
-      <div class="d">${fmtDate(s.date)}${avg}${feel}${isRx(s) ? '' : ' · ' + optName('pull', s.pull)}</div></div>
+    if (isShadow(s)) return `<div class="hist-item"><div class="hist-score" style="color:var(--hot)">${s.rounds}×${s.roundMin}'<small>${shadowMin(s)} min</small></div>
+      <div class="hist-info"><span class="tag" style="background:var(--hotdim);color:var(--hot)">🥊 Shadow</span> ${SB_LEVELS.find(l => l[0] === s.level)[1]}
+      <div class="d">${fmtDate(s.date)}${feel}</div></div>
       <button class="del" data-id="${s.id}" aria-label="Apagar treino de ${fmtDate(s.date)}">×</button></div>`;
-  }).join('') : '<div class="empty">Nenhum treino ainda.<br>Faça sua primeira Cindy! 💪</div>';
+    const avg = s.splits && s.splits.length ? ` · ${fmtPace(s.splits.reduce((a, b) => a + b, 0) / s.splits.length)}/round` : '';
+    return `<div class="hist-item"><div class="hist-score">${scoreTxt(s)}<small>${totalReps(s)} reps</small></div>
+      <div class="hist-info">${isRx(s) ? '<span class="tag rx">completa</span>' : '<span class="tag sc">adaptado</span>'} Cindy ${s.dur}' ${s.pr ? '<span class="pr">· 🏆 recorde</span>' : ''}
+      <div class="d">${fmtDate(s.date)}${avg}${feel}${' · ' + optName('pull', s.pull)}</div></div>
+      <button class="del" data-id="${s.id}" aria-label="Apagar treino de ${fmtDate(s.date)}">×</button></div>`;
+  }).join('') : '<div class="empty">Nenhum treino ainda.<br>Bora começar? 💪🥊</div>';
   $('hlist').querySelectorAll('.del').forEach(b => b.onclick = () => {
     if (!confirm('Apagar este treino?')) return;
     S.sessions = S.sessions.filter(s => s.id !== +b.dataset.id);
-    // recalcula as marcas de recorde após apagar
-    const seen = []; S.sessions.forEach(s => { const p = bestOf(seen.filter(x => sameSetup(x, s))); s.pr = !!(p && totalReps(s) > totalReps(p)); seen.push(s); });
+    // recalcula as marcas de recorde da Cindy após apagar
+    const seen = []; CS().forEach(s => { const p = bestOf(seen.filter(x => sameSetup(x, s))); s.pr = !!(p && totalReps(s) > totalReps(p)); seen.push(s); });
     save(); renderHist(); toast('Treino apagado');
   });
 }
-function drawHist(list) {
+function drawHist(list, shadowMode) {
   const cv = $('chart'), ctx = cv.getContext('2d'), dpr = devicePixelRatio || 1, r = cv.getBoundingClientRect();
   if (!r.width) return;
   cv.width = r.width * dpr; cv.height = r.height * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -858,14 +1338,15 @@ function drawHist(list) {
   const accent = css('--accent'), cool = css('--cool'), border = css('--border'), muted = css('--muted');
   ctx.font = '11px DM Sans, sans-serif';
   if (list.length < 2) { ctx.fillStyle = muted; ctx.textAlign = 'center'; ctx.fillText(list.length ? 'Faça mais um treino para ver o gráfico' : 'Sem treinos ainda', W / 2, H / 2); return; }
-  const pts = list.slice(-20), vals = pts.map(totalReps);
-  let lo = Math.min(...vals), hi = Math.max(...vals); const pad = Math.max(10, (hi - lo) * .15); lo = Math.max(0, lo - pad); hi += pad;
+  const hot = css('--hot'), val = shadowMode ? shadowMin : totalReps, lineC = shadowMode ? hot : accent;
+  const pts = list.slice(-20), vals = pts.map(val);
+  let lo = Math.min(...vals), hi = Math.max(...vals); const pad = Math.max(shadowMode ? 2 : 10, (hi - lo) * .15); lo = Math.max(0, lo - pad); hi += pad;
   const X = i => P.l + i / (pts.length - 1) * (W - P.l - P.r), Y = v => P.t + (1 - (v - lo) / (hi - lo)) * (H - P.t - P.b);
   ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
   for (let k = 0; k <= 3; k++) { const v = lo + (hi - lo) * k / 3, y = Y(v); ctx.strokeStyle = border; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(P.l, y); ctx.lineTo(W - P.r, y); ctx.stroke(); ctx.fillStyle = muted; ctx.fillText(Math.round(v), P.l - 6, y); }
-  const best = Math.max(...vals); ctx.setLineDash([5, 4]); ctx.strokeStyle = accent + '88'; ctx.beginPath(); ctx.moveTo(P.l, Y(best)); ctx.lineTo(W - P.r, Y(best)); ctx.stroke(); ctx.setLineDash([]);
-  ctx.strokeStyle = accent; ctx.lineWidth = 2; ctx.lineJoin = 'round'; ctx.beginPath(); vals.forEach((v, i) => i ? ctx.lineTo(X(i), Y(v)) : ctx.moveTo(X(i), Y(v))); ctx.stroke();
-  pts.forEach((s, i) => { const x = X(i), y = Y(vals[i]); ctx.beginPath(); ctx.arc(x, y, 5, 0, 7); ctx.fillStyle = isRx(s) ? accent : cool; ctx.fill(); ctx.lineWidth = 2; ctx.strokeStyle = css('--card'); ctx.stroke(); chartPts.push({ x, y, s }); });
+  const best = Math.max(...vals); ctx.setLineDash([5, 4]); ctx.strokeStyle = lineC + '88'; ctx.beginPath(); ctx.moveTo(P.l, Y(best)); ctx.lineTo(W - P.r, Y(best)); ctx.stroke(); ctx.setLineDash([]);
+  ctx.strokeStyle = lineC; ctx.lineWidth = 2; ctx.lineJoin = 'round'; ctx.beginPath(); vals.forEach((v, i) => i ? ctx.lineTo(X(i), Y(v)) : ctx.moveTo(X(i), Y(v))); ctx.stroke();
+  pts.forEach((s, i) => { const x = X(i), y = Y(vals[i]); ctx.beginPath(); ctx.arc(x, y, 5, 0, 7); ctx.fillStyle = shadowMode ? hot : isRx(s) ? accent : cool; ctx.fill(); ctx.lineWidth = 2; ctx.strokeStyle = css('--card'); ctx.stroke(); chartPts.push({ x, y, s }); });
   ctx.fillStyle = muted; ctx.textBaseline = 'alphabetic';
   ctx.textAlign = 'left'; ctx.fillText(fmtDate(pts[0].date), P.l, H - 4);
   ctx.textAlign = 'right'; ctx.fillText(fmtDate(pts[pts.length - 1].date), W - P.r, H - 4);
@@ -874,7 +1355,7 @@ function chartHover(e) {
   if (!chartPts.length) return;
   const r = $('chart').getBoundingClientRect(), x = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
   const p = chartPts.reduce((b, q) => Math.abs(q.x - x) < Math.abs(b.x - x) ? q : b);
-  const tt = $('tt'); tt.innerHTML = `<b>${scoreTxt(p.s)}</b> · ${totalReps(p.s)} reps<br><span class="muted">${fmtDate(p.s.date)} · ${p.s.dur} min · ${isRx(p.s) ? 'RX' : 'adaptado'}</span>`;
+  const tt = $('tt'); tt.innerHTML = isShadow(p.s) ? `<b style="color:var(--hot)">${p.s.rounds}×${p.s.roundMin}'</b> · ${shadowMin(p.s)} min<br><span class="muted">${fmtDate(p.s.date)} · shadowboxing</span>` : `<b>${scoreTxt(p.s)}</b> · ${totalReps(p.s)} reps<br><span class="muted">${fmtDate(p.s.date)} · ${p.s.dur} min · ${isRx(p.s) ? 'completa' : 'adaptado'}</span>`;
   tt.classList.add('on'); const w = tt.offsetWidth; tt.style.left = Math.max(0, Math.min(r.width - w, p.x - w / 2)) + 'px'; tt.style.top = Math.max(0, p.y - tt.offsetHeight - 12) + 'px';
 }
 $('chart').addEventListener('mousemove', chartHover); $('chart').addEventListener('touchstart', chartHover, { passive: true });
@@ -927,11 +1408,13 @@ $('w-add').addEventListener('click', () => {
 function renderCfg() {
   $('c-name').value = S.name; $('c-goal').value = S.goal ? String(S.goal).replace('.', ',') : ''; $('c-time').value = S.time;
   const el = $('c-days');
-  el.innerHTML = [1, 2, 3, 4, 5, 6, 0].map(d => `<button data-d="${d}" aria-pressed="${S.days.includes(d)}">${DOW[d]}</button>`).join('');
+  el.innerHTML = WEEKDAYS.map(d => `<button data-d="${d}" aria-pressed="${S.days.includes(d)}" style="${S.days.includes(d) ? '' : 'border-color:rgba(255,106,61,.45);color:var(--hot)'}">${DOW[d]} ${S.days.includes(d) ? '💪' : '🥊'}</button>`).join('');
+  const sd = WEEKDAYS.filter(d => !S.days.includes(d));
+  $('c-days-h').textContent = `Cindy: ${S.days.slice().sort().map(d => DOW[d]).join(', ')} · Shadowboxing: ${sd.length ? sd.map(d => DOW[d]).join(', ') : 'nenhum dia'} · Meta: 5 treinos por semana.`;
   el.querySelectorAll('button').forEach(b => b.onclick = () => {
     const d = +b.dataset.d;
     if (S.days.includes(d)) { if (S.days.length === 1) { toast('Escolha pelo menos um dia'); return; } S.days = S.days.filter(x => x !== d); } else S.days.push(d);
-    if (S.days.length > 5) toast('Dica: a Cindy é intensa. 3–4 vezes por semana costuma render mais.');
+    if (S.days.length > 3) toast('Dica: a Cindy é intensa. Até 3 vezes por semana, com shadowboxing entre elas, costuma render mais.');
     save(); renderCfg();
   });
 }
@@ -944,13 +1427,14 @@ function download(name, text, type) {
 }
 $('c-ics').addEventListener('click', () => {
   const [hh, mm] = S.time.split(':'); const start = new Date(); start.setHours(+hh, +mm, 0, 0);
-  while (!S.days.includes(start.getDay()) || start < new Date()) start.setDate(start.getDate() + 1);
+  while (!WEEKDAYS.includes(start.getDay()) || start < new Date()) start.setDate(start.getDate() + 1);
   const dt = `${start.getFullYear()}${pad(start.getMonth() + 1)}${pad(start.getDate())}T${hh}${mm}00`;
   const stamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '');
-  const byday = [1, 2, 3, 4, 5, 6, 0].filter(d => S.days.includes(d)).map(d => ICS_DAY[d]).join(',');
+  const byday = WEEKDAYS.map(d => ICS_DAY[d]).join(',');
+  const agenda = WEEKDAYS.map(d => `${DOW[d]}: ${S.days.includes(d) ? 'Cindy' : 'Shadowboxing'}`).join(' · ');
   const ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//FitForce//Cindy//PT', 'BEGIN:VEVENT', `UID:cindy-${Date.now()}@fitforce`, `DTSTAMP:${stamp}`, `DTSTART:${dt}`, 'DURATION:PT30M',
-    `RRULE:FREQ=WEEKLY;BYDAY=${byday}`, 'SUMMARY:💪 Cindy — AMRAP 20 min', 'DESCRIPTION:5 barras · 10 flexões · 15 agachamentos. Abra o FitForce.',
-    'BEGIN:VALARM', 'ACTION:DISPLAY', 'DESCRIPTION:Hora da Cindy!', 'TRIGGER:PT0M', 'END:VALARM', 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+    `RRULE:FREQ=WEEKLY;BYDAY=${byday}`, 'SUMMARY:💪🥊 Treino FitForce', `DESCRIPTION:${agenda}. Abra o FitForce.`,
+    'BEGIN:VALARM', 'ACTION:DISPLAY', 'DESCRIPTION:Hora do treino!', 'TRIGGER:PT0M', 'END:VALARM', 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
   download('lembrete-cindy.ics', ics, 'text/calendar'); toast('Abra o arquivo para adicionar ao calendário');
 });
 $('c-exp').addEventListener('click', () => { download(`fitforce-cindy-${todayISO()}.json`, JSON.stringify({ app: 'fitforce-cindy', ...S }, null, 1), 'application/json'); toast('Backup salvo'); });
@@ -965,8 +1449,8 @@ $('c-file').addEventListener('change', async e => {
   e.target.value = '';
 });
 $('c-share').addEventListener('click', async () => {
-  const rx = bestOf(S.sessions.filter(isRx)), b = rx || bestOf(S.sessions.filter(s => s.dur === 20)), st = weekStreak();
-  const txt = `💪 Cindy (AMRAP 20': 5 barras · 10 flexões · 15 agachamentos)\n${S.name ? S.name + ' — ' : ''}recorde: ${b ? scoreTxt(b) + (rx ? ' RX' : ' adaptado') : 'ainda sem recorde'}\n📅 ${S.sessions.length} treinos · ${st.cur} semana${st.cur === 1 ? '' : 's'} seguida${st.cur === 1 ? '' : 's'} na meta`;
+  const rx = bestOf(CS().filter(isRx)), b = rx || bestOf(CS().filter(s => s.dur === 20)), st = weekStreak();
+  const txt = `💪 Cindy em casa (AMRAP 20': 5 superman · 10 flexões · 15 agachamentos)\n${S.name ? S.name + ' — ' : ''}recorde: ${b ? scoreTxt(b) + (rx ? ' RX' : ' adaptado') : 'ainda sem recorde'}\n🥊 Shadowboxing: ${SH().reduce((a, s) => a + s.rounds, 0)} rounds · ${SH().reduce((a, s) => a + shadowMin(s), 0)} min\n📅 ${S.sessions.length} treinos · ${st.cur} semana${st.cur === 1 ? '' : 's'} completa${st.cur === 1 ? '' : 's'} seguida${st.cur === 1 ? '' : 's'}`;
   try { if (navigator.share) await navigator.share({ text: txt }); else { await navigator.clipboard.writeText(txt); toast('Resumo copiado'); } } catch (e) {}
 });
 $('c-reset').addEventListener('click', () => {
@@ -975,14 +1459,13 @@ $('c-reset').addEventListener('click', () => {
 });
 
 // ═══════════════════════ BOAS-VINDAS ═══════════════════════
-let obBar = 'rx', obDays = [1, 3, 5];
+let obDays = [1, 3, 5];
 function renderOb() {
-  chipGroup($('ob-bar'), [['rx', 'Sim'], ['band', 'Sim, com elástico'], ['row', 'Não tenho']], obBar, k => { obBar = k; renderOb(); });
-  $('ob-days').innerHTML = [1, 2, 3, 4, 5, 6, 0].map(d => `<button data-d="${d}" aria-pressed="${obDays.includes(d)}">${DOW[d]}</button>`).join('');
+  $('ob-days').innerHTML = WEEKDAYS.map(d => `<button data-d="${d}" aria-pressed="${obDays.includes(d)}">${DOW[d]}</button>`).join('');
   $('ob-days').querySelectorAll('button').forEach(b => b.onclick = () => { const d = +b.dataset.d; obDays = obDays.includes(d) ? (obDays.length > 1 ? obDays.filter(x => x !== d) : obDays) : [...obDays, d]; renderOb(); });
 }
 $('ob-go').addEventListener('click', () => {
-  S.name = $('ob-name').value.trim() || S.name; S.cfg.pull = obBar; S.days = obDays; S.onboarded = true; save();
+  S.name = $('ob-name').value.trim() || S.name; S.days = obDays; S.onboarded = true; save();
   $('ob').classList.remove('on'); renderHome();
 });
 
@@ -992,9 +1475,14 @@ function toast(m) { const t = $('toast'); t.textContent = m; t.classList.add('on
 addEventListener('resize', () => { if (page === 'hist') renderHist(); if (page === 'peso') drawWeight(); });
 document.addEventListener('visibilitychange', () => { if (!document.hidden && !R && page === 'home') renderHome(); });
 
+$('how-close').addEventListener('click', () => $('how').classList.remove('on'));
+$('how-back').addEventListener('click', openPunches);
+$('how').addEventListener('click', e => { if (e.target.id === 'how') $('how').classList.remove('on'); });
+
 // ═══════════════════════ INIT ═══════════════════════
 load();
 renderHome();
+punchGrid($('what-punches'));
 if (!S.onboarded) { if (S.name) $('ob-name').value = S.name; renderOb(); $('ob').classList.add('on'); }
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('./sw.js').catch(() => {});
 </script>
