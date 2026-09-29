@@ -197,10 +197,24 @@ details.what ul{padding-left:18px}
 .rdots i.ok{background:var(--hot)}
 .rdots i.cur{background:var(--accent)}
 .sb-focus{text-align:center;font-weight:700;font-size:15px;padding:6px 20px 0}
-.combo{flex:1;margin:12px 16px 8px;border-radius:18px;background:var(--hotdim);border:1px solid rgba(255,106,61,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:14px;min-height:150px}
-.combo b{font-family:var(--fd);font-size:clamp(52px,17vw,88px);line-height:1;color:var(--text);letter-spacing:.04em}
-.combo span{font-size:14px;color:var(--muted);margin-top:8px}
-.combo.flash b{animation:pop .5s ease both}
+.cb-head{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.cb-words{font-family:var(--fd);font-size:clamp(28px,9vw,40px);line-height:1.02;color:var(--text);letter-spacing:.02em;margin-top:2px}
+.cb-words .ar{color:var(--hot);margin:0 .12em}
+.cb-num{font-size:12.5px;color:var(--muted);min-height:16px}
+.cb-fig{width:min(34vw,140px);max-height:24vh;margin:0 auto}
+.cb-fig svg{max-height:24vh}
+.cb-words.long{font-size:clamp(24px,7.4vw,32px)}
+.cb-steps{display:flex;gap:6px;justify-content:center;width:100%;margin-top:4px}
+.st svg{width:88%;margin:0 auto}
+.st{flex:1;max-width:84px;min-width:0;background:#0e0e0e;border:1px solid var(--border);border-radius:12px;padding:3px 2px 6px;position:relative;transition:transform .15s,border-color .15s,background .15s}
+.st .pn{position:absolute;top:3px;left:3px;min-width:18px;height:18px;font-size:13px;border-radius:6px}
+.combo .st b{display:block;font-family:var(--fb);letter-spacing:0;font-size:12px;font-weight:700;line-height:1.1;color:var(--text)}
+.st small{display:block;font-size:10.5px;color:var(--muted);line-height:1.15}
+.st.on{border-color:var(--hot);background:var(--hotdim);transform:translateY(-3px) scale(1.06)}
+.st .ord{position:absolute;top:3px;right:5px;font-size:10.5px;color:var(--muted2);font-weight:700}
+.cb-help{background:none;border:none;color:var(--muted);font-size:12.5px;padding:6px 8px;margin-top:2px;min-height:32px}
+.combo{flex:1;margin:8px 16px 6px;border-radius:18px;background:var(--card);border:1px solid rgba(255,106,61,.35);display:flex;flex-direction:column;align-items:center;justify-content:space-evenly;text-align:center;padding:8px 8px 2px;min-height:0;overflow:hidden}
+.combo.flash .cb-words{animation:pop .5s ease both}
 #sbrun.resting .combo{background:var(--cooldim);border-color:rgba(58,255,212,.3)}
 .run-top{display:flex;align-items:center;gap:10px;padding:8px 16px}
 .run-top .t{flex:1;font-weight:700;font-size:14px}
@@ -359,6 +373,8 @@ details.what ul{padding-left:18px}
     <div class="opt"><div class="t">Rounds <small id="sb-total"></small></div><div class="chips" data-sb="rounds"></div></div>
     <div class="opt"><div class="t">Duração do round</div><div class="chips" data-sb="roundMin"></div></div>
     <div class="opt"><div class="t">Descanso entre rounds</div><div class="chips" data-sb="rest"></div></div>
+    <div class="toggle" style="margin-top:4px"><div><b>Falar os golpes pelo nome</b><div class="muted" style="font-size:12.5px">“cruzado, direto” em vez de “três, dois”</div></div>
+      <button class="sw" role="switch" id="sb-names" aria-checked="true" aria-label="Falar os golpes pelo nome"></button></div>
   </section>
   <section class="card">
     <div class="label">Golpes · toque para ver como fazer</div>
@@ -506,7 +522,14 @@ details.what ul{padding-left:18px}
   <div class="bar"><span id="sb-bar" style="width:0%"></span></div>
   <div class="rdots" id="sb-dots"></div>
   <div class="sb-focus" id="sb-focus"></div>
-  <div class="combo" id="sb-combo-box" aria-live="polite" title="Toque para ver os golpes" style="cursor:pointer"><b id="sb-combo">—</b><span id="sb-combo-d"></span></div>
+  <div class="combo" id="sb-combo-box">
+    <div class="cb-head" id="sb-head">Prepare-se</div>
+    <div class="cb-words" id="sb-words" aria-live="assertive">—</div>
+    <div class="cb-num" id="sb-num"></div>
+    <div class="cb-fig" id="sb-fig"></div>
+    <div class="cb-steps" id="sb-steps"></div>
+    <button class="cb-help" id="sb-help">ⓘ Ver detalhes dos golpes</button>
+  </div>
   <div class="pace" id="sb-tip" style="padding:0 20px"></div>
   <div class="run-foot">
     <button class="btn btn-sec" id="sb-skip">Próximo round</button>
@@ -615,7 +638,7 @@ const fmtPace = ms => { const s = Math.round(ms / 1000); return `${Math.floor(s 
 // ═══════════════════════ ESTADO ═══════════════════════
 let S = {
   v: 1, name: '', days: [1, 3, 5], time: '07:00', goal: null, onboarded: false,
-  cfg: { dur: 20, pull: 'sup', push: 'rx', squat: 'rx', warm: true, voice: true, sb: { rounds: 6, roundMin: 3, rest: 60, level: 'ini' } },
+  cfg: { dur: 20, pull: 'sup', push: 'rx', squat: 'rx', warm: true, voice: true, sb: { rounds: 6, roundMin: 3, rest: 60, level: 'ini', names: true } },
   sessions: [],  // Cindy: {id, date, type:'cindy', dur, pull, push, squat, rounds, extra, splits[], feel} · Shadow: {id, date, type:'shadow', rounds, roundMin, level, feel}
   weights: []    // {date, kg}
 };
@@ -774,7 +797,7 @@ function figSVG(key, opts = {}) {
   const pick = (k) => still === 'b' ? B[k] : A[k];
   const anim = (attr, k, i) => still ? '' : `<animate attributeName="${attr}" values="${FR.map(fr => fr[k][i]).concat(A[k][i]).join(';')}" dur="${dur}" repeatCount="indefinite" calcMode="spline" keyTimes="${kt}" keySplines="${ks}"/>`;
   const hlArm = f.hl === 'l' ? ['le', 'lh'] : f.hl === 'r' ? ['re', 'rh'] : [];
-  const seg = (a, b, back) => { const hot = hlArm.includes(b); return `<line x1="${pick(a)[0]}" y1="${pick(a)[1]}" x2="${pick(b)[0]}" y2="${pick(b)[1]}" stroke="${hot ? 'var(--hot)' : back ? 'var(--fig2)' : 'var(--fig)'}" stroke-width="${back && !hot ? 5 : 6}" stroke-linecap="round">${anim('x1', a, 0)}${anim('y1', a, 1)}${anim('x2', b, 0)}${anim('y2', b, 1)}</line>`; };
+  const seg = (a, b, back) => { const hot = hlArm.includes(b), fade = back && !(f.solid && (b === 'le' || b === 'lh')); return `<line x1="${pick(a)[0]}" y1="${pick(a)[1]}" x2="${pick(b)[0]}" y2="${pick(b)[1]}" stroke="${hot ? 'var(--hot)' : fade ? 'var(--fig2)' : 'var(--fig)'}" stroke-width="${back && !hot ? 5 : 6}" stroke-linecap="round">${anim('x1', a, 0)}${anim('y1', a, 1)}${anim('x2', b, 0)}${anim('y2', b, 1)}</line>`; };
   const pr = f.props || '';
   let props = '';
   if (pr.includes('floor')) props += '<line x1="4" y1="113" x2="116" y2="113" stroke="var(--prop)" stroke-width="2"/>';
@@ -965,6 +988,7 @@ function renderTrain() {
   chipGroup(document.querySelector('[data-sb="rounds"]'), [[4, '4'], [6, '6'], [8, '8']], b.rounds, k => { b.rounds = +k; save(); renderTrain(); });
   chipGroup(document.querySelector('[data-sb="roundMin"]'), [[2, '2 min'], [3, '3 min']], b.roundMin, k => { b.roundMin = +k; save(); renderTrain(); });
   chipGroup(document.querySelector('[data-sb="rest"]'), [[30, '30 s'], [60, '1 min']], b.rest, k => { b.rest = +k; save(); renderTrain(); });
+  $('sb-names').setAttribute('aria-checked', b.names !== false);
   $('sb-lv-h').textContent = { ini: 'combinações curtas, a cada 9 s', int: 'a cada 6 s', adv: 'combinações longas, a cada 4 s' }[b.level];
   const totalMin = Math.round((b.rounds * b.roundMin * 60 + (b.rounds - 1) * b.rest) / 60);
   $('sb-total').textContent = `≈ ${totalMin} min no total`;
@@ -972,6 +996,7 @@ function renderTrain() {
   $('sb-plan').innerHTML = Array.from({ length: b.rounds }, (_, i) => { const pl = sbPlanFor(i, b.rounds); return `<div class="cfg" style="padding:9px 0"><div class="x"><b>Round ${i + 1} · ${pl.f}</b><span>${pl.tip}</span></div></div>`; }).join('');
 }
 document.querySelectorAll('.seg [data-t]').forEach(b => b.addEventListener('click', () => { trainTab = b.dataset.t; renderTrain(); }));
+$('sb-names').addEventListener('click', () => { S.cfg.sb.names = S.cfg.sb.names === false; save(); renderTrain(); });
 document.querySelectorAll('[data-howmv]').forEach(b => b.addEventListener('click', () => openHow(`${b.dataset.howmv}:${S.cfg[b.dataset.howmv]}`)));
 $('o-warm').addEventListener('click', () => { S.cfg.warm = !S.cfg.warm; save(); renderTrain(); });
 $('o-voice').addEventListener('click', () => { S.cfg.voice = !S.cfg.voice; save(); renderTrain(); });
@@ -1134,6 +1159,98 @@ function finishRun(early) {
   openResult(data);
 }
 
+// ═══════════════════════ SHADOWBOXING — SEQUÊNCIA VISUAL ═══════════════════════
+// Cada combinação vira passos (golpe, esquiva, bloqueio...). Um boneco executa a sequência inteira
+// e os cartões acendem no mesmo ritmo — assim ninguém precisa decorar os números.
+const SB_STEP_MS = { ini: 650, int: 500, adv: 400 }; // duração de cada ida (golpe) e de cada volta (guarda)
+const shiftPose = (p, dx, dy = 0) => Object.fromEntries(Object.entries(p).map(([k, [x, y]]) => [k, [x + dx, y + dy]]));
+let _STEPS = null;
+function STEPS() {
+  if (_STEPS) return _STEPS;
+  const G = FIGS.guard.a;
+  return _STEPS = {
+    '1': { n: 'Jab', s: 'mão da frente', say: 'jab', pose: FIGS.jab.b, hl: 'r' },
+    '2': { n: 'Direto', s: 'mão de trás', say: 'direto', pose: FIGS.cross.b, hl: 'l' },
+    '3': { n: 'Cruzado', s: 'mão da frente', say: 'cruzado', pose: FIGS.hookL.b, hl: 'r' },
+    '4': { n: 'Cruzado', s: 'mão de trás', say: 'cruzado de trás', pose: FIGS.hookR.b, hl: 'l' },
+    '5': { n: 'Upper', s: 'mão da frente', say: 'upper', pose: FIGS.upL.b, hl: 'r' },
+    '6': { n: 'Upper', s: 'mão de trás', say: 'upper de trás', pose: FIGS.upR.b, hl: 'l' },
+    slip: { n: 'Esquiva', s: 'tira a cabeça', say: 'esquiva', pose: FIGS.slip.b },
+    roll: { n: 'Pêndulo', s: 'passa por baixo', say: 'pêndulo', pose: J(FIGS.slip.b, { p: [56, 84], lk: [44, 99], rk: [72, 99], n: [70, 60], h: [77, 52], le: [66, 72], lh: [74, 60], re: [76, 72], rh: [84, 58] }) },
+    block: { n: 'Bloqueio', s: 'braços no rosto', say: 'bloqueia', pose: J(G, { h: [65, 30], le: [64, 40], lh: [70, 24], re: [70, 40], rh: [76, 22] }) },
+    stepFwd: { n: 'Passo', s: 'à frente', say: 'passo à frente', pose: shiftPose(G, 9) },
+    stepSide: { n: 'Passo', s: 'para o lado', say: 'passo pro lado', pose: shiftPose(G, -7) },
+    free: { n: 'Livre', s: 'crie a sua', say: 'livre', pose: G }
+  };
+}
+function parseCombo(c) {
+  const out = [];
+  c.split(/\s*\+\s*/).forEach(part => {
+    let body = false; part = part.trim();
+    if (/^corpo:/.test(part)) { body = true; part = part.replace(/^corpo:\s*/, ''); }
+    if (/^[1-6](-[1-6])*$/.test(part)) part.split('-').forEach(n => out.push({ k: n, body }));
+    else if (part === 'esquiva dupla') out.push({ k: 'slip' }, { k: 'slip' });
+    else if (part === 'esquiva') out.push({ k: 'slip' });
+    else if (part === 'pêndulo') out.push({ k: 'roll' });
+    else if (part === 'bloqueio') out.push({ k: 'block' });
+    else if (part.startsWith('passo')) out.push({ k: part.includes('lateral') ? 'stepSide' : 'stepFwd' });
+    else if (part === 'livre') out.push({ k: 'free' });
+  });
+  return out;
+}
+function stepPose(st) {
+  const d = STEPS()[st.k]; let p = d.pose;
+  if (st.body) { // golpe na linha da cintura: joelhos dobram e a mão desce
+    const hand = d.hl === 'l' ? ['le', 'lh'] : ['re', 'rh'];
+    p = J(shiftPose(p, 0, 8), { lf: p.lf, rf: p.rf, [hand[1]]: [p[hand[1]][0], p[hand[1]][1] + 12] });
+  }
+  return p;
+}
+const stepLabel = st => { const d = STEPS()[st.k]; return { n: d.n, s: st.body ? 'no corpo' : d.s }; };
+function poseSVG(pose, hl) { FIGS.__tmp = { a: pose, b: pose, props: 'floor', hl }; return figSVG('__tmp', { still: 'a' }); }
+function stepCards(steps, withOrder) {
+  return steps.map((st, i) => { const d = STEPS()[st.k], l = stepLabel(st);
+    return `<div class="st" data-i="${i}">${/^[1-6]$/.test(st.k) ? `<span class="pn">${st.k}</span>` : ''}${withOrder && steps.length > 1 ? `<span class="ord">${i + 1}º</span>` : ''}${poseSVG(stepPose(st), d.hl)}<b>${l.n}</b><small>${l.s}</small></div>`; }).join('');
+}
+function comboFigure(steps, stepMs, loopHoldMs = 0) {
+  const G = FIGS.guard.a, frames = [G];
+  steps.forEach(st => frames.push(stepPose(st), G));
+  const holds = Math.round(loopHoldMs / stepMs); for (let i = 0; i < holds; i++) frames.push(G);
+  FIGS.__combo = { frames, props: 'floor', dur: frames.length * stepMs / 1000, solid: true };
+  return { svg: figSVG('__combo', { label: 'Demonstração da combinação' }), total: frames.length * stepMs };
+}
+// Golpes principais de um round (para a prévia)
+function roundKeys(pl) {
+  const seen = []; pl.combos.forEach(c => parseCombo(c).forEach(st => { if (st.k !== 'free' && !st.body && !seen.includes(st.k)) seen.push(st.k); }));
+  const order = ['1', '2', '3', '4', '5', '6', 'slip', 'roll', 'block', 'stepFwd', 'stepSide'];
+  return seen.sort((a, b) => order.indexOf(a) - order.indexOf(b)).slice(0, 5).map(k => ({ k }));
+}
+let sbHl = null;
+function showVisual(v) {
+  // v: {key, head, words, num, steps, fig:'combo'|'guard'|'sprint', order, anim}
+  if (!B || B.visKey === v.key) return;
+  B.visKey = v.key; clearInterval(sbHl);
+  $('sb-head').textContent = v.head || '';
+  $('sb-words').innerHTML = v.words || '';
+  $('sb-words').classList.toggle('long', (v.steps || []).length >= 3 && v.fig === 'combo');
+  $('sb-num').textContent = v.num || '';
+  $('sb-steps').innerHTML = v.steps && v.steps.length ? stepCards(v.steps, v.order) : '';
+  const stepMs = SB_STEP_MS[B.cfg.level];
+  if (v.fig === 'combo' && v.steps.length) {
+    const c = comboFigure(v.steps, stepMs, 700); $('sb-fig').innerHTML = c.svg;
+    const t0 = performance.now(), cards = [...$('sb-steps').children];
+    const tick = () => { const t = (performance.now() - t0) % c.total, seg = Math.floor(t / stepMs), i = Math.floor(seg / 2);
+      cards.forEach((el, j) => el.classList.toggle('on', j === i && i < v.steps.length)); };
+    tick(); sbHl = setInterval(tick, 60);
+  } else if (v.fig === 'sprint') {
+    FIGS.__combo = { frames: [FIGS.guard.a, FIGS.jab.b, FIGS.guard.a, FIGS.cross.b], props: 'floor', dur: .9, solid: true };
+    $('sb-fig').innerHTML = figSVG('__combo', { label: 'Socos rápidos' });
+  } else $('sb-fig').innerHTML = figSVG('guard', { label: 'Guarda' });
+  const box = $('sb-combo-box'); box.classList.remove('flash'); void box.offsetWidth; box.classList.add('flash');
+}
+const comboWords = steps => steps.map(st => stepLabel(st).n).join('<span class="ar">›</span>');
+const comboSay = (c, steps) => B.cfg.names === false ? comboSpeech(c) : steps.map(st => STEPS()[st.k].say + (st.body ? ' no corpo' : '')).join(', ');
+
 // ═══════════════════════ SHADOWBOXING ═══════════════════════
 // Mesmo princípio da Cindy: relógio pela hora real, com pausa que não conta tempo.
 let B = null, sbTick = null;
@@ -1156,7 +1273,7 @@ function sbBegin(phase) {
   B.phase = phase; B.t0 = Date.now(); B.pausedMs = 0; B.cues = {};
   if (phase === 'round') {
     const pl = sbPlanFor(B.round, B.cfg.rounds);
-    bell(3); vib([250]); B.combo = null; B.comboD = ''; B.nextCall = 4000;
+    bell(3); vib([250]); B.combo = null; B.nextCall = B.round === 0 ? 6000 : 4000;
     say(`Round ${B.round + 1}. ${pl.f}`);
   } else {
     bell(2); vib([150, 80, 150]);
@@ -1172,18 +1289,26 @@ function callCombo() {
   let list = B.cfg.level === 'ini' ? pl.combos.filter(c => n(c) <= 3) : B.cfg.level === 'adv' ? pl.combos.filter(c => n(c) >= 2 || c === 'livre') : pl.combos;
   if (!list.length) list = pl.combos;
   let c; do { c = list[Math.floor(Math.random() * list.length)]; } while (list.length > 1 && c === B.combo);
-  B.combo = c; B.comboD = c === 'livre' ? 'crie sua combinação' : comboDesc(c);
-  say(c === 'livre' ? 'Livre!' : comboSpeech(c));
-  const box = $('sb-combo-box'); box.classList.remove('flash'); void box.offsetWidth; box.classList.add('flash');
-  sbRender();
+  B.combo = c; B.callN = (B.callN || 0) + 1;
+  const steps = parseCombo(c);
+  if (c === 'livre') {
+    say('Livre! Crie sua combinação.');
+    showVisual({ key: 'free' + B.callN, head: 'Livre', words: 'Crie a sua', num: 'use os golpes do round', steps: roundKeys(pl), fig: 'guard' });
+    return 8000;
+  }
+  say(comboSay(c, steps));
+  showVisual({ key: 'c' + B.callN, head: `Faça agora · ${steps.length} movimento${steps.length > 1 ? 's' : ''}`, words: comboWords(steps), num: /[1-6]/.test(c) ? `(${c.replace(/corpo:\s*/, 'corpo ')})` : '', steps, fig: 'combo', order: true });
+  // tempo até a próxima chamada: o da tabela do nível, mas nunca menos que 2 execuções da combinação + respiro
+  const stepMs = SB_STEP_MS[B.cfg.level];
+  return Math.max(SB_EVERY[B.cfg.level] * 1000, 2 * (steps.length * 2 + 1) * stepMs + 1500);
 }
 function sbLoop() {
   if (!B || B.paused) return;
   const el = sbElapsed(), rem = sbPhaseMs() - el, lastRound = B.round === B.cfg.rounds - 1;
   const once = (k, fn) => { if (!B.cues[k]) { B.cues[k] = 1; fn(); } };
   if (B.phase === 'round') {
-    if (lastRound && rem <= 20e3) once('sprint', () => { B.combo = 'SPRINT!'; B.comboD = 'socos rápidos, sem parar'; say('Sprint final! Socos rápidos!'); vib([100, 50, 100, 50, 100]); sbRender(); });
-    else if (el >= B.nextCall && rem > 4000) { callCombo(); B.nextCall += SB_EVERY[B.cfg.level] * 1000; }
+    if (lastRound && rem <= 20e3) once('sprint', () => { B.combo = 'SPRINT'; say('Sprint final! Socos rápidos!'); vib([100, 50, 100, 50, 100]); showVisual({ key: 'sprint', head: 'Últimos 20 segundos', words: 'Sprint!', num: 'jab e direto, rápido e sem parar', steps: [{ k: '1' }, { k: '2' }], fig: 'sprint' }); });
+    else if (el >= B.nextCall && rem > 5000) { B.nextCall = el + callCombo(); }
     if (rem <= 30e3 && !lastRound) once('30', () => say('Trinta segundos'));
     if (rem <= 3000 && rem > 0) once('c' + Math.ceil(rem / 1000), () => beep(990, 90));
     if (rem <= 0) { B.done = B.round + 1; if (lastRound) { sbFinish(); return; } sbBegin('rest'); return; }
@@ -1205,13 +1330,13 @@ function sbRender(timeOnly) {
   $('sb-phase').textContent = B.paused ? 'Pausado' : rest ? `Descanso · próximo round ${B.round + 2} de ${B.cfg.rounds}` : `Round ${B.round + 1} de ${B.cfg.rounds}`;
   $('sb-dots').innerHTML = Array.from({ length: B.cfg.rounds }, (_, i) => `<i class="${i < B.done ? 'ok' : i === B.round && !rest ? 'cur' : ''}"></i>`).join('');
   $('sb-focus').textContent = (rest ? 'A seguir: ' : '') + pl.f;
-  $('sb-combo').textContent = rest ? 'Respire' : B.combo || (B.t0 ? 'Prepare-se' : '3…');
-  $('sb-combo-d').textContent = rest ? 'Solte os ombros, beba um gole de água' : B.comboD || 'Guarda alta, base firme';
+  if (rest) showVisual({ key: 'rest' + B.round, head: 'Descanso · próximo round', words: 'Respire', num: 'Golpes do próximo round:', steps: roundKeys(pl), fig: 'guard' });
+  else if (!B.combo) showVisual({ key: 'pre' + B.round + (B.t0 ? 's' : 'w'), head: B.t0 ? `Round ${B.round + 1} começou` : 'Prepare-se', words: 'Em guarda', num: 'Golpes deste round — toque em ⓘ para detalhes', steps: roundKeys(pl), fig: 'guard' });
   $('sb-tip').textContent = pl.tip;
   $('sb-skip').textContent = rest ? 'Pular descanso' : B.round === B.cfg.rounds - 1 ? 'Encerrar round' : 'Próximo round';
   $('sb-pause').textContent = B.paused ? '▶' : '❚❚'; $('sb-pause').setAttribute('aria-label', B.paused ? 'Continuar' : 'Pausar');
 }
-$('sb-combo-box').addEventListener('click', () => { if (B) openPunches(); });
+$('sb-help').addEventListener('click', () => { if (B) openPunches(); });
 $('sb-pause').addEventListener('click', () => {
   if (!B || !B.t0) return;
   if (B.paused) { B.pausedMs += Date.now() - B.pauseAt; B.paused = false; say('Continuando'); } else { B.paused = true; B.pauseAt = Date.now(); }
@@ -1230,7 +1355,7 @@ $('sb-close').addEventListener('click', () => {
   if (B.done && confirm('Sair do treino? OK salva os rounds feitos; Cancelar volta ao treino.')) { sbFinish(true); return; }
   if (!B.done && confirm('Sair sem salvar?')) sbClose();
 });
-function sbClose() { clearInterval(sbTick); B = null; $('sbrun').classList.remove('on'); $('sb-count').hidden = true; document.body.style.overflow = ''; unlockScreen(); if (window.speechSynthesis) speechSynthesis.cancel(); }
+function sbClose() { clearInterval(sbTick); clearInterval(sbHl); B = null; $('sbrun').classList.remove('on'); $('sb-count').hidden = true; document.body.style.overflow = ''; unlockScreen(); if (window.speechSynthesis) speechSynthesis.cancel(); }
 function sbFinish(early) {
   clearInterval(sbTick);
   if (!early) { bell(4); say('Fim! Excelente treino!'); vib([400, 150, 400]); }
