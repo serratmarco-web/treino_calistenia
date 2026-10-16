@@ -513,6 +513,10 @@ details.what ul{padding-left:18px}
     <input type="file" id="c-file" accept=".json,application/json" hidden>
     <button class="cfg" id="c-share"><div class="x"><b>Compartilhar resultado</b><span>Seu recorde e evolução em texto</span></div><span style="color:var(--accent)">↗</span></button>
   </section>
+  <section class="card">
+    <div class="label">Aplicativo</div>
+    <button class="cfg" id="c-upd"><div class="x"><b>Verificar atualização</b><span id="c-ver">Atualiza sozinho ao abrir o app</span></div><span style="color:var(--accent);font-size:20px">⟳</span></button>
+  </section>
   <div style="padding:0 16px"><button class="btn btn-danger w100" id="c-reset">Apagar todos os dados</button></div>
   <p class="muted" style="font-size:12px;text-align:center;padding:18px 24px 0">Sinta dor articular ou tontura? Pare e procure um profissional. Adapte os movimentos sempre que precisar.</p>
 </section>
@@ -2006,7 +2010,7 @@ $('w-add').addEventListener('click', () => {
 
 // ═══════════════════════ CONFIG ═══════════════════════
 function renderCfg() {
-  renderVoiceCfg();
+  renderVoiceCfg(); renderVer();
   $('c-name').value = S.name; $('c-goal').value = S.goal ? String(S.goal).replace('.', ',') : ''; $('c-time').value = S.time;
   const el = $('c-days');
   el.innerHTML = WEEKDAYS.map(d => `<button data-d="${d}" aria-pressed="${S.days.includes(d)}" style="${S.days.includes(d) ? '' : 'border-color:rgba(255,106,61,.45);color:var(--hot)'}">${DOW[d]} ${S.days.includes(d) ? '💪' : '🥊'}</button>`).join('');
@@ -2097,7 +2101,55 @@ load();
 renderHome();
 punchGrid($('what-punches'));
 if (!S.onboarded) { if (S.name) $('ob-name').value = S.name; renderOb(); $('ob').classList.add('on'); }
-if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('./sw.js').catch(() => {});
+// ═══════════════════════ ATUALIZAÇÃO AUTOMÁTICA ═══════════════════════
+// Detecta versão nova (service worker novo OU index.html alterado no servidor) ao abrir o app, ao voltar para ele
+// e a cada 30 min, e recarrega sozinho. Nunca recarrega no meio de um treino, de um resultado a salvar ou de uma digitação:
+// espera terminar. Os dados ficam no aparelho (localStorage) e não são afetados.
+let swReg = null, updPending = false, updTimer = null, BUILD = null, bootChecked = false, lastChk = 0;
+function reloadApp() { location.reload(); }
+const appBusy = () => !!(R || B || N) || ['res', 'ob'].some(i => $(i).classList.contains('on')) || /^(INPUT|SELECT|TEXTAREA)$/.test((document.activeElement || {}).tagName || '');
+function applyUpdate() {
+  if (!updPending || document.hidden) return;
+  if (appBusy()) {
+    if (!updTimer) { toast('🔄 Nova versão pronta: atualizo quando você terminar'); updTimer = setInterval(applyUpdate, 4000); }
+    return;
+  }
+  clearInterval(updTimer); updTimer = null; updPending = false;
+  toast('🔄 Atualizando o app…');
+  setTimeout(reloadApp, 900);
+}
+async function buildSig() {
+  try { const r = await fetch('./index.html', { method: 'HEAD', cache: 'no-store' }); return r.ok ? (r.headers.get('etag') || r.headers.get('last-modified') || r.headers.get('content-length')) : null; } catch (e) { return null; }
+}
+async function checkUpdate(manual) {
+  if (!manual && Date.now() - lastChk < 60e3) return;
+  lastChk = Date.now();
+  let found = updPending;
+  try { if (swReg) await swReg.update(); } catch (e) {}
+  const sig = await buildSig();
+  if (sig && bootChecked) {
+    if (BUILD && sig !== BUILD) found = true;
+    else if (!BUILD) found = true; // o app abriu offline (página antiga do cache): ao voltar a rede, atualiza uma vez
+    if (!BUILD) BUILD = sig;
+  }
+  if (found) { updPending = true; applyUpdate(); }
+  else if (manual) toast(sig ? '✓ Você já está na versão mais recente' : 'Sem conexão para verificar agora');
+}
+function renderVer() {
+  const el = $('c-ver'); if (!el || !window.caches) return;
+  caches.keys().then(ks => { const k = ks.find(x => x.startsWith('fitforce-cindy-')); if (k) el.textContent = `Versão ${k.replace('fitforce-cindy-', '')} · atualiza sozinho`; }).catch(() => {});
+}
+$('c-upd').addEventListener('click', () => checkUpdate(true));
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  const hadCtrl = !!navigator.serviceWorker.controller; // na 1ª instalação o SW "assume" a página: não é atualização
+  navigator.serviceWorker.register('./sw.js').then(reg => { swReg = reg; }).catch(() => {});
+  navigator.serviceWorker.addEventListener('controllerchange', () => { if (hadCtrl) { updPending = true; applyUpdate(); } });
+}
+if (location.protocol.startsWith('http')) {
+  buildSig().then(sg => { BUILD = sg; bootChecked = true; });
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) { applyUpdate(); checkUpdate(); } });
+  setInterval(() => { if (!document.hidden) checkUpdate(); }, 30 * 60e3);
+}
 </script>
 </body>
 </html>
