@@ -108,6 +108,8 @@ nav.tabs .in{display:flex;width:100%;max-width:520px}
 .seg button{flex:1;border:none;background:none;border-radius:9px;padding:10px 6px;font-weight:700;font-size:14px;color:var(--muted);min-height:44px}
 .seg button[aria-pressed="true"]{background:var(--accent);color:#0a0a0a}
 .seg button[data-t="shadow"][aria-pressed="true"]{background:var(--hot)}
+.seg button[data-t="band"][aria-pressed="true"]{background:var(--cool)}
+.seg button{font-size:13.5px;padding:10px 4px}
 .hero{position:relative;overflow:hidden;border-color:rgba(232,255,58,.35);background:linear-gradient(150deg,rgba(232,255,58,.10),var(--card) 55%)}
 .hero h2{font-family:var(--fd);font-size:32px;line-height:1;letter-spacing:.02em}
 .wod{display:flex;gap:8px;margin:14px 0}
@@ -128,7 +130,7 @@ nav.tabs .in{display:flex;width:100%;max-width:520px}
 .a.on{border-color:rgba(232,255,58,.4);background:var(--accentdim)}
 .a.on .i{filter:none;opacity:1}
 .a.on .n{color:var(--text)}
-.ach{grid-template-columns:repeat(5,1fr)!important}
+.ach{grid-template-columns:repeat(6,1fr)!important}
 details.what summary{list-style:none;cursor:pointer;font-weight:600;font-size:14px;display:flex;justify-content:space-between;align-items:center;min-height:32px}
 details.what summary::-webkit-details-marker{display:none}
 details.what summary::after{content:'+';color:var(--accent);font-size:20px}
@@ -186,8 +188,8 @@ details.what ul{padding-left:18px}
 .cfg .input{flex:0 0 130px;min-height:44px;padding:8px 10px;text-align:right}
 
 /* OVERLAY TREINO */
-#run,#sbrun{position:fixed;inset:0;z-index:500;background:var(--bg);display:none;flex-direction:column;padding:calc(env(safe-area-inset-top) + 8px) 0 calc(env(safe-area-inset-bottom) + 12px)}
-#run.on,#sbrun.on{display:flex}
+#run,#sbrun,#bnrun{position:fixed;inset:0;z-index:500;background:var(--bg);display:none;flex-direction:column;padding:calc(env(safe-area-inset-top) + 8px) 0 calc(env(safe-area-inset-bottom) + 12px)}
+#run.on,#sbrun.on,#bnrun.on{display:flex}
 #sbrun .time{color:var(--hot)}
 #sbrun .bar>span{background:var(--hot)}
 #sbrun.resting .time{color:var(--cool)}
@@ -216,6 +218,27 @@ details.what ul{padding-left:18px}
 .combo{flex:1;margin:8px 16px 6px;border-radius:18px;background:var(--card);border:1px solid rgba(255,106,61,.35);display:flex;flex-direction:column;align-items:center;justify-content:space-evenly;text-align:center;padding:8px 8px 2px;min-height:0;overflow:hidden}
 .combo.flash .cb-words{animation:pop .5s ease both}
 #sbrun.resting .combo{background:var(--cooldim);border-color:rgba(58,255,212,.3)}
+#bnrun .time{color:var(--cool)}
+#bnrun .bar>span{background:var(--cool)}
+#bnrun .rdots i.ok{background:var(--cool)}
+#bnrun .combo{border-color:rgba(58,255,212,.35)}
+#bnrun.resting .time{color:var(--accent)}
+#bnrun.resting .bar>span{background:var(--accent)}
+#bnrun.resting .combo{background:var(--accentdim);border-color:rgba(232,255,58,.3)}
+#bnrun .cb-fig{width:min(52vw,210px);max-height:30vh}
+#bnrun .cb-fig svg{max-height:30vh}
+.bnrow{display:flex;align-items:center;gap:6px;padding:6px 0;border-bottom:1px solid var(--border)}
+.bnrow:last-child{border-bottom:none}
+.bnchk{flex:none;width:44px;height:44px;background:none;border:none;position:relative}
+.bnchk::before{content:'';position:absolute;inset:8px;border-radius:9px;border:2px solid var(--muted2);background:var(--card2)}
+.bnchk[aria-checked="true"]::before{background:var(--cool);border-color:var(--cool)}
+.bnchk[aria-checked="true"]::after{content:'✓';position:absolute;inset:0;display:grid;place-items:center;color:#0a0a0a;font-weight:800;font-size:18px}
+.bninfo{flex:1;min-width:0;display:flex;align-items:center;gap:10px;background:none;border:none;text-align:left;padding:0;min-height:52px}
+.bnfig{width:52px;flex:none}
+.bninfo .x{flex:1;min-width:0}
+.bninfo .x b{display:block;font-size:14.5px;font-weight:600}
+.bninfo .x span{font-size:12.5px;color:var(--muted)}
+.bngh{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cool);margin:14px 0 2px}
 .run-top{display:flex;align-items:center;gap:10px;padding:8px 16px}
 .run-top .t{flex:1;font-weight:700;font-size:14px}
 .run-top .t small{display:block;font-weight:500;color:var(--muted);font-size:12px}
@@ -311,6 +334,11 @@ details.what ul{padding-left:18px}
     <div class="muted" style="font-size:12.5px;text-align:center;margin-top:8px" id="hero-foot"></div>
   </section>
 
+  <section class="card" id="band-card" aria-label="Treino extra com mini band">
+    <div class="toggle"><div><div class="label" style="margin-bottom:4px">Extra · em casa</div><b>🟢 Treino com mini band</b><div class="muted" style="font-size:12.5px" id="band-foot">Escolha os exercícios por parte do corpo</div></div>
+      <button class="btn btn-sec" id="band-go" style="flex:0 0 auto">Abrir</button></div>
+  </section>
+
   <section class="card" aria-labelledby="rec-t">
     <div class="label" id="rec-t">Seus números</div>
     <div class="stats">
@@ -350,7 +378,7 @@ details.what ul{padding-left:18px}
     <h1 class="h1" id="train-t">Treinar</h1>
     <p class="sub" id="train-sub">Ajuste o treino ao seu nível.</p>
   </header>
-  <div class="seg" role="group" aria-label="Tipo de treino"><button data-t="cindy" aria-pressed="true">💪 Cindy</button><button data-t="shadow" aria-pressed="false">🥊 Shadowboxing</button></div>
+  <div class="seg" role="group" aria-label="Tipo de treino"><button data-t="cindy" aria-pressed="true">💪 Cindy</button><button data-t="shadow" aria-pressed="false">🥊 Shadow</button><button data-t="band" aria-pressed="false">🟢 Mini Band</button></div>
 
   <div id="t-cindy">
   <section class="card">
@@ -383,6 +411,21 @@ details.what ul{padding-left:18px}
   <section class="card">
     <div class="label">Roteiro</div>
     <div id="sb-plan"></div>
+  </section>
+  </div>
+
+  <div id="t-band" hidden>
+  <section class="card">
+    <div class="opt"><div class="t">Nível <small id="bn-lv-h"></small></div><div class="chips" data-bn="level"></div></div>
+    <div class="opt"><div class="t">Rounds do circuito <small id="bn-total"></small></div><div class="chips" data-bn="rounds"></div></div>
+    <div class="opt"><div class="t">Tensão do elástico <small>a que mantém a técnica</small></div><div class="chips" data-bn="tension"></div></div>
+  </section>
+  <section class="card">
+    <div class="label">Escolha os exercícios · <span id="bn-count">0</span> marcados</div>
+    <div class="chips" id="bn-presets" style="margin-bottom:10px"></div>
+    <div class="chips" id="bn-filter" style="margin-bottom:4px"></div>
+    <div id="bn-list"></div>
+    <p class="muted" style="font-size:12.5px;margin-top:12px" id="bn-order"></p>
   </section>
   </div>
 
@@ -455,6 +498,13 @@ details.what ul{padding-left:18px}
     <div class="label">Lembrete</div>
     <div class="cfg"><div class="x"><b>Horário</b></div><input class="input" id="c-time" type="time" value="07:00" style="flex-basis:110px"></div>
     <button class="cfg" id="c-ics"><div class="x"><b>Adicionar lembrete ao calendário</b><span>Evento de segunda a sexta, com alerta no horário. Funciona com o app fechado.</span></div><span style="color:var(--accent);font-size:20px">＋</span></button>
+  </section>
+  <section class="card">
+    <div class="label">Voz do treino</div>
+    <div class="field"><label for="c-voice">Voz</label><select class="input" id="c-voice"></select></div>
+    <div class="field"><div class="l">Velocidade</div><div class="chips" id="c-rate"></div></div>
+    <button class="btn btn-sec w100" id="c-voice-test">▶ Testar voz</button>
+    <p class="muted" style="font-size:12.5px;margin-top:10px" id="c-voice-h"></p>
   </section>
   <section class="card">
     <div class="label">Seus dados</div>
@@ -538,6 +588,34 @@ details.what ul{padding-left:18px}
   <div class="countdown" id="sb-count" hidden><b id="sb-count-n">3</b></div>
 </div>
 
+<!-- ═════════ MINI BAND EM ANDAMENTO ═════════ -->
+<div id="bnrun" role="dialog" aria-modal="true" aria-labelledby="bn-t">
+  <div class="run-top">
+    <button class="xbtn" id="bn-close" aria-label="Encerrar treino">✕</button>
+    <div class="t" id="bn-t">Mini band<small id="bn-cfg"></small></div>
+    <button class="xbtn" id="bn-pause" aria-label="Pausar">❚❚</button>
+  </div>
+  <div class="clock">
+    <div class="phase" id="bn-phase">Round 1</div>
+    <div class="time" id="bn-time">00:40</div>
+  </div>
+  <div class="bar"><span id="bn-bar" style="width:0%"></span></div>
+  <div class="rdots" id="bn-dots"></div>
+  <div class="combo" id="bn-combo-box">
+    <div class="cb-head" id="bn-head">Prepare-se</div>
+    <div class="cb-words" id="bn-words" aria-live="assertive">—</div>
+    <div class="cb-num" id="bn-num"></div>
+    <div class="cb-fig" id="bn-fig"></div>
+    <button class="cb-help" id="bn-help">ⓘ Como fazer</button>
+  </div>
+  <div class="pace" id="bn-tip" style="padding:0 20px"></div>
+  <div class="run-foot">
+    <button class="btn btn-sec" id="bn-skip">Próximo exercício</button>
+    <button class="btn btn-sec" id="bn-end">Terminar</button>
+  </div>
+  <div class="countdown" id="bn-count" hidden><b id="bn-count-n">3</b></div>
+</div>
+
 <!-- Resultado -->
 <div class="sheetwrap" id="res" role="dialog" aria-modal="true" aria-labelledby="res-t">
   <div class="sheet">
@@ -614,6 +692,43 @@ const SB_PLAN = [
 ];
 const SB_LEVELS = [['ini', 'Iniciante'], ['int', 'Intermediário'], ['adv', 'Avançado']];
 const SB_EVERY = { ini: 9, int: 6, adv: 4 }; // segundos entre chamadas de combinação
+// Mini band em casa: circuito por tempo (esforço / descanso)
+const BN_LEVELS = [['ini', 'Iniciante'], ['int', 'Intermediário'], ['adv', 'Avançado']];
+const BN_LV = { ini: [30, 30], int: [40, 20], adv: [45, 15] }; // [esforço, descanso] em segundos
+const BN_TENS = [['leve', 'Leve'], ['media', 'Média'], ['forte', 'Forte']];
+const BN_GROUPS = [['glute', 'Glúteos'], ['legs', 'Pernas'], ['back', 'Costas'], ['shoulders', 'Ombros'], ['arms', 'Braços'], ['chest', 'Peito'], ['core', 'Abdômen']];
+const BAND = [
+  { k: 'bridge', g: 'glute', n: 'Ponte de glúteos', c: 'pausa de 1 s no topo', tip: 'Suba apertando os glúteos e abra os joelhos.', fig: 'bandBridge' },
+  { k: 'kick', g: 'glute', n: 'Chute para trás', c: '4 apoios · direita e depois esquerda', sides: true, tip: 'Quadril parado: só a perna se mexe.', fig: 'bandKick' },
+  { k: 'abd', g: 'glute', n: 'Abdução em pé', c: 'band nos tornozelos · cada perna', sides: true, tip: 'Tronco reto: a perna vai para o lado, sem inclinar.', fig: 'bandAbd' },
+  { k: 'bridge1', g: 'glute', n: 'Ponte unilateral', c: 'uma perna estendida · cada lado', sides: true, tip: 'Quadril nivelado: não deixe um lado cair.', fig: 'bandBridge1' },
+  { k: 'lat', g: 'glute', n: 'Passo lateral', c: 'meio agachamento, sempre com tensão', tip: 'Não junte os pés: o elástico não pode afrouxar.', fig: 'bandLat' },
+  { k: 'squat', g: 'legs', n: 'Agachamento', c: 'band acima dos joelhos', tip: 'Empurre os joelhos contra o elástico.', fig: 'bandSquat' },
+  { k: 'lunge', g: 'legs', n: 'Afundo alternado', c: 'band acima dos joelhos', tip: 'Joelho da frente alinhado com o pé.', fig: 'bandLunge' },
+  { k: 'sumo', g: 'legs', n: 'Agachamento sumô', c: 'pés afastados, joelhos para fora', tip: 'Joelhos abrem na direção dos pés.', fig: 'bandSumo' },
+  { k: 'gm', g: 'legs', n: 'Bom dia', c: 'costas retas, quadril para trás', tip: 'Dobre no quadril, não nas costas.', fig: 'bandGm' },
+  { k: 'slunge', g: 'legs', n: 'Avanço lateral', c: 'band acima dos joelhos · alterne os lados', tip: 'Quadril para trás, joelho na direção do pé.', fig: 'bandSlunge' },
+  { k: 'pull', g: 'back', n: 'Abertura de braços', c: 'braços na altura do peito', tip: 'Abra levando as escápulas uma em direção à outra.', fig: 'bandPull' },
+  { k: 'row', g: 'back', n: 'Remada curvada', c: 'pise na band, costas retas', tip: 'Puxe os cotovelos para trás, sem encolher os ombros.', fig: 'bandRow' },
+  { k: 'sup', g: 'back', n: 'Superman com band', c: 'deitado de barriga para baixo, band nos punhos', tip: 'Olhe para o chão; suba só até tirar o peito do chão.', fig: 'bandSup' },
+  { k: 'lraise', g: 'shoulders', n: 'Elevação lateral', c: 'pise na band', tip: 'Suba até a altura dos ombros, sem balançar.', fig: 'bandLraise' },
+  { k: 'erot', g: 'shoulders', n: 'Rotação externa', c: 'band nos punhos, cotovelos colados', tip: 'Cotovelos fixos nas costelas.', fig: 'bandErot' },
+  { k: 'press', g: 'shoulders', n: 'Press de ombros', c: 'pise na band', tip: 'Empurre reto para cima, sem arquear a lombar.', fig: 'bandPress' },
+  { k: 'fraise', g: 'shoulders', n: 'Elevação frontal', c: 'pise na band', tip: 'Suba até a altura dos ombros, sem balançar.', fig: 'bandFraise' },
+  { k: 'ohp', g: 'shoulders', n: 'Abertura acima da cabeça', c: 'braços esticados acima da cabeça', tip: 'Costelas para baixo, sem arquear a lombar.', fig: 'bandOhp' },
+  { k: 'curl', g: 'arms', n: 'Rosca bíceps', c: 'pise na band', tip: 'Cotovelos colados ao corpo; desça devagar.', fig: 'bandCurl' },
+  { k: 'kbk', g: 'arms', n: 'Tríceps coice', c: 'tronco inclinado, pise na band', tip: 'Só o antebraço se move: estenda até alinhar o braço.', fig: 'bandKbk' },
+  { k: 'tri', g: 'arms', n: 'Tríceps francês', c: 'pise na band, mãos atrás da cabeça', tip: 'Cotovelos apontando para cima e fixos.', fig: 'bandTri' },
+  { k: 'push', g: 'chest', n: 'Flexão com band', c: 'band nos punhos', tip: 'Não deixe as mãos se aproximarem.', fig: 'bandPush' },
+  { k: 'pushinc', g: 'chest', n: 'Flexão inclinada', c: 'mãos no sofá ou degrau · band nos punhos', tip: 'Corpo em linha reta, do calcanhar à cabeça.', fig: 'bandPushInc' },
+  { k: 'pushknee', g: 'chest', n: 'Flexão de joelhos', c: 'versão mais leve · band nos punhos', tip: 'Linha reta dos joelhos à cabeça.', fig: 'bandPushKnee' },
+  { k: 'plank', g: 'core', n: 'Prancha com elevação de perna', c: 'band nos tornozelos · alterne as pernas', tip: 'Quadril parado, corpo em linha reta.', fig: 'bandPlank' },
+  { k: 'legr', g: 'core', n: 'Elevação de pernas', c: 'deitado, band nos tornozelos', tip: 'Lombar colada no chão.', fig: 'bandLegr' },
+  { k: 'dead', g: 'core', n: 'Dead bug', c: 'deitado, band nos tornozelos', tip: 'Lombar colada no chão; movimentos lentos.', fig: 'bandDead' },
+  { k: 'mtn', g: 'core', n: 'Escalador', c: 'band nos tornozelos', tip: 'Quadril baixo, joelhos alternando com controle.', fig: 'bandMtn' }
+];
+const BN_PRESETS = { full: ['squat', 'bridge', 'pull', 'plank', 'lunge', 'kick', 'lraise', 'curl'], lower: ['squat', 'lunge', 'sumo', 'gm', 'bridge', 'kick', 'abd', 'lat'], upper: ['pull', 'row', 'lraise', 'erot', 'curl', 'kbk', 'push'], core: ['plank', 'legr', 'bridge', 'kick'] };
+const BN_PRESET_NAMES = [['full', 'Corpo todo'], ['lower', 'Glúteos e pernas'], ['upper', 'Parte superior'], ['core', 'Core'], ['none', 'Limpar']];
 const comboDesc = c => c.replace(/[1-6](?:-[1-6])*/g, m => m.split('-').map(n => PUNCH[n]).join(' · '));
 const comboSpeech = c => c.replace(/[1-6]/g, n => NUM_WORD[n]).replace(/-/g, ', ').replace(/\s*\+\s*/g, ', ').replace(/:/g, ',');
 const sbPlanFor = (i, total) => i === total - 1 ? SB_PLAN[5] : SB_PLAN[i % 5];
@@ -638,17 +753,18 @@ const fmtPace = ms => { const s = Math.round(ms / 1000); return `${Math.floor(s 
 // ═══════════════════════ ESTADO ═══════════════════════
 let S = {
   v: 1, name: '', days: [1, 3, 5], time: '07:00', goal: null, onboarded: false,
-  cfg: { dur: 20, pull: 'sup', push: 'rx', squat: 'rx', warm: true, voice: true, sb: { rounds: 6, roundMin: 3, rest: 60, level: 'ini', names: true } },
+  cfg: { dur: 20, pull: 'sup', push: 'rx', squat: 'rx', warm: true, voice: true, voiceName: '', rate: 1, sb: { rounds: 6, roundMin: 3, rest: 60, level: 'ini', names: true }, band: { level: 'ini', rounds: 3, tension: 'media', sel: ['squat', 'lunge', 'lat', 'bridge', 'kick', 'pull'] } },
   sessions: [],  // Cindy: {id, date, type:'cindy', dur, pull, push, squat, rounds, extra, splits[], feel} · Shadow: {id, date, type:'shadow', rounds, roundMin, level, feel}
   weights: []    // {date, kg}
 };
+function fixBand() { const b = S.cfg.band; b.sel = (Array.isArray(b.sel) ? b.sel : []).filter((k, i, a) => BAND.some(e => e.k === k) && a.indexOf(k) === i); }
 function fixPull() { if (!PULL_OK.includes(S.cfg.pull)) S.cfg.pull = 'sup'; }
 function fixDays() { S.days = (S.days || []).filter(d => WEEKDAYS.includes(d)); if (!S.days.length) S.days = [1, 3, 5]; }
 function save() { try { localStorage.setItem('fitforce_cindy_v1', JSON.stringify(S)); } catch (e) {} }
 function load() {
   try {
     const raw = localStorage.getItem('fitforce_cindy_v1');
-    if (raw) { const d = JSON.parse(raw); S = { ...S, ...d, cfg: { ...S.cfg, ...(d.cfg || {}), sb: { ...S.cfg.sb, ...((d.cfg || {}).sb || {}) } } }; fixDays(); fixPull(); return; }
+    if (raw) { const d = JSON.parse(raw); S = { ...S, ...d, cfg: { ...S.cfg, ...(d.cfg || {}), sb: { ...S.cfg.sb, ...((d.cfg || {}).sb || {}) }, band: { ...S.cfg.band, ...((d.cfg || {}).band || {}) } } }; fixDays(); fixPull(); fixBand(); return; }
     // Aproveita nome, meta e pesos da versão anterior do FitForce
     const pf = JSON.parse(localStorage.getItem('perfil_v1') || 'null');
     if (pf) { S.name = pf.nome && pf.nome !== 'Atleta' ? pf.nome : ''; S.goal = pf.meta || null; }
@@ -660,9 +776,12 @@ function load() {
 // ═══════════════════════ CÁLCULOS (tudo derivado do histórico) ═══════════════════════
 const isCindy = s => (s.type || 'cindy') === 'cindy';
 const isShadow = s => s.type === 'shadow';
+const isBand = s => s.type === 'band';
 const CS = () => S.sessions.filter(isCindy);
 const SH = () => S.sessions.filter(isShadow);
+const BN = () => S.sessions.filter(isBand);
 const shadowMin = s => s.rounds * s.roundMin;
+const bandMin = s => Math.round(s.sets * (s.work + s.rest) / 60);
 const dayType = dow => !WEEKDAYS.includes(dow) ? 'rest' : S.days.includes(dow) ? 'cindy' : 'shadow';
 const isRx = s => isCindy(s) && s.dur === 20 && ['sup', 'burpee', 'rx'].includes(s.pull) && s.push === 'rx' && s.squat === 'rx'; // “completa”
 const totalReps = s => s.rounds * ROUND_REPS + s.extra;
@@ -701,6 +820,8 @@ const ACH = [
   { i: '📈', n: 'Bateu o recorde', ok: () => CS().some(s => s.pr) },
   { i: '🥊', n: 'Primeiro shadow', ok: () => SH().length >= 1 },
   { i: '🔔', n: '50 rounds de shadow', ok: () => SH().reduce((a, s) => a + s.rounds, 0) >= 50 },
+  { i: '🟢', n: 'Primeiro mini band', ok: () => BN().length >= 1 },
+  { i: '🍑', n: '5 treinos de band', ok: () => BN().length >= 5 },
   { i: '📅', n: '4 semanas completas', ok: () => weekStreak().best >= 4 },
   { i: '💯', n: '25 treinos', ok: () => S.sessions.length >= 25 }
 ];
@@ -790,6 +911,128 @@ Object.assign(FIGS, {
   slip: { a: G, b: { h: [74, 42], n: [68, 50], p: [56, 76], le: [64, 62], lh: [72, 50], re: [74, 62], rh: [82, 48], lk: [46, 94], lf: [44, 110], rk: [72, 94], rf: [76, 110] }, props: 'floor', dur: 1.5 }
 });
 
+// Mini band — figuras (ringK = elástico no joelho, linkK/linkW = elástico esticado entre joelhos/mãos)
+const BQ = { h: [84, 60], n: [72, 66], p: [38, 70], le: [71, 88], lh: [70, 108], re: [73, 88], rh: [72, 108], lk: [38, 108], lf: [20, 108], rk: [38, 108], rf: [20, 108] };
+Object.assign(FIGS, {
+  bandSquat: { a: FIGS.squat.a, b: FIGS.squat.b, props: 'floor ringK' },
+  bandLunge: {
+    a: { h: [62, 22], n: [60, 33], p: [60, 64], le: [50, 48], lh: [57, 60], re: [66, 48], rh: [63, 60], lk: [48, 88], lf: [34, 110], rk: [70, 87], rf: [80, 110] },
+    b: { h: [62, 36], n: [60, 47], p: [60, 78], le: [50, 62], lh: [57, 74], re: [66, 62], rh: [63, 74], lk: [44, 100], lf: [30, 110], rk: [82, 82], rf: [80, 110] },
+    props: 'floor ringK'
+  },
+  bandLat: {
+    a: { h: [60, 26], n: [60, 37], p: [60, 68], le: [50, 52], lh: [56, 62], re: [70, 52], rh: [64, 62], lk: [52, 90], lf: [50, 110], rk: [68, 90], rf: [70, 110] },
+    b: { h: [66, 26], n: [66, 37], p: [66, 68], le: [56, 52], lh: [62, 62], re: [76, 52], rh: [70, 62], lk: [56, 90], lf: [54, 110], rk: [82, 90], rf: [88, 110] },
+    props: 'floor linkK'
+  },
+  bandBridge: {
+    a: { h: [18, 102], n: [28, 106], p: [56, 106], le: [40, 108], lh: [52, 108], re: [42, 108], rh: [54, 108], lk: [80, 86], lf: [92, 110], rk: [82, 86], rf: [94, 110] },
+    b: { h: [18, 102], n: [28, 106], p: [60, 86], le: [40, 108], lh: [52, 108], re: [42, 108], rh: [54, 108], lk: [86, 82], lf: [92, 110], rk: [88, 82], rf: [94, 110] },
+    props: 'floor ringK'
+  },
+  bandKick: { a: BQ, b: J(BQ, { rk: [16, 72], rf: [16, 50] }), props: 'floor ringK' },
+  bandPull: {
+    a: { h: [60, 22], n: [60, 33], p: [60, 64], le: [50, 46], lh: [57, 40], re: [70, 46], rh: [63, 40], lk: [58, 87], lf: [57, 110], rk: [62, 87], rf: [63, 110] },
+    b: { h: [60, 22], n: [60, 33], p: [60, 64], le: [42, 42], lh: [26, 42], re: [78, 42], rh: [94, 42], lk: [58, 87], lf: [57, 110], rk: [62, 87], rf: [63, 110] },
+    props: 'floor linkW'
+  }
+});
+
+// Mini band — mais exercícios (frontal = vista de frente; os demais, de lado)
+const SD = { h: [60, 22], n: [60, 33], p: [60, 64], le: [48, 48], lh: [52, 62], re: [72, 48], rh: [68, 62], lk: [57, 87], lf: [56, 110], rk: [63, 87], rf: [64, 110] };
+Object.assign(FIGS, {
+  bandAbd: { a: SD, b: J(SD, { rk: [70, 86], rf: [82, 106] }), props: 'floor linkA' },
+  bandSumo: {
+    a: { h: [60, 22], n: [60, 33], p: [60, 64], le: [50, 46], lh: [56, 54], re: [70, 46], rh: [64, 54], lk: [46, 88], lf: [38, 110], rk: [74, 88], rf: [82, 110] },
+    b: { h: [60, 44], n: [60, 55], p: [60, 84], le: [50, 66], lh: [56, 62], re: [70, 66], rh: [64, 62], lk: [38, 92], lf: [36, 110], rk: [82, 92], rf: [84, 110] },
+    props: 'floor linkK'
+  },
+  bandGm: {
+    a: { h: [62, 22], n: [60, 33], p: [60, 64], le: [64, 46], lh: [60, 42], re: [66, 47], rh: [62, 43], lk: [58, 87], lf: [58, 110], rk: [62, 87], rf: [62, 110] },
+    b: { h: [76, 36], n: [68, 44], p: [46, 66], le: [70, 54], lh: [66, 50], re: [72, 55], rh: [68, 51], lk: [52, 88], lf: [56, 110], rk: [54, 88], rf: [60, 110] },
+    props: 'floor ringK'
+  },
+  bandRow: {
+    a: { h: [79, 38], n: [70, 46], p: [46, 66], le: [70, 70], lh: [70, 90], re: [72, 71], rh: [72, 91], lk: [52, 88], lf: [54, 110], rk: [54, 88], rf: [58, 110] },
+    b: { h: [79, 38], n: [70, 46], p: [46, 66], le: [56, 58], lh: [68, 68], re: [58, 59], rh: [70, 70], lk: [52, 88], lf: [54, 110], rk: [54, 88], rf: [58, 110] },
+    props: 'floor linkFH'
+  },
+  bandLraise: {
+    a: { h: [60, 22], n: [60, 33], p: [60, 64], le: [50, 52], lh: [48, 66], re: [70, 52], rh: [72, 66], lk: [58, 87], lf: [57, 110], rk: [62, 87], rf: [63, 110] },
+    b: { h: [60, 22], n: [60, 33], p: [60, 64], le: [44, 38], lh: [30, 38], re: [76, 38], rh: [90, 38], lk: [58, 87], lf: [57, 110], rk: [62, 87], rf: [63, 110] },
+    props: 'floor linkFL'
+  },
+  bandErot: {
+    a: { h: [60, 22], n: [60, 33], p: [60, 64], le: [48, 52], lh: [54, 56], re: [72, 52], rh: [66, 56], lk: [58, 87], lf: [57, 110], rk: [62, 87], rf: [63, 110] },
+    b: { h: [60, 22], n: [60, 33], p: [60, 64], le: [48, 52], lh: [32, 50], re: [72, 52], rh: [88, 50], lk: [58, 87], lf: [57, 110], rk: [62, 87], rf: [63, 110] },
+    props: 'floor linkW'
+  },
+  bandCurl: {
+    a: { h: [62, 22], n: [60, 33], p: [60, 64], le: [60, 50], lh: [66, 66], re: [63, 50], rh: [66, 66], lk: [58, 87], lf: [57, 110], rk: [62, 87], rf: [63, 110] },
+    b: { h: [62, 22], n: [60, 33], p: [60, 64], le: [60, 50], lh: [74, 38], re: [63, 50], rh: [74, 38], lk: [58, 87], lf: [57, 110], rk: [62, 87], rf: [63, 110] },
+    props: 'floor linkFH'
+  },
+  bandKbk: {
+    a: { h: [79, 38], n: [70, 46], p: [46, 66], le: [56, 54], lh: [56, 74], re: [58, 55], rh: [58, 74], lk: [52, 88], lf: [54, 110], rk: [54, 88], rf: [58, 110] },
+    b: { h: [79, 38], n: [70, 46], p: [46, 66], le: [56, 54], lh: [38, 56], re: [58, 55], rh: [40, 57], lk: [52, 88], lf: [54, 110], rk: [54, 88], rf: [58, 110] },
+    props: 'floor linkFH'
+  },
+  bandPush: { a: FIGS.push.a, b: FIGS.push.b, props: 'floor ringW' },
+  bandPlank: {
+    a: { h: [26, 78], n: [36, 84], p: [72, 92], le: [40, 108], lh: [26, 108], re: [42, 108], rh: [28, 108], lk: [90, 100], lf: [108, 108], rk: [90, 100], rf: [108, 108] },
+    b: { h: [26, 78], n: [36, 84], p: [72, 92], le: [40, 108], lh: [26, 108], re: [42, 108], rh: [28, 108], lk: [90, 100], lf: [108, 108], rk: [92, 90], rf: [112, 84] },
+    props: 'floor ringA'
+  },
+  bandLegr: {
+    a: { h: [18, 102], n: [28, 106], p: [56, 106], le: [40, 108], lh: [52, 108], re: [42, 108], rh: [54, 108], lk: [56, 82], lf: [56, 58], rk: [58, 82], rf: [58, 58] },
+    b: { h: [18, 102], n: [28, 106], p: [56, 106], le: [40, 108], lh: [52, 108], re: [42, 108], rh: [54, 108], lk: [80, 102], lf: [104, 96], rk: [80, 101], rf: [104, 95] },
+    props: 'floor ringA'
+  }
+});
+
+// Mini band — terceira leva de exercícios
+Object.assign(FIGS, {
+  bandBridge1: {
+    a: { h: [18, 102], n: [28, 106], p: [56, 106], le: [40, 108], lh: [52, 108], re: [42, 108], rh: [54, 108], lk: [80, 86], lf: [92, 110], rk: [84, 98], rf: [110, 90] },
+    b: { h: [18, 102], n: [28, 106], p: [60, 86], le: [40, 108], lh: [52, 108], re: [42, 108], rh: [54, 108], lk: [86, 82], lf: [92, 110], rk: [88, 78], rf: [114, 70] },
+    props: 'floor ringK'
+  },
+  bandSlunge: {
+    a: { h: [60, 22], n: [60, 33], p: [60, 64], le: [50, 46], lh: [56, 54], re: [70, 46], rh: [64, 54], lk: [46, 88], lf: [40, 110], rk: [74, 88], rf: [80, 110] },
+    b: { h: [72, 36], n: [72, 47], p: [72, 78], le: [62, 60], lh: [68, 68], re: [82, 60], rh: [76, 68], lk: [52, 95], lf: [36, 110], rk: [84, 92], rf: [88, 110] },
+    props: 'floor linkK'
+  },
+  bandSup: { a: FIGS.supPull.a, b: FIGS.supPull.b, props: 'floor ringW', dur: 2.4 },
+  bandOhp: {
+    a: { h: [60, 22], n: [60, 33], p: [60, 64], le: [52, 18], lh: [54, 4], re: [68, 18], rh: [66, 4], lk: [58, 87], lf: [57, 110], rk: [62, 87], rf: [63, 110] },
+    b: { h: [60, 22], n: [60, 33], p: [60, 64], le: [42, 20], lh: [30, 8], re: [78, 20], rh: [90, 8], lk: [58, 87], lf: [57, 110], rk: [62, 87], rf: [63, 110] },
+    props: 'floor linkW'
+  },
+  bandPress: {
+    a: { h: [60, 22], n: [60, 33], p: [60, 64], le: [44, 44], lh: [46, 28], re: [76, 44], rh: [74, 28], lk: [58, 87], lf: [57, 110], rk: [62, 87], rf: [63, 110] },
+    b: { h: [60, 22], n: [60, 33], p: [60, 64], le: [50, 20], lh: [52, 4], re: [70, 20], rh: [68, 4], lk: [58, 87], lf: [57, 110], rk: [62, 87], rf: [63, 110] },
+    props: 'floor linkFL'
+  },
+  bandFraise: {
+    a: { h: [62, 22], n: [60, 33], p: [60, 64], le: [60, 50], lh: [66, 66], re: [63, 50], rh: [66, 66], lk: [58, 87], lf: [57, 110], rk: [62, 87], rf: [63, 110] },
+    b: { h: [62, 22], n: [60, 33], p: [60, 64], le: [72, 38], lh: [90, 38], re: [73, 39], rh: [91, 39], lk: [58, 87], lf: [57, 110], rk: [62, 87], rf: [63, 110] },
+    props: 'floor linkFH'
+  },
+  bandTri: {
+    a: { h: [62, 22], n: [60, 33], p: [60, 64], le: [60, 18], lh: [48, 26], re: [62, 18], rh: [50, 27], lk: [58, 87], lf: [57, 110], rk: [62, 87], rf: [63, 110] },
+    b: { h: [62, 22], n: [60, 33], p: [60, 64], le: [60, 18], lh: [61, 2], re: [62, 18], rh: [63, 3], lk: [58, 87], lf: [57, 110], rk: [62, 87], rf: [63, 110] },
+    props: 'floor linkFH'
+  },
+  bandPushInc: { a: FIGS.pushIncline.a, b: FIGS.pushIncline.b, props: 'floor bench ringW' },
+  bandPushKnee: { a: FIGS.pushKnee.a, b: FIGS.pushKnee.b, props: 'floor ringW' },
+  bandDead: {
+    a: { h: [18, 102], n: [28, 106], p: [56, 106], le: [30, 88], lh: [30, 70], re: [32, 88], rh: [32, 70], lk: [58, 82], lf: [82, 82], rk: [60, 82], rf: [84, 82] },
+    b: { h: [18, 102], n: [28, 106], p: [56, 106], le: [18, 90], lh: [6, 82], re: [32, 88], rh: [32, 70], lk: [58, 82], lf: [82, 82], rk: [84, 98], rf: [108, 102] },
+    props: 'floor ringA'
+  },
+  bandMtn: { a: FIGS.push.a, b: J(FIGS.push.a, { rk: [56, 96], rf: [66, 108] }), props: 'floor ringA' }
+});
+
 function figSVG(key, opts = {}) {
   const f = FIGS[key], FR = f.frames || [f.a, f.b], A = FR[0], B = FR[1], dur = (f.dur || 2.2) + 's';
   const kt = FR.map((_, i) => (i / FR.length).toFixed(3)).concat('1').join(';'), ks = FR.map(() => '.45 0 .55 1').join(';');
@@ -811,8 +1054,19 @@ function figSVG(key, opts = {}) {
   if (pr.includes('arcR')) props += '<path d="M70 54 Q96 48 90 32" fill="none" stroke="var(--hot)" stroke-width="2" stroke-dasharray="3 3"/>';
   const backArm = seg('n', 'le', 1) + seg('le', 'lh', 1);
   const body = [seg('p', 'lk', 1), seg('lk', 'lf', 1), f.hl === 'l' ? '' : backArm, seg('n', 'p'), seg('p', 'rk'), seg('rk', 'rf'), seg('n', 're'), seg('re', 'rh'), f.hl === 'l' ? backArm : ''].join('');
+  const ring = (k, rx, ry) => `<ellipse cx="${pick(k)[0]}" cy="${pick(k)[1]}" rx="${rx}" ry="${ry}" fill="none" stroke="var(--cool)" stroke-width="2.8">${anim('cx', k, 0)}${anim('cy', k, 1)}</ellipse>`;
+  const link = (a, b) => `<line x1="${pick(a)[0]}" y1="${pick(a)[1]}" x2="${pick(b)[0]}" y2="${pick(b)[1]}" stroke="var(--cool)" stroke-width="2.8" stroke-dasharray="4 3" stroke-linecap="round">${anim('x1', a, 0)}${anim('y1', a, 1)}${anim('x2', b, 0)}${anim('y2', b, 1)}</line>`;
+  let over = '';
+  if (pr.includes('ringK')) over += ring('rk', 3.5, 7);
+  if (pr.includes('linkK')) over += link('lk', 'rk');
+  if (pr.includes('linkW')) over += link('lh', 'rh');
+  if (pr.includes('linkA')) over += link('lf', 'rf');
+  if (pr.includes('linkFH')) over += link('rf', 'rh');
+  if (pr.includes('linkFL')) over += link('lf', 'lh') + link('rf', 'rh');
+  if (pr.includes('ringW')) over += ring('rh', 3, 5);
+  if (pr.includes('ringA')) over += ring('rf', 3.5, 6);
   const head = `<circle cx="${pick('h')[0]}" cy="${pick('h')[1]}" r="7.5" fill="var(--fig)">${anim('cx', 'h', 0)}${anim('cy', 'h', 1)}</circle>`;
-  return `<svg viewBox="0 0 120 120" class="fig" role="img" aria-label="${opts.label || ''}">${props}${body}${head}</svg>`;
+  return `<svg viewBox="0 0 120 120" class="fig" role="img" aria-label="${opts.label || ''}">${props}${body}${head}${over}</svg>`;
 }
 
 // ═══════════════════════ COMO FAZER (textos) ═══════════════════════
@@ -837,6 +1091,40 @@ const HOW = {
   'box:6': { fig: 'upR', n: '6', t: 'Upper de trás', do: ['Upper com a mão de trás.', 'Gire o quadril e suba com as pernas, como se levantasse algo do chão.', 'Volte para a guarda.'], avoid: ['Inclinar o tronco para trás'] },
   'box:slip': { fig: 'slip', n: '↯', t: 'Esquiva e pêndulo', do: ['Esquiva: incline o tronco para o lado, tirando a cabeça da linha do soco.', 'Pêndulo: dobre os joelhos e passe por baixo fazendo um “U”.', 'Mantenha a guarda alta e os olhos à frente o tempo todo.'], avoid: ['Olhar para o chão', 'Dobrar só a coluna — use os joelhos'] }
 };
+Object.assign(HOW, {
+  'band:squat': { fig: 'bandSquat', t: 'Agachamento com mini band', do: ['Coloque a mini band logo acima dos joelhos.', 'Pés na largura dos ombros, pontas levemente para fora.', 'Desça levando o quadril para trás, empurrando os joelhos contra o elástico.', 'Suba apertando os glúteos.'], avoid: ['Joelhos caindo para dentro', 'Calcanhares saindo do chão'] },
+  'band:lunge': { fig: 'bandLunge', t: 'Afundo alternado com mini band', do: ['Band acima dos joelhos, em pé, com uma perna à frente.', 'Desça na vertical até os dois joelhos ficarem em cerca de 90°.', 'Suba empurrando o chão com o pé da frente.', 'Troque a perna a cada repetição (ou faça metade do tempo em cada lado).'], avoid: ['Joelho da frente passando muito dos dedos do pé', 'Tronco inclinado para a frente'] },
+  'band:lat': { fig: 'bandLat', t: 'Passo lateral com mini band', do: ['Band acima dos joelhos (nos tornozelos fica mais difícil).', 'Fique em meio agachamento, pés na largura dos ombros.', 'Dê passos curtos para o lado, mantendo o elástico sempre esticado.', 'Na metade do tempo, volte para o outro lado.'], avoid: ['Juntar os pés e afrouxar o elástico', 'Joelhos caindo para dentro', 'Levantar o corpo a cada passo'] },
+  'band:bridge': { fig: 'bandBridge', t: 'Ponte de glúteos com mini band', do: ['Deite de barriga para cima, joelhos dobrados e pés no chão. Band acima dos joelhos.', 'Empurre os calcanhares no chão e suba o quadril até formar uma linha dos ombros aos joelhos.', 'Abra os joelhos contra o elástico e segure 1 segundo no topo.', 'Desça devagar, sem encostar o quadril no chão entre as repetições.'], avoid: ['Arquear demais a lombar no topo', 'Deixar os joelhos fecharem'] },
+  'band:kick': { fig: 'bandKick', t: 'Chute para trás (quatro apoios)', do: ['Mãos sob os ombros, joelhos sob o quadril. Band acima dos joelhos.', 'Com o joelho dobrado a 90°, leve uma perna para trás e para cima, levando a sola do pé ao teto.', 'Aperte o glúteo no topo e volte devagar, sem apoiar o joelho.', 'Faça metade do tempo com a perna direita e metade com a esquerda.'], avoid: ['Girar ou balançar o quadril', 'Arquear a lombar para subir mais'] },
+  'band:pull': { fig: 'bandPull', t: 'Abertura de braços (pull-apart)', do: ['Em pé, segure a band com as duas mãos, braços estendidos à frente na altura do peito.', 'Abra os braços para os lados, esticando o elástico até o peito.', 'Aperte as escápulas e volte devagar.', 'Use a band mais leve que tiver: ombros se cansam rápido.'], avoid: ['Subir os ombros em direção às orelhas', 'Arquear a lombar'] }
+});
+Object.assign(HOW, {
+  'band:abd': { fig: 'bandAbd', t: 'Abdução de quadril em pé', do: ['Band nos tornozelos (acima dos joelhos é mais leve). Apoie uma mão numa parede ou cadeira.', 'Em pé, abdômen firme, leve uma perna para o lado sem inclinar o tronco.', 'Volte devagar, sem encostar o pé no chão. Na metade do tempo, troque de perna.'], avoid: ['Inclinar o tronco para o lado', 'Girar a ponta do pé para cima'] },
+  'band:sumo': { fig: 'bandSumo', t: 'Agachamento sumô com mini band', do: ['Pés bem afastados (mais que os ombros), pontas para fora. Band acima dos joelhos.', 'Desça mantendo os joelhos na direção dos pés, abrindo-os contra o elástico.', 'Suba apertando glúteos e parte interna das coxas.'], avoid: ['Joelhos caindo para dentro', 'Tronco caindo para a frente'] },
+  'band:gm': { fig: 'bandGm', t: 'Bom dia (dobradiça de quadril)', do: ['Band acima dos joelhos, joelhos levemente dobrados, mãos cruzadas no peito.', 'Leve o quadril para trás com a coluna reta, até sentir a parte de trás das coxas alongar.', 'Volte empurrando o quadril para a frente.'], avoid: ['Arredondar as costas', 'Agachar em vez de dobrar no quadril'] },
+  'band:row': { fig: 'bandRow', t: 'Remada curvada com band', do: ['Pise na band com os dois pés e segure a outra ponta com as duas mãos.', 'Incline o tronco à frente, coluna reta, joelhos levemente dobrados.', 'Puxe os cotovelos para trás, apertando as escápulas, e volte devagar.'], avoid: ['Subir os ombros em direção às orelhas', 'Arredondar as costas'] },
+  'band:lraise': { fig: 'bandLraise', t: 'Elevação lateral com band', do: ['Pise na band com os dois pés e segure a outra ponta nas mãos.', 'Braços ao lado do corpo, cotovelos levemente dobrados.', 'Eleve os braços para os lados até a altura dos ombros e desça devagar.'], avoid: ['Balançar o tronco para ganhar impulso', 'Subir acima da linha dos ombros'] },
+  'band:erot': { fig: 'bandErot', t: 'Rotação externa de ombro', do: ['Band nos punhos, cotovelos colados às costelas e dobrados a 90°.', 'Abra os antebraços para fora, esticando o elástico, sem afastar os cotovelos.', 'Volte devagar. Use pouca tensão: é um exercício de controle.'], avoid: ['Descolar os cotovelos do corpo', 'Girar o tronco'] },
+  'band:curl': { fig: 'bandCurl', t: 'Rosca bíceps com band', do: ['Pise na band e segure a outra ponta, palmas para a frente.', 'Cotovelos colados ao corpo.', 'Dobre os cotovelos levando as mãos aos ombros e desça contando 2 segundos.'], avoid: ['Balançar o corpo', 'Levar os cotovelos para a frente'] },
+  'band:kbk': { fig: 'bandKbk', t: 'Tríceps coice com band', do: ['Pise na band e incline o tronco à frente, coluna reta.', 'Cotovelos dobrados, junto ao tronco.', 'Estenda os braços para trás até alinhar com o corpo e volte devagar.'], avoid: ['Mexer o cotovelo junto com o antebraço', 'Arredondar as costas'] },
+  'band:push': { fig: 'bandPush', t: 'Flexão com mini band nos punhos', do: ['Band nos punhos, mãos na largura dos ombros: o elástico impede as mãos de fecharem.', 'Corpo em linha reta, abdômen firme.', 'Desça até o peito chegar perto do chão e empurre de volta.', 'Mais fácil: apoie os joelhos no chão.'], avoid: ['Quadril caindo ou empinado', 'Deixar as mãos se aproximarem'] },
+  'band:plank': { fig: 'bandPlank', t: 'Prancha com elevação de perna', do: ['Antebraços no chão, cotovelos sob os ombros. Band acima dos tornozelos.', 'Corpo em linha reta, abdômen e glúteos firmes.', 'Eleve uma perna estendida sem girar o quadril, volte e alterne as pernas.'], avoid: ['Quadril caindo ou empinado', 'Girar o quadril ao subir a perna'] },
+  'band:legr': { fig: 'bandLegr', t: 'Elevação de pernas deitado', do: ['Deite de barriga para cima, mãos sob o quadril. Band acima dos tornozelos.', 'Pernas esticadas apontando para o teto.', 'Desça devagar mantendo a lombar no chão e suba de novo.', 'Mais fácil: joelhos dobrados.'], avoid: ['Arquear a lombar ao descer', 'Deixar as pernas caírem de uma vez'] }
+});
+Object.assign(HOW, {
+  'band:bridge1': { fig: 'bandBridge1', t: 'Ponte unilateral com mini band', do: ['Deite de barriga para cima, joelhos dobrados, band acima dos joelhos.', 'Estenda uma perna reta no ar, na linha da coxa que fica de apoio.', 'Empurre o calcanhar de apoio no chão e suba o quadril, mantendo-o nivelado.', 'Desça devagar. Na metade do tempo, troque de perna.'], avoid: ['Deixar o quadril girar ou cair para o lado da perna levantada', 'Arquear a lombar no topo'] },
+  'band:slunge': { fig: 'bandSlunge', t: 'Avanço lateral com mini band', do: ['Em pé, pés na largura dos ombros e band acima dos joelhos, mãos juntas no peito.', 'Dê um passo largo para o lado e leve o quadril para trás, dobrando só o joelho desse lado.', 'A outra perna fica estendida e o pé no chão.', 'Empurre o chão para voltar e alterne os lados.'], avoid: ['Joelho caindo para dentro', 'Tronco caindo para a frente'] },
+  'band:sup': { fig: 'bandSup', t: 'Superman com band nos punhos', do: ['Deite de barriga para baixo, braços à frente, com a band nos punhos.', 'Tire o peito, os braços e as pernas um pouco do chão.', 'Abra os braços e puxe os cotovelos para trás, esticando o elástico.', 'Estenda de novo sem encostar no chão.'], avoid: ['Jogar a cabeça para trás: olhe para o chão', 'Subir alto demais forçando a lombar'] },
+  'band:ohp': { fig: 'bandOhp', t: 'Abertura acima da cabeça', do: ['Em pé, braços esticados acima da cabeça segurando a band com as duas mãos.', 'Abra os braços em V, esticando o elástico.', 'Volte devagar, mantendo as costelas para baixo.', 'Use a band mais leve: é um exercício de ombro e parte alta das costas.'], avoid: ['Arquear a lombar', 'Subir os ombros em direção às orelhas'] },
+  'band:press': { fig: 'bandPress', t: 'Press de ombros com band', do: ['Pise na band com os dois pés e segure a outra ponta na altura dos ombros, cotovelos para os lados.', 'Empurre as mãos para cima até esticar os braços.', 'Desça devagar até a altura dos ombros.'], avoid: ['Arquear a lombar ao empurrar', 'Empurrar os cotovelos para a frente'] },
+  'band:fraise': { fig: 'bandFraise', t: 'Elevação frontal com band', do: ['Pise na band com os dois pés e segure a outra ponta nas mãos.', 'Braços ao lado do corpo, cotovelos levemente dobrados.', 'Eleve os braços à frente até a altura dos ombros e desça devagar.'], avoid: ['Balançar o tronco para ganhar impulso', 'Subir acima da linha dos ombros'] },
+  'band:tri': { fig: 'bandTri', t: 'Tríceps francês com band', do: ['Pise na band e segure a outra ponta com as mãos atrás da cabeça, cotovelos para cima.', 'Estenda os braços acima da cabeça, mantendo os cotovelos fixos.', 'Volte devagar até as mãos ficarem atrás da cabeça.'], avoid: ['Abrir os cotovelos para os lados', 'Arquear a lombar'] },
+  'band:pushinc': { fig: 'bandPushInc', t: 'Flexão inclinada com band', do: ['Mãos num sofá ou degrau firme, com a band nos punhos.', 'Corpo em linha reta, abdômen firme.', 'Desça até o peito chegar perto do apoio e empurre de volta.', 'Quanto mais alto o apoio, mais fácil.'], avoid: ['Apoio que escorrega', 'Quadril empinado ou caído'] },
+  'band:pushknee': { fig: 'bandPushKnee', t: 'Flexão de joelhos com band', do: ['Joelhos no chão (use um apoio macio), mãos na largura dos ombros e band nos punhos.', 'Linha reta dos joelhos até a cabeça.', 'Desça até o peito quase tocar o chão e empurre de volta.'], avoid: ['Dobrar o quadril em vez de manter a linha reta', 'Deixar as mãos se aproximarem'] },
+  'band:dead': { fig: 'bandDead', t: 'Dead bug com mini band', do: ['Deite de barriga para cima, braços para o teto e joelhos dobrados a 90°. Band acima dos tornozelos.', 'Estenda devagar uma perna e o braço do lado oposto, sem tirar a lombar do chão.', 'Volte e alterne os lados.'], avoid: ['Arquear a lombar ao estender', 'Mexer rápido demais'] },
+  'band:mtn': { fig: 'bandMtn', t: 'Escalador com mini band', do: ['Posição de flexão, mãos sob os ombros e band acima dos tornozelos.', 'Leve um joelho em direção ao peito e troque de perna, como uma corrida na horizontal.', 'Mantenha o quadril baixo e o abdômen firme.'], avoid: ['Quadril subindo', 'Apoiar os pés com força: mantenha o ritmo controlado'] }
+});
 const PUNCH_KEYS = ['box:guard', 'box:1', 'box:2', 'box:3', 'box:4', 'box:5', 'box:6', 'box:slip'];
 function openHow(key) {
   const h = HOW[key]; if (!h) return;
@@ -931,8 +1219,8 @@ function renderHome() {
   $('s-pr').innerHTML = shown ? scoreTxt(shown) : '—';
   $('s-pr-l').innerHTML = shown ? `Recorde Cindy 20' ${rx ? '<span class="tag rx">completa</span>' : '<span class="tag sc">adaptado</span>'}` : "Recorde Cindy (20')";
   const last = S.sessions[S.sessions.length - 1];
-  $('s-last').textContent = !last ? '—' : isShadow(last) ? `${last.rounds}×${last.roundMin}'` : scoreTxt(last);
-  $('s-last-l').textContent = !last ? 'Último treino' : `Último · ${isShadow(last) ? 'shadow' : 'Cindy'} · ${fmtDate(last.date)}`;
+  $('s-last').textContent = !last ? '—' : isShadow(last) ? `${last.rounds}×${last.roundMin}'` : isBand(last) ? `${bandMin(last)}'` : scoreTxt(last);
+  $('s-last-l').textContent = !last ? 'Último treino' : `Último · ${isShadow(last) ? 'shadow' : isBand(last) ? 'band' : 'Cindy'} · ${fmtDate(last.date)}`;
   $('s-total').textContent = S.sessions.length;
   $('s-reps').textContent = SH().reduce((a, s) => a + shadowMin(s), 0).toLocaleString('pt-BR');
   // Tendência da Cindy
@@ -950,6 +1238,8 @@ function renderHome() {
   }
   $('s-trend').innerHTML = tr;
   $('what').open = S.sessions.length === 0;
+  const lb = BN().slice(-1)[0];
+  $('band-foot').textContent = lb ? `Último: ${fmtDate(lb.date)} · ${bandMin(lb)} min` : 'Escolha os exercícios por parte do corpo';
   // Conquistas
   const on = ACH.filter(a => a.ok()).length;
   $('ach-count').textContent = `${on}/${ACH.length}`;
@@ -957,6 +1247,7 @@ function renderHome() {
 }
 $('home-start').addEventListener('click', () => dayType(new Date().getDay()) === 'shadow' ? startShadow() : startRun());
 $('home-alt').addEventListener('click', () => go('train'));
+$('band-go').addEventListener('click', () => { trainTab = 'band'; go('train'); });
 $('home-how').addEventListener('click', () => dayType(new Date().getDay()) === 'shadow' ? openPunches() : openHow(`pull:${S.cfg.pull}`));
 
 // ═══════════════════════ TREINAR ═══════════════════════
@@ -968,11 +1259,11 @@ let trainTab = null;
 function renderTrain() {
   if (!trainTab) trainTab = dayType(new Date().getDay()) === 'shadow' ? 'shadow' : 'cindy';
   document.querySelectorAll('.seg [data-t]').forEach(b => b.setAttribute('aria-pressed', b.dataset.t === trainTab));
-  $('t-cindy').hidden = trainTab !== 'cindy'; $('t-shadow').hidden = trainTab !== 'shadow';
+  $('t-cindy').hidden = trainTab !== 'cindy'; $('t-shadow').hidden = trainTab !== 'shadow'; $('t-band').hidden = trainTab !== 'band';
   $('train-manual').hidden = trainTab !== 'cindy';
-  const sbtn = $('train-start'); sbtn.textContent = trainTab === 'cindy' ? '▶ Começar Cindy' : '▶ Começar shadowboxing';
-  sbtn.style.background = trainTab === 'shadow' ? 'var(--hot)' : '';
-  $('train-sub').innerHTML = trainTab === 'cindy' ? 'Cindy em casa, sem equipamento. <span class="tag rx">completa</span> = 20 min, flexão e agachamento completos.' : 'Rounds de boxe contra a sombra, com combinações chamadas por voz.';
+  const sbtn = $('train-start'); sbtn.textContent = trainTab === 'cindy' ? '▶ Começar Cindy' : trainTab === 'band' ? '▶ Começar mini band' : '▶ Começar shadowboxing';
+  sbtn.style.background = trainTab === 'shadow' ? 'var(--hot)' : trainTab === 'band' ? 'var(--cool)' : '';
+  $('train-sub').innerHTML = trainTab === 'cindy' ? 'Cindy em casa, sem equipamento. <span class="tag rx">completa</span> = 20 min, flexão e agachamento completos.' : trainTab === 'band' ? 'Circuito em casa com mini band. Escolha os exercícios por parte do corpo; o cronômetro e a voz guiam cada um.' : 'Rounds de boxe contra a sombra, com combinações chamadas por voz.';
   const cd = S.days.map(d => DOW[d]).join(', '), sd = WEEKDAYS.filter(d => !S.days.includes(d)).map(d => DOW[d]).join(', ');
   $('train-sched').textContent = `Agenda: Cindy ${cd}${sd ? ' · shadowboxing ' + sd : ''} · sáb e dom descanso. Mude em Config.`;
   const c = S.cfg;
@@ -993,14 +1284,47 @@ function renderTrain() {
   const totalMin = Math.round((b.rounds * b.roundMin * 60 + (b.rounds - 1) * b.rest) / 60);
   $('sb-total').textContent = `≈ ${totalMin} min no total`;
   if (!$('sb-punches').children.length) punchGrid($('sb-punches'));
+  renderBand();
   $('sb-plan').innerHTML = Array.from({ length: b.rounds }, (_, i) => { const pl = sbPlanFor(i, b.rounds); return `<div class="cfg" style="padding:9px 0"><div class="x"><b>Round ${i + 1} · ${pl.f}</b><span>${pl.tip}</span></div></div>`; }).join('');
+}
+// Ordem do circuito: alterna as partes do corpo (glúteos → pernas → costas → ...) para dar descanso a cada região.
+function bandPicked() {
+  const sel = S.cfg.band.sel || [], by = BN_GROUPS.map(([g]) => BAND.filter(e => e.g === g && sel.includes(e.k))), out = [];
+  for (let i = 0; by.some(a => i < a.length); i++) by.forEach(a => { if (a[i]) out.push(a[i]); });
+  return out;
+}
+function bandCfg() {
+  const b = S.cfg.band, [work, rest] = BN_LV[b.level] || BN_LV.ini;
+  const total = bandPicked().reduce((a, e) => a + (e.sides ? 2 : 1), 0) * b.rounds;
+  return { ...b, work, rest, total };
+}
+let bnFilter = 'all';
+function renderBand() {
+  const b = S.cfg.band, c = bandCfg(), picked = bandPicked();
+  chipGroup(document.querySelector('[data-bn="level"]'), BN_LEVELS, b.level, k => { b.level = k; save(); renderBand(); });
+  chipGroup(document.querySelector('[data-bn="rounds"]'), [[1, '1'], [2, '2'], [3, '3'], [4, '4']], b.rounds, k => { b.rounds = +k; save(); renderBand(); });
+  chipGroup(document.querySelector('[data-bn="tension"]'), BN_TENS, b.tension, k => { b.tension = k; save(); renderBand(); });
+  $('bn-lv-h').textContent = `${c.work} s de esforço · ${c.rest} s de descanso`;
+  $('bn-total').textContent = c.total ? `≈ ${Math.round(c.total * (c.work + c.rest) / 60)} min · ${c.total} séries` : 'escolha os exercícios';
+  $('bn-count').textContent = b.sel.length;
+  const same = k => BN_PRESETS[k] && BN_PRESETS[k].length === b.sel.length && BN_PRESETS[k].every(x => b.sel.includes(x));
+  chipGroup($('bn-presets'), BN_PRESET_NAMES, BN_PRESET_NAMES.map(x => x[0]).find(same) || '', k => { b.sel = k === 'none' ? [] : BN_PRESETS[k].slice(); save(); renderBand(); });
+  chipGroup($('bn-filter'), [['all', 'Todos'], ...BN_GROUPS], bnFilter, k => { bnFilter = k; renderBand(); });
+  const groups = BN_GROUPS.filter(([g]) => bnFilter === 'all' || bnFilter === g);
+  $('bn-list').innerHTML = groups.map(([g, gn]) => `<div class="bngh">${gn}</div>` + BAND.filter(e => e.g === g).map(e => {
+    const on = b.sel.includes(e.k);
+    return `<div class="bnrow"><button class="bnchk" role="checkbox" aria-checked="${on}" aria-label="Incluir ${e.n}" data-k="${e.k}"></button><button class="bninfo" data-how="band:${e.k}" aria-label="Como fazer: ${e.n}"><div class="bnfig">${figSVG(e.fig, { label: e.n })}</div><div class="x"><b>${e.n}${e.sides ? ' · cada lado' : ''}</b><span>${e.c}</span></div></button></div>`;
+  }).join('')).join('');
+  $('bn-list').querySelectorAll('.bnchk').forEach(el => el.onclick = () => { b.sel = b.sel.includes(el.dataset.k) ? b.sel.filter(x => x !== el.dataset.k) : [...b.sel, el.dataset.k]; save(); renderBand(); });
+  $('bn-list').querySelectorAll('[data-how]').forEach(el => el.onclick = () => openHow(el.dataset.how));
+  $('bn-order').textContent = picked.length ? `Ordem do circuito (alterna as partes do corpo): ${picked.map((e, i) => `${i + 1}. ${e.n}`).join(' · ')}` : 'Marque pelo menos 2 exercícios para começar.';
 }
 document.querySelectorAll('.seg [data-t]').forEach(b => b.addEventListener('click', () => { trainTab = b.dataset.t; renderTrain(); }));
 $('sb-names').addEventListener('click', () => { S.cfg.sb.names = S.cfg.sb.names === false; save(); renderTrain(); });
 document.querySelectorAll('[data-howmv]').forEach(b => b.addEventListener('click', () => openHow(`${b.dataset.howmv}:${S.cfg[b.dataset.howmv]}`)));
 $('o-warm').addEventListener('click', () => { S.cfg.warm = !S.cfg.warm; save(); renderTrain(); });
 $('o-voice').addEventListener('click', () => { S.cfg.voice = !S.cfg.voice; save(); renderTrain(); });
-$('train-start').addEventListener('click', () => trainTab === 'shadow' ? startShadow() : startRun());
+$('train-start').addEventListener('click', () => trainTab === 'shadow' ? startShadow() : trainTab === 'band' ? startBand() : startRun());
 $('train-manual').addEventListener('click', () => openResult({ manual: true }));
 
 // ═══════════════════════ ÁUDIO / VOZ ═══════════════════════
@@ -1014,15 +1338,34 @@ function beep(freq = 880, ms = 160) {
     o.start(); o.stop(actx.currentTime + ms / 1000);
   } catch (e) {}
 }
+// Voz: escolhe a melhor voz pt-BR instalada (naturais/neurais e locais primeiro), com velocidade ajustável
+// e pronúncia corrigida para termos em inglês (jab, upper, round...).
+let VOICES = [];
+function loadVoices() { try { VOICES = (speechSynthesis.getVoices() || []).filter(v => /^pt([-_]|$)/i.test(v.lang)); } catch (e) {} }
+function voiceScore(v) {
+  const n = (v.name + ' ' + v.lang).toLowerCase();
+  return (/pt[-_]br/.test(n) ? 20 : 0) + (/natural|neural|online|enhanced|premium|aprimorad/.test(n) ? 10 : 0) + (/google|microsoft|luciana|francisca|thalita|antonio|felipe/.test(n) ? 4 : 0) + (v.localService ? 3 : 0);
+}
+function pickVoice() {
+  if (!VOICES.length) return null;
+  const want = S.cfg.voiceName && VOICES.find(v => v.name === S.cfg.voiceName);
+  return want || VOICES.slice().sort((a, b) => voiceScore(b) - voiceScore(a))[0];
+}
+if ('speechSynthesis' in window) { loadVoices(); speechSynthesis.onvoiceschanged = () => { loadVoices(); if (page === 'cfg') renderVoiceCfg(); }; }
+const PRON = [[/\bjab\b/gi, 'jéb'], [/\bupper(s)?\b/gi, 'âper$1'], [/\bround(s)?\b/gi, 'ráund$1'], [/\bsprint\b/gi, 'sprínt'], [/\bburpees?\b/gi, 'bârpi'], [/\bsuperman\b/gi, 'súper-men'], [/\bband\b/gi, 'bénd'], [/\bpull-apart\b/gi, 'pul apárt']];
 function say(t) {
   if (!S.cfg.voice || !('speechSynthesis' in window)) return;
-  const u = new SpeechSynthesisUtterance(t); u.lang = 'pt-BR'; speechSynthesis.cancel(); speechSynthesis.speak(u);
+  const u = new SpeechSynthesisUtterance(PRON.reduce((x, [r, w]) => x.replace(r, w), t));
+  const v = pickVoice();
+  u.lang = v ? v.lang : 'pt-BR'; if (v) u.voice = v;
+  u.rate = S.cfg.rate || 1; u.pitch = 1; u.volume = 1;
+  speechSynthesis.cancel(); speechSynthesis.speak(u);
 }
 const vib = p => { if ('vibrate' in navigator) navigator.vibrate(p); };
 let wakeLock = null;
 async function lockScreen() { try { if ('wakeLock' in navigator) wakeLock = await navigator.wakeLock.request('screen'); } catch (e) {} }
 function unlockScreen() { try { wakeLock && wakeLock.release(); } catch (e) {} wakeLock = null; }
-document.addEventListener('visibilitychange', () => { if (!document.hidden && ((R && R.phase !== 'done') || B)) lockScreen(); });
+document.addEventListener('visibilitychange', () => { if (!document.hidden && ((R && R.phase !== 'done') || B || N)) lockScreen(); });
 
 // ═══════════════════════ TREINO EM ANDAMENTO ═══════════════════════
 // O relógio é calculado pela hora real (Date.now), então não atrasa se a tela apagar ou o app for para segundo plano.
@@ -1363,22 +1706,141 @@ function sbFinish(early) {
   sbClose(); openResult(d);
 }
 
+// ═══════════════════════ MINI BAND ═══════════════════════
+// Circuito por tempo: esforço → descanso, repetido pelos exercícios e pelos rounds. Relógio pela hora real, como nos outros treinos.
+function bandList(cfg) {
+  const out = [], picked = bandPicked();
+  for (let r = 0; r < cfg.rounds; r++) picked.forEach(e => (e.sides ? ['direita', 'esquerda'] : [null]).forEach(side => out.push({ ex: e, side, round: r })));
+  return out;
+}
+let N = null, bnTick = null;
+const bnPer = () => N.list.length / N.cfg.rounds;
+const bnName = it => it.ex.n + (it.side ? `, ${it.side}` : '');
+const bnPhaseMs = () => (N.phase === 'work' ? N.cfg.work : N.cfg.rest) * 1e3;
+const bnElapsed = () => (N.paused ? N.pauseAt : Date.now()) - N.t0 - N.pausedMs;
+function startBand() {
+  if (bandPicked().length < 2) { toast('Marque pelo menos 2 exercícios'); return; }
+  const cfg = bandCfg();
+  N = { cfg, list: bandList(cfg), i: 0, phase: 'work', t0: 0, pausedMs: 0, paused: false, pauseAt: 0, cues: {}, done: 0 };
+  $('bnrun').classList.add('on'); document.body.style.overflow = 'hidden';
+  $('bn-cfg').textContent = `${cfg.rounds} rounds · ${cfg.work}s / ${cfg.rest}s · band ${BN_TENS.find(t => t[0] === cfg.tension)[1].toLowerCase()}`;
+  lockScreen(); beep(1, 1);
+  const el = $('bn-count'), n = $('bn-count-n'); let k = 3; el.hidden = false;
+  const step = () => {
+    if (!N) { el.hidden = true; return; }
+    if (k === 0) { el.hidden = true; bnBegin('work'); return; }
+    n.textContent = k; n.style.animation = 'none'; void n.offsetWidth; n.style.animation = '';
+    beep(880); say(String(k)); k--; setTimeout(step, 1000);
+  };
+  bnShow(); bnRender(); step();
+}
+function bnBegin(phase) {
+  N.phase = phase; N.t0 = Date.now(); N.pausedMs = 0; N.paused = false; N.cues = {};
+  const cur = N.list[N.i];
+  if (phase === 'work') {
+    beep(1180, 150); vib([200]);
+    const roundStart = N.cfg.rounds > 1 && cur.round > 0 && (N.i === 0 || N.list[N.i - 1].round !== cur.round);
+    say((roundStart ? `Round ${cur.round + 1}. ` : '') + bnName(cur));
+  } else {
+    beep(660, 150); vib([100, 60, 100]);
+    say(`Descanso. Próximo: ${bnName(N.list[N.i + 1])}`);
+  }
+  clearInterval(bnTick); bnTick = setInterval(bnLoop, 200); bnShow(); bnRender();
+}
+function bnLoop() {
+  if (!N || N.paused) return;
+  const rem = bnPhaseMs() - bnElapsed(), last = N.i === N.list.length - 1;
+  const once = (k, fn) => { if (!N.cues[k]) { N.cues[k] = 1; fn(); } };
+  if (N.phase === 'work') {
+    if (N.cfg.work >= 40 && rem <= N.cfg.work * 500) once('half', () => say('Metade'));
+    if (rem <= 3000 && rem > 0) once('c' + Math.ceil(rem / 1000), () => beep(990, 90));
+    if (rem <= 0) { N.done = N.i + 1; if (last) { bnFinish(); return; } bnBegin('rest'); return; }
+  } else {
+    if (rem <= 3000 && rem > 0) once('c' + Math.ceil(rem / 1000), () => beep(880, 90));
+    if (rem <= 0) { N.i++; bnBegin('work'); return; }
+  }
+  bnRender(true);
+}
+// Mostra o exercício atual (ou o próximo, durante o descanso). Só muda na troca de fase, para não reiniciar a animação.
+function bnShow() {
+  const rest = N.phase === 'rest', it = N.list[rest ? N.i + 1 : N.i], e = it.ex, idx = (rest ? N.i + 1 : N.i) % bnPer();
+  $('bn-head').textContent = !N.t0 ? 'Prepare-se · primeiro exercício' : rest ? 'Próximo exercício' : `Exercício ${idx + 1} de ${bnPer()}`;
+  const w = bnName(it).replace(', ', ' · ');
+  $('bn-words').textContent = w; $('bn-words').classList.toggle('long', w.length > 16);
+  $('bn-num').textContent = e.c;
+  $('bn-fig').innerHTML = figSVG(e.fig, { label: e.n });
+  $('bn-tip').textContent = e.tip;
+  const box = $('bn-combo-box'); box.classList.remove('flash'); void box.offsetWidth; box.classList.add('flash');
+}
+function bnRender(timeOnly) {
+  if (!N) return;
+  const rem = Math.max(0, bnPhaseMs() - bnElapsed()), rest = N.phase === 'rest';
+  $('bn-time').textContent = fmtClock(N.t0 ? rem : N.cfg.work * 1e3);
+  $('bn-bar').style.width = (N.t0 ? Math.min(100, bnElapsed() / bnPhaseMs() * 100) : 0) + '%';
+  if (timeOnly) return;
+  $('bnrun').classList.toggle('resting', rest);
+  const round = N.list[N.i].round, doneRounds = Math.floor(N.done / bnPer());
+  $('bn-phase').textContent = N.paused ? 'Pausado' : rest ? `Descanso · round ${round + 1} de ${N.cfg.rounds}` : `Esforço · round ${round + 1} de ${N.cfg.rounds}`;
+  $('bn-dots').innerHTML = Array.from({ length: N.cfg.rounds }, (_, i) => `<i class="${i < doneRounds ? 'ok' : i === round ? 'cur' : ''}"></i>`).join('');
+  $('bn-skip').textContent = rest ? 'Pular descanso' : N.i === N.list.length - 1 ? 'Encerrar exercício' : 'Próximo exercício';
+  $('bn-pause').textContent = N.paused ? '▶' : '❚❚'; $('bn-pause').setAttribute('aria-label', N.paused ? 'Continuar' : 'Pausar');
+}
+$('bn-help').addEventListener('click', () => { if (N) openHow('band:' + N.list[N.phase === 'rest' ? N.i + 1 : N.i].ex.k); });
+$('bn-pause').addEventListener('click', () => {
+  if (!N || !N.t0) return;
+  if (N.paused) { N.pausedMs += Date.now() - N.pauseAt; N.paused = false; say('Continuando'); } else { N.paused = true; N.pauseAt = Date.now(); }
+  bnRender();
+});
+$('bn-skip').addEventListener('click', () => {
+  if (!N || !N.t0) return;
+  if (N.paused) { N.pausedMs += Date.now() - N.pauseAt; N.paused = false; }
+  if (N.phase === 'rest') { N.i++; bnBegin('work'); return; }
+  N.done = N.i + 1;
+  if (N.i === N.list.length - 1) bnFinish(); else bnBegin('rest');
+});
+$('bn-end').addEventListener('click', () => { if (N && confirm('Terminar agora e salvar as séries feitas?')) bnFinish(true); });
+$('bn-close').addEventListener('click', () => {
+  if (!N) return;
+  if (N.done && confirm('Sair do treino? OK salva as séries feitas; Cancelar volta ao treino.')) { bnFinish(true); return; }
+  if (!N.done && confirm('Sair sem salvar?')) bnClose();
+});
+function bnClose() { clearInterval(bnTick); N = null; $('bnrun').classList.remove('on'); $('bn-count').hidden = true; document.body.style.overflow = ''; unlockScreen(); if (window.speechSynthesis) speechSynthesis.cancel(); }
+function bnFinish(early) {
+  clearInterval(bnTick);
+  if (!early) { bell(4); say('Fim! Excelente treino!'); vib([400, 150, 400]); }
+  const d = { band: true, rounds: N.done, cfg: N.cfg, early };
+  bnClose(); openResult(d);
+}
+
 // ═══════════════════════ RESULTADO ═══════════════════════
 let RES = null;
 function openResult(d) {
-  const shadow = !!d.shadow, cfg = d.cfg || (shadow ? { ...S.cfg.sb } : { ...S.cfg });
-  RES = { kind: shadow ? 'shadow' : 'cindy', rounds: d.rounds || 0, extra: d.extra || 0, splits: d.splits || [], cfg, feel: null, manual: !!d.manual };
+  const band = !!d.band, shadow = !!d.shadow, cfg = d.cfg || (shadow ? { ...S.cfg.sb } : band ? bandCfg() : { ...S.cfg });
+  RES = { kind: band ? 'band' : shadow ? 'shadow' : 'cindy', rounds: d.rounds || 0, extra: d.extra || 0, splits: d.splits || [], cfg, feel: null, manual: !!d.manual };
   $('res-t').textContent = d.manual ? 'Registrar resultado' : shadow ? (d.early ? 'Treino encerrado' : 'Fim do shadowboxing!') : d.early ? 'Treino encerrado' : 'Tempo!';
   $('res-s').textContent = d.manual ? 'Fez a Cindy sem o cronômetro? Anote aqui.' : shadow ? 'Confira os rounds e conte como foi.' : 'Ajuste as repetições do último round, se precisar, e salve.';
-  $('res-e-f').hidden = shadow;
+  $('res-e-f').hidden = shadow || band;
   $('res-r-l').textContent = shadow ? `Rounds feitos (de ${cfg.rounds})` : 'Rounds completos';
   $('res-date-f').hidden = !d.manual; $('res-date').value = todayISO(); $('res-date').max = todayISO();
   $('res-cfg-f').hidden = !d.manual;
   $('res-cfg').innerHTML = shadow ? '' : `${cfg.dur} min · ${optName('pull', cfg.pull)} · flexão ${optName('push', cfg.push).toLowerCase()} · agach. ${optName('squat', cfg.squat).toLowerCase()} — mude em <b>Treinar</b>`;
+  if (band) {
+    $('res-t').textContent = d.early ? 'Treino encerrado' : 'Treino concluído!';
+    $('res-s').textContent = 'Confira as séries feitas e conte como foi.';
+    $('res-r-l').textContent = `Séries feitas (de ${cfg.total})`;
+  }
   renderRes(); $('res').classList.add('on');
 }
 function feelPick(k) { RES.feel = k; chipGroup($('res-feel'), FEELS, k, feelPick); }
 function renderRes() {
+  if (RES.kind === 'band') {
+    RES.rounds = Math.max(0, Math.min(RES.cfg.total, RES.rounds)); // aqui, rounds = séries feitas
+    $('res-r').textContent = RES.rounds;
+    $('res-score').innerHTML = `${RES.rounds} séries<small>mini band · ≈ ${Math.round(RES.rounds * (RES.cfg.work + RES.cfg.rest) / 60)} minutos</small>`;
+    $('res-pr').hidden = true;
+    chipGroup($('res-feel'), FEELS, RES.feel, feelPick);
+    return;
+  }
   if (RES.kind === 'shadow') {
     RES.rounds = Math.max(0, Math.min(RES.cfg.rounds, RES.rounds));
     $('res-r').textContent = RES.rounds;
@@ -1402,6 +1864,15 @@ document.querySelectorAll('[data-st]').forEach(b => b.addEventListener('click', 
 $('res-discard').addEventListener('click', () => { if (RES.manual || confirm('Descartar este resultado?')) { $('res').classList.remove('on'); RES = null; } });
 $('res-save').addEventListener('click', () => {
   const c = RES.cfg, date = RES.manual ? ($('res-date').value || todayISO()) : todayISO();
+  if (RES.kind === 'band') {
+    if (!RES.rounds) { toast('Nenhuma série feita — nada foi salvo'); $('res').classList.remove('on'); RES = null; return; }
+    const before = ACH.filter(a => a.ok()).map(a => a.n);
+    S.sessions.push({ id: Date.now(), date, type: 'band', sets: RES.rounds, rounds: c.rounds, work: c.work, rest: c.rest, level: c.level, tension: c.tension, feel: RES.feel });
+    S.sessions.sort((a, b) => a.date.localeCompare(b.date) || a.id - b.id); save();
+    $('res').classList.remove('on'); RES = null;
+    const na = ACH.filter(a => a.ok() && !before.includes(a.n));
+    toast(na.length ? `${na[0].i} Conquista: ${na[0].n}!` : '🟢 Mini band salvo!'); go('home'); return;
+  }
   if (RES.kind === 'shadow') {
     if (!RES.rounds) { toast('Nenhum round feito — nada foi salvo'); $('res').classList.remove('on'); RES = null; return; }
     const before = ACH.filter(a => a.ok()).map(a => a.n);
@@ -1426,16 +1897,20 @@ $('res-save').addEventListener('click', () => {
 let hFilter = 'all', chartPts = [];
 const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 function renderHist() {
-  chipGroup($('hfilter'), [['all', 'Todos'], ['cindy', '💪 Cindy'], ['shadow', '🥊 Shadow']], hFilter, k => { hFilter = k; renderHist(); });
-  const list = S.sessions.filter(s => hFilter === 'all' || (hFilter === 'cindy' ? isCindy(s) : isShadow(s)));
+  chipGroup($('hfilter'), [['all', 'Todos'], ['cindy', '💪 Cindy'], ['shadow', '🥊 Shadow'], ['band', '🟢 Band']], hFilter, k => { hFilter = k; renderHist(); });
+  const list = S.sessions.filter(s => hFilter === 'all' || (hFilter === 'cindy' ? isCindy(s) : hFilter === 'band' ? isBand(s) : isShadow(s)));
   const nc = CS().length, ns = SH().length;
-  $('hist-sub').textContent = S.sessions.length ? `${nc} Cindy · ${ns} shadowboxing` : 'Seus treinos aparecem aqui.';
-  const chartShadow = hFilter === 'shadow';
-  drawHist(chartShadow ? SH() : CS(), chartShadow);
-  $('chart-leg').innerHTML = chartShadow ? 'Minutos de luta por treino · linha tracejada = maior treino'
+  $('hist-sub').textContent = S.sessions.length ? `${nc} Cindy · ${ns} shadow · ${BN().length} band` : 'Seus treinos aparecem aqui.';
+  const chartShadow = hFilter === 'shadow', chartBand = hFilter === 'band';
+  drawHist(chartBand ? BN() : chartShadow ? SH() : CS(), chartShadow, chartBand);
+  $('chart-leg').innerHTML = chartBand ? 'Minutos de mini band por treino · linha tracejada = maior treino' : chartShadow ? 'Minutos de luta por treino · linha tracejada = maior treino'
     : 'Cindy: repetições totais por treino · <span style="color:var(--accent)">●</span> completa · <span style="color:var(--cool)">●</span> adaptado · tracejado = recorde';
   $('hlist').innerHTML = list.length ? list.slice().reverse().map(s => {
     const feel = s.feel ? ' · ' + FEELS.find(f => f[0] === s.feel)[1] : '';
+    if (isBand(s)) return `<div class="hist-item"><div class="hist-score" style="color:var(--cool)">${bandMin(s)}'<small>${s.sets} séries</small></div>
+      <div class="hist-info"><span class="tag" style="background:var(--cooldim);color:var(--cool)">🟢 Mini band</span> ${(BN_LEVELS.find(l => l[0] === s.level) || [, ''])[1]}${s.tension ? ' · band ' + (BN_TENS.find(t => t[0] === s.tension) || [, ''])[1].toLowerCase() : ''}
+      <div class="d">${fmtDate(s.date)}${feel}</div></div>
+      <button class="del" data-id="${s.id}" aria-label="Apagar treino de ${fmtDate(s.date)}">×</button></div>`;
     if (isShadow(s)) return `<div class="hist-item"><div class="hist-score" style="color:var(--hot)">${s.rounds}×${s.roundMin}'<small>${shadowMin(s)} min</small></div>
       <div class="hist-info"><span class="tag" style="background:var(--hotdim);color:var(--hot)">🥊 Shadow</span> ${SB_LEVELS.find(l => l[0] === s.level)[1]}
       <div class="d">${fmtDate(s.date)}${feel}</div></div>
@@ -1454,7 +1929,7 @@ function renderHist() {
     save(); renderHist(); toast('Treino apagado');
   });
 }
-function drawHist(list, shadowMode) {
+function drawHist(list, shadowMode, bandMode) {
   const cv = $('chart'), ctx = cv.getContext('2d'), dpr = devicePixelRatio || 1, r = cv.getBoundingClientRect();
   if (!r.width) return;
   cv.width = r.width * dpr; cv.height = r.height * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -1463,15 +1938,15 @@ function drawHist(list, shadowMode) {
   const accent = css('--accent'), cool = css('--cool'), border = css('--border'), muted = css('--muted');
   ctx.font = '11px DM Sans, sans-serif';
   if (list.length < 2) { ctx.fillStyle = muted; ctx.textAlign = 'center'; ctx.fillText(list.length ? 'Faça mais um treino para ver o gráfico' : 'Sem treinos ainda', W / 2, H / 2); return; }
-  const hot = css('--hot'), val = shadowMode ? shadowMin : totalReps, lineC = shadowMode ? hot : accent;
+  const hot = css('--hot'), val = bandMode ? bandMin : shadowMode ? shadowMin : totalReps, lineC = bandMode ? cool : shadowMode ? hot : accent;
   const pts = list.slice(-20), vals = pts.map(val);
-  let lo = Math.min(...vals), hi = Math.max(...vals); const pad = Math.max(shadowMode ? 2 : 10, (hi - lo) * .15); lo = Math.max(0, lo - pad); hi += pad;
+  let lo = Math.min(...vals), hi = Math.max(...vals); const pad = Math.max(shadowMode || bandMode ? 2 : 10, (hi - lo) * .15); lo = Math.max(0, lo - pad); hi += pad;
   const X = i => P.l + i / (pts.length - 1) * (W - P.l - P.r), Y = v => P.t + (1 - (v - lo) / (hi - lo)) * (H - P.t - P.b);
   ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
   for (let k = 0; k <= 3; k++) { const v = lo + (hi - lo) * k / 3, y = Y(v); ctx.strokeStyle = border; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(P.l, y); ctx.lineTo(W - P.r, y); ctx.stroke(); ctx.fillStyle = muted; ctx.fillText(Math.round(v), P.l - 6, y); }
   const best = Math.max(...vals); ctx.setLineDash([5, 4]); ctx.strokeStyle = lineC + '88'; ctx.beginPath(); ctx.moveTo(P.l, Y(best)); ctx.lineTo(W - P.r, Y(best)); ctx.stroke(); ctx.setLineDash([]);
   ctx.strokeStyle = lineC; ctx.lineWidth = 2; ctx.lineJoin = 'round'; ctx.beginPath(); vals.forEach((v, i) => i ? ctx.lineTo(X(i), Y(v)) : ctx.moveTo(X(i), Y(v))); ctx.stroke();
-  pts.forEach((s, i) => { const x = X(i), y = Y(vals[i]); ctx.beginPath(); ctx.arc(x, y, 5, 0, 7); ctx.fillStyle = shadowMode ? hot : isRx(s) ? accent : cool; ctx.fill(); ctx.lineWidth = 2; ctx.strokeStyle = css('--card'); ctx.stroke(); chartPts.push({ x, y, s }); });
+  pts.forEach((s, i) => { const x = X(i), y = Y(vals[i]); ctx.beginPath(); ctx.arc(x, y, 5, 0, 7); ctx.fillStyle = bandMode ? cool : shadowMode ? hot : isRx(s) ? accent : cool; ctx.fill(); ctx.lineWidth = 2; ctx.strokeStyle = css('--card'); ctx.stroke(); chartPts.push({ x, y, s }); });
   ctx.fillStyle = muted; ctx.textBaseline = 'alphabetic';
   ctx.textAlign = 'left'; ctx.fillText(fmtDate(pts[0].date), P.l, H - 4);
   ctx.textAlign = 'right'; ctx.fillText(fmtDate(pts[pts.length - 1].date), W - P.r, H - 4);
@@ -1480,7 +1955,7 @@ function chartHover(e) {
   if (!chartPts.length) return;
   const r = $('chart').getBoundingClientRect(), x = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
   const p = chartPts.reduce((b, q) => Math.abs(q.x - x) < Math.abs(b.x - x) ? q : b);
-  const tt = $('tt'); tt.innerHTML = isShadow(p.s) ? `<b style="color:var(--hot)">${p.s.rounds}×${p.s.roundMin}'</b> · ${shadowMin(p.s)} min<br><span class="muted">${fmtDate(p.s.date)} · shadowboxing</span>` : `<b>${scoreTxt(p.s)}</b> · ${totalReps(p.s)} reps<br><span class="muted">${fmtDate(p.s.date)} · ${p.s.dur} min · ${isRx(p.s) ? 'completa' : 'adaptado'}</span>`;
+  const tt = $('tt'); tt.innerHTML = isBand(p.s) ? `<b style="color:var(--cool)">${bandMin(p.s)}'</b> · ${p.s.sets} séries<br><span class="muted">${fmtDate(p.s.date)} · mini band</span>` : isShadow(p.s) ? `<b style="color:var(--hot)">${p.s.rounds}×${p.s.roundMin}'</b> · ${shadowMin(p.s)} min<br><span class="muted">${fmtDate(p.s.date)} · shadowboxing</span>` : `<b>${scoreTxt(p.s)}</b> · ${totalReps(p.s)} reps<br><span class="muted">${fmtDate(p.s.date)} · ${p.s.dur} min · ${isRx(p.s) ? 'completa' : 'adaptado'}</span>`;
   tt.classList.add('on'); const w = tt.offsetWidth; tt.style.left = Math.max(0, Math.min(r.width - w, p.x - w / 2)) + 'px'; tt.style.top = Math.max(0, p.y - tt.offsetHeight - 12) + 'px';
 }
 $('chart').addEventListener('mousemove', chartHover); $('chart').addEventListener('touchstart', chartHover, { passive: true });
@@ -1531,6 +2006,7 @@ $('w-add').addEventListener('click', () => {
 
 // ═══════════════════════ CONFIG ═══════════════════════
 function renderCfg() {
+  renderVoiceCfg();
   $('c-name').value = S.name; $('c-goal').value = S.goal ? String(S.goal).replace('.', ',') : ''; $('c-time').value = S.time;
   const el = $('c-days');
   el.innerHTML = WEEKDAYS.map(d => `<button data-d="${d}" aria-pressed="${S.days.includes(d)}" style="${S.days.includes(d) ? '' : 'border-color:rgba(255,106,61,.45);color:var(--hot)'}">${DOW[d]} ${S.days.includes(d) ? '💪' : '🥊'}</button>`).join('');
@@ -1546,6 +2022,18 @@ function renderCfg() {
 $('c-name').addEventListener('input', e => { S.name = e.target.value.trim(); save(); });
 $('c-goal').addEventListener('change', e => { const v = parseNum(e.target.value); S.goal = v >= 30 && v <= 300 ? Math.round(v * 10) / 10 : null; save(); });
 $('c-time').addEventListener('change', e => { S.time = e.target.value || '07:00'; save(); });
+function renderVoiceCfg() {
+  const sel = $('c-voice'); if (!sel) return;
+  loadVoices();
+  sel.innerHTML = '<option value="">Automática (melhor disponível)</option>' + VOICES.map(v => `<option value="${v.name.replace(/"/g, '&quot;')}">${v.name}${v.localService ? '' : ' (online)'}</option>`).join('');
+  sel.value = S.cfg.voiceName || '';
+  if (sel.value !== (S.cfg.voiceName || '')) { S.cfg.voiceName = ''; sel.value = ''; }
+  chipGroup($('c-rate'), [[0.9, 'Lenta'], [1, 'Normal'], [1.15, 'Rápida']], S.cfg.rate || 1, k => { S.cfg.rate = +k; save(); renderVoiceCfg(); });
+  const cur = pickVoice();
+  $('c-voice-h').textContent = !('speechSynthesis' in window) ? 'Este navegador não tem síntese de voz.' : !VOICES.length ? 'Nenhuma voz em português encontrada. Instale uma nas configurações de voz do sistema (Acessibilidade › Fala) e volte aqui.' : `Em uso: ${cur ? cur.name : '—'}. Vozes “natural” ou “neural” soam melhor.`;
+}
+$('c-voice').addEventListener('change', e => { S.cfg.voiceName = e.target.value; save(); renderVoiceCfg(); });
+$('c-voice-test').addEventListener('click', () => { if (!S.cfg.voice) { toast('Ative os avisos de voz em Treinar'); return; } say('Round um. Jab, direto, cruzado. Descanso. Bora!'); });
 function download(name, text, type) {
   const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type })); a.download = name;
   document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 5000);
@@ -1569,7 +2057,7 @@ $('c-file').addEventListener('change', async e => {
   try {
     const d = JSON.parse(await f.text()); if (d.app !== 'fitforce-cindy' || !Array.isArray(d.sessions)) throw 0;
     if (!confirm(`Restaurar backup com ${d.sessions.length} treinos? Os dados atuais serão substituídos.`)) return;
-    delete d.app; S = { ...S, ...d, cfg: { ...S.cfg, ...(d.cfg || {}) }, onboarded: true }; save(); renderCfg(); toast('Backup restaurado');
+    delete d.app; S = { ...S, ...d, cfg: { ...S.cfg, ...(d.cfg || {}) }, onboarded: true }; fixDays(); fixPull(); fixBand(); save(); renderCfg(); toast('Backup restaurado');
   } catch (err) { toast('Arquivo de backup inválido'); }
   e.target.value = '';
 });
